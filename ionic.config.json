@@ -1,0 +1,7 @@
+{
+  "name": "BSAFP",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
