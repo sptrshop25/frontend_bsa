@@ -1,14 +1,36 @@
-<ion-content>
-  <div class="centered-contrainer">
-    <div class="centered-content">
-      <p>Create your account</p>
-    </div>
-  </div>
-  <form action="">
-    <div id="contrainer">
-      <ion-input class="email" label="Email" label-placement="floating" placeholder="Email"><ion-icon class="ic-email" name="mail-outline"></ion-icon></ion-input>
+<ion-header>
+  <ion-toolbar class="header-toolbar"> 
+    <ion-buttons slot="start"> 
+      <ion-back-button defaultHref="sign-in"></ion-back-button> 
+    </ion-buttons>
+    <ion-title>Create Account</ion-title> 
+  </ion-toolbar>
+</ion-header>
+<ion-content fullscreen> 
+  <img class="center" style="margin-top: -70px; width: 200px;" src="../../../assets/img/BSA.png" alt="alternative text">
+  <form>
+    <div id="container">
+      <ion-input type="text" class="input-sign" label="Nama Lengkap" id="fullname" label-placement="floating" placeholder="Nama Lengkap" name="fullname" [(ngModel)]="formData.fullname" required>
+        <ion-icon class="ic-sign" name="person-outline"></ion-icon>
+      </ion-input>
       <br>
-      <ion-input class="password" label="Password" label-placement="floating" placeholder="Password"><ion-icon class="ic-password" name="lock-open-outline"></ion-icon></ion-input>
+      <ion-input type="text" class="input-sign" label="Nickname" label-placement="floating" placeholder="Nickname" name="nickname" [(ngModel)]="formData.nickname" required><ion-icon class="ic-sign" name="person-outline"></ion-icon></ion-input>
+      <br>
+      <ion-input type="email" id="email" class="input-sign" label="Email" label-placement="floating" placeholder="Email" name="email" [(ngModel)]="formData.email" email required>
+        <ion-icon class="ic-sign" name="mail-outline"></ion-icon>
+      </ion-input>
+      <br>
+      <ion-input type="password" name="password" class="input-sign" label="Password" label-placement="floating" placeholder="Password" [(ngModel)]="formData.password" required><ion-icon class="ic-sign" name="lock-open-outline"></ion-icon></ion-input>
+      <br>
+      <ion-input type="tel" name="phone" class="input-sign" label="Nomor Telepon" label-placement="floating" placeholder="Nomor Telepon" [(ngModel)]="formData.phone" required><ion-icon class="ic-sign" name="call-outline"></ion-icon></ion-input>
+      <br>
+      <ion-select class="input-sign" name="gender" label="Jenis Kelamin" label-placement="floating" placeholder="Jenis Kelamin" [(ngModel)]="formData.gender" required>
+        <ion-icon class="ic-sign" name="lock-open-outline"></ion-icon>
+        <ion-select-option value="Male">Laki-laki</ion-select-option>
+        <ion-select-option value="Female">Perempuan</ion-select-option>
+      </ion-select>
+      <br>
     </div>
+    <ion-button class="btn-purple" style="background-color: #a343fc" (click)="register()" [disabled]="!isFormValid()" [routerLink]>Register</ion-button>
   </form>
 </ion-content>

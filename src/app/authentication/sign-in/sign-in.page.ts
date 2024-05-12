@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sign-in',
@@ -7,7 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SignInPage implements OnInit {
 
-  constructor() { }
+  constructor(private router: Router) {}
+
+  goToSignUpEmail() {
+    // Lakukan redirect ke rute lain
+    this.router.navigateByUrl('sign-up');
+  }
 
   ngOnInit() {
   }
