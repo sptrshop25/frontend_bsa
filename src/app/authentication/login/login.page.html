@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-toolbar class="header-toolbar"> 
+    <ion-buttons slot="start"> 
+      <ion-back-button defaultHref="sign-in"></ion-back-button> 
+    </ion-buttons>
+    <ion-title>Login</ion-title> 
+  </ion-toolbar>
+</ion-header>
+<ion-content fullscreen> 
+  <img class="center" style="margin-top: -70px; width: 200px;" src="../../../assets/img/BSA.png" alt="alternative text">
+  <form>
+    <div id="container">
+      <ion-input type="email" id="email" class="input-sign" label="Email" label-placement="floating" placeholder="Email" name="email" [(ngModel)]="formData.email" (ngModelChange)="validateEmail()" required>
+        <ion-icon class="ic-sign" name="mail-outline"></ion-icon>
+      </ion-input>
+      <div *ngIf="!isEmailValid && formData.email" class="warning-text">
+        Email tidak valid
+      </div>
+      <br>
+      <ion-input type="{{ showPassword ? 'text' : 'password' }}" name="password" class="input-sign" label="Password" label-placement="floating" placeholder="Password" [(ngModel)]="formData.password" required><ion-icon 
+        class="ic-sign"
+        [name]="showPassword ? 'eye-outline' : 'eye-off-outline'" 
+        (click)="togglePasswordVisibility()">
+      </ion-icon></ion-input>
+      <br>
+    </div>
+    <ion-button class="btn-purple" style="background-color: #a343fc;" (click)="register()" [disabled]="!isFormValid()" [routerLink]>Login</ion-button>
+  </form>
+</ion-content>
+

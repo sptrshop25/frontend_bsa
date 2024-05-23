@@ -20,6 +20,10 @@ const routes: Routes = [
   path: 'sign-up',
     loadChildren: () => import('./authentication/sign-up/sign-up.module').then( m => m.SignUpPageModule)
   },
+  {
+    path: 'login',
+    loadChildren: () => import('./authentication/login/login.module').then( m => m.LoginPageModule)
+  },
 ];
 
 @NgModule({

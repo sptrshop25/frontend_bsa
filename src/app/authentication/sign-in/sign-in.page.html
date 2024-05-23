@@ -19,16 +19,16 @@
   <button class="btn-google">
     <ion-icon class="google" name="logo-google"></ion-icon>
     Continue with Google
-  </button>
+  </button>  
   <br>
-  <button class="btn-email" (click)="goToSignUpEmail()">
+  <button class="btn-email" (click)="goToSigninEmail()">
     <ion-icon class="email" name="mail-outline"></ion-icon>
     Continue with Email
   </button>
   <br>
   <h3>Or</h3>
   <br>
-  <h4>Dont't have an account? <b>Sign Up</b></h4>
+  <h4>Dont't have an account? <b (click)="goToSignUpEmail()">Sign Up</b></h4>
 </ion-content>
 
 

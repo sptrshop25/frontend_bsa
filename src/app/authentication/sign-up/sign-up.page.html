@@ -14,13 +14,33 @@
         <ion-icon class="ic-sign" name="person-outline"></ion-icon>
       </ion-input>
       <br>
-      <ion-input type="text" class="input-sign" label="Nickname" label-placement="floating" placeholder="Nickname" name="nickname" [(ngModel)]="formData.nickname" required><ion-icon class="ic-sign" name="person-outline"></ion-icon></ion-input>
+      <ion-input type="text" class="input-sign" label="Nickname" label-placement="floating" placeholder="Nickname" name="nickname" [(ngModel)]="formData.nickname" (ngModelChange)="validateNickname()" required><ion-icon class="ic-sign" name="person-outline"></ion-icon></ion-input>
+      <div *ngIf="!isNicknameValid && formData.nickname" class="warning-text">
+        Nickname harus berisi huruf kecil atau angka
+      </div>
       <br>
-      <ion-input type="email" id="email" class="input-sign" label="Email" label-placement="floating" placeholder="Email" name="email" [(ngModel)]="formData.email" email required>
+      <ion-input type="email" id="email" class="input-sign" label="Email" label-placement="floating" placeholder="Email" name="email" [(ngModel)]="formData.email" (ngModelChange)="validateEmail()" required>
         <ion-icon class="ic-sign" name="mail-outline"></ion-icon>
       </ion-input>
+      <div *ngIf="!isEmailValid && formData.email" class="warning-text">
+        Email tidak valid
+      </div>
       <br>
-      <ion-input type="password" name="password" class="input-sign" label="Password" label-placement="floating" placeholder="Password" [(ngModel)]="formData.password" required><ion-icon class="ic-sign" name="lock-open-outline"></ion-icon></ion-input>
+      <ion-input type="{{ showPassword ? 'text' : 'password' }}"  id="password" class="input-sign" label="Password" label-placement="floating" placeholder="Password" name="password" [(ngModel)]="formData.password" (ngModelChange)="validatePassword()" required>
+        <ion-icon 
+          class="ic-sign"
+          [name]="showPassword ? 'eye-outline' : 'eye-off-outline'" 
+          (click)="togglePasswordVisibility()">
+        </ion-icon>
+      </ion-input>
+      <div *ngIf="!isPasswordValid && formData.password" class="warning-text">
+        Password harus kombinasi huruf besar, kecil, angka, dan minimal 8 karakter
+      </div>
+      <br>
+      <ion-input type="{{ showPassword ? 'text' : 'password' }}" name="confirmPassword" class="input-sign" label="Confirm Password" label-placement="floating" placeholder="Confirm Password" [(ngModel)]="formData.confirmPassword" required><ion-icon class="ic-sign" name="lock-open-outline"></ion-icon></ion-input>
+      <div *ngIf="!passwordsMatch && formData.confirmPassword" class="warning-text">
+        Password tidak sesuai
+      </div>
       <br>
       <ion-input type="tel" name="phone" class="input-sign" label="Nomor Telepon" label-placement="floating" placeholder="Nomor Telepon" [(ngModel)]="formData.phone" required><ion-icon class="ic-sign" name="call-outline"></ion-icon></ion-input>
       <br>
@@ -31,6 +51,6 @@
       </ion-select>
       <br>
     </div>
-    <ion-button class="btn-purple" style="background-color: #a343fc" (click)="register()" [disabled]="!isFormValid()" [routerLink]>Register</ion-button>
+    <ion-button class="btn-purple" style="background-color: #a343fc;" (click)="register()" [disabled]="!isFormValid()" [routerLink]>Register</ion-button>
   </form>
 </ion-content>
