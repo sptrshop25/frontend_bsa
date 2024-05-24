@@ -7,6 +7,17 @@
     background: linear-gradient(to bottom right, #a343fc, #4df3ff);
 }
 
+// .header {
+//     position: fixed;
+//     top: 0;
+//     left: 0;
+//     width: 100%;
+//     height: 10%;
+//     z-index: 1000; 
+//     background: linear-gradient(to bottom right, #9b30ff, #78e2fc); 
+//     box-shadow: none;
+//   }
+
 .grid {
     height: 25%;
 }
@@ -16,7 +27,11 @@
     margin-top: 20%;
     width: 30%;
     height: 30%;
-    border-radius: 3px;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
 }
 
 .tiga {
@@ -56,7 +71,7 @@
     font-size: 20px;
     margin-left: 15px;
     color: white;
-    font-family:'Courier New', Courier, monospace;
+    // font-family:'Courier New', Courier, monospace;
     margin-bottom: 0;
 }
 
@@ -65,7 +80,7 @@ h1 {
     margin-top: 0;
     margin-left: 15px;
     color: white;
-    font-family:'Courier New', Courier, monospace;
+    // font-family:'Courier New', Courier, monospace;
 }
 
 ion-card {
@@ -113,10 +128,11 @@ ion-card {
 }
 
 .title {
-    font-size: 20px;
+    font-size: 17px;
+    font-weight: bold;
     margin-left: 5%;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    color: black;
+    // font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    // color: black;
     margin-bottom: 20px;
 }
 
@@ -181,3 +197,12 @@ img {
     margin-top: 10px;
     color: rgb(255, 255, 255) !important;
 }
+
+.container-scroll {
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  .carousel-row {
+    display: flex;
+    flex-wrap: nowrap;
+  }

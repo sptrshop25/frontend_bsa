@@ -22,8 +22,12 @@
         [name]="showPassword ? 'eye-outline' : 'eye-off-outline'" 
         (click)="togglePasswordVisibility()">
       </ion-icon></ion-input>
-      <br>
+      <div class="float-end me-4 mt-2 mb-2">
+        <ion-checkbox [name]="showPassword ? 'eye-outline' : 'eye-off-outline'" (click)="togglePasswordVisibility()" class="show-password-checkbox" id="show-password" labelPlacement="end">Show Password</ion-checkbox>
+      </div>
     </div>
+    <br>
+    <br>
     <ion-button 
   class="btn-purple" 
   style="background-color: #a343fc;" 

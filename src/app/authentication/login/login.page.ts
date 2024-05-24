@@ -58,10 +58,13 @@ export class LoginPage implements OnInit {
   register() {
     this.isLoading = true;
     axios
-      .post('https://d226-114-10-113-78.ngrok-free.app/api/login', this.formData)
+      .post('https://930b-110-138-88-26.ngrok-free.app/api/login', this.formData)
       .then((response) => {
+        console.log('Response:', response);
+        
         if (response.data.Token) {
           this.saveToken(response.data.Token);
+          localStorage.setItem('name', response.data.Name);
         }
         this.presentAlert();
       })

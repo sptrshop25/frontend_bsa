@@ -36,6 +36,9 @@
       <div *ngIf="!isPasswordValid && formData.password" class="warning-text">
         Password harus kombinasi huruf besar, kecil, angka, dan minimal 8 karakter
       </div>
+      <div class="float-end me-4 mt-2 mb-2">
+        <ion-checkbox [name]="showPassword ? 'eye-outline' : 'eye-off-outline'" (click)="togglePasswordVisibility()" class="show-password-checkbox" id="show-password" labelPlacement="end">Show Password</ion-checkbox>
+      </div>
       <br>
       <ion-input type="{{ showPassword ? 'text' : 'password' }}" name="confirmPassword" class="input-sign" label="Confirm Password" label-placement="floating" placeholder="Confirm Password" [(ngModel)]="formData.confirmPassword" required><ion-icon class="ic-sign" name="lock-open-outline"></ion-icon></ion-input>
       <div *ngIf="!passwordsMatch && formData.confirmPassword" class="warning-text">

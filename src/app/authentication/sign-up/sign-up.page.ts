@@ -62,7 +62,7 @@ export class SignUpPage implements OnInit {
   register() {
     this.isLoading = true;
     axios
-      .post('https://bfff-203-130-212-204.ngrok-free.app/api/register', this.formData)
+      .post('https://930b-110-138-88-26.ngrok-free.app/api/register', this.formData)
       .then((response) => {
         this.presentAlert('Register Berhasil');
       })
