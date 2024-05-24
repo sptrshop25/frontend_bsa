@@ -15,6 +15,8 @@ export class LoginPage implements OnInit {
     password: '',
   };
 
+  isLoading = false;
+
   constructor(
     private http: HttpClient,
     private alertController: AlertController,
@@ -22,21 +24,26 @@ export class LoginPage implements OnInit {
   ) {}
 
   async presentAlert() {
+    let countdown = 3;
     const alert = await this.alertController.create({
       header: 'Login Berhasil',
-      message: 'Selamat Anda Berhasil Login',
-      buttons: [
-        {
-          text: 'Go to Home',
-          handler: () => {
-            this.router.navigate(['/home']);
-          },
-        },
-      ],
+      message: `Akan dialihkan ke halaman home dalam ${countdown} detik.`,
+      buttons: []
     });
 
     await alert.present();
+
+    const interval = setInterval(() => {
+      countdown--;
+      alert.message = `Akan dialihkan ke halaman home dalam ${countdown} detik.`;
+      if (countdown === 0) {
+        clearInterval(interval);
+        alert.dismiss();
+        this.router.navigate(['/home']);
+      }
+    }, 1000);
   }
+
 
   async errorAlert(messages?: string) {
     const alert = await this.alertController.create({
@@ -49,13 +56,12 @@ export class LoginPage implements OnInit {
   }
 
   register() {
+    this.isLoading = true;
     axios
-      .post('https://d9c7-203-130-212-204.ngrok-free.app/api/login', this.formData)
+      .post('https://d226-114-10-113-78.ngrok-free.app/api/login', this.formData)
       .then((response) => {
-        console.log('Response:', response.data.Token);
         if (response.data.Token) {
           this.saveToken(response.data.Token);
-          console.log('Token:', response.data.Token);
         }
         this.presentAlert();
       })
@@ -65,9 +71,12 @@ export class LoginPage implements OnInit {
         } else {
           this.errorAlert('Terjadi kesalahan');
         }
-        console.log('Error:', error);
+      })
+      .finally(() => {
+        this.isLoading = false;
       });
-  }
+}
+
 
   saveToken(token: string) {
     localStorage.setItem('authToken', token);

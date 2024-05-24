@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+// import 'bootstrap/dist/css/bootstrap.min.css';
 
 @Component({
   selector: 'app-home',

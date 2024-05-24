@@ -24,7 +24,18 @@
       </ion-icon></ion-input>
       <br>
     </div>
-    <ion-button class="btn-purple" style="background-color: #a343fc;" (click)="register()" [disabled]="!isFormValid()" [routerLink]>Login</ion-button>
+    <ion-button 
+  class="btn-purple" 
+  style="background-color: #a343fc;" 
+  (click)="register()" 
+  [disabled]="isLoading || !isFormValid()">
+  <ng-container *ngIf="!isLoading; else loadingTemplate">Login</ng-container>
+</ion-button>
+
+<ng-template #loadingTemplate>
+  <ion-spinner name="crescent"></ion-spinner>
+</ng-template>
+
   </form>
 </ion-content>
 

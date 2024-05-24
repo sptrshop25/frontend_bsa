@@ -3,7 +3,7 @@
     <ion-buttons slot="start"> 
       <ion-back-button defaultHref="sign-in"></ion-back-button> 
     </ion-buttons>
-    <ion-title>Create Account</ion-title> 
+    <ion-title>Buat Akun</ion-title> 
   </ion-toolbar>
 </ion-header>
 <ion-content fullscreen> 
@@ -51,6 +51,12 @@
       </ion-select>
       <br>
     </div>
-    <ion-button class="btn-purple" style="background-color: #a343fc;" (click)="register()" [disabled]="!isFormValid()" [routerLink]>Register</ion-button>
+    <ion-button class="btn-purple" style="background-color: #a343fc;" (click)="register()" [disabled]="isLoading || !isFormValid()" [routerLink]><ng-container *ngIf="!isLoading; else loadingTemplate">Daftar</ng-container>
+    </ion-button>
+    
+    <ng-template #loadingTemplate>
+      <ion-spinner name="crescent"></ion-spinner>
+    </ng-template>
   </form>
 </ion-content>
+<ng-container #alertContainer></ng-container>

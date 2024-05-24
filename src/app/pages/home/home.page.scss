@@ -1,5 +1,5 @@
+// @import "~bootstrap/dist/css/bootstrap.min.css";
 .centered-container {
-    position: relative;
     width: 100%;
     height: 40%;
     display: flex;
@@ -7,10 +7,177 @@
     background: linear-gradient(to bottom right, #a343fc, #4df3ff);
 }
 
+.grid {
+    height: 25%;
+}
+
+.img {
+    margin-left: 10%;
+    margin-top: 20%;
+    width: 30%;
+    height: 30%;
+    border-radius: 3px;
+}
+
+.tiga {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.empat {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 50px;
+}
+.chat {
+    color: white;
+    margin-top: 10%;
+    width: 15%;
+    height: 45%;
+}
+
+.notif {
+    color: white;
+    margin-top: 10%;
+    width: 15%;
+    height: 45%;
+}
+
+.image {
+    margin-left: 0;
+    margin-top: 10%;
+    width: 15%;
+    height: 50%;
+    border-radius: 50px;
+}
+
+.halo {
+    margin-top: 5%;
+    font-size: 20px;
+    margin-left: 15px;
+    color: white;
+    font-family:'Courier New', Courier, monospace;
+    margin-bottom: 0;
+}
+
+h1 {
+    font-size: 20px;
+    margin-top: 0;
+    margin-left: 15px;
+    color: white;
+    font-family:'Courier New', Courier, monospace;
+}
+
+ion-card {
+    position: absolute;
+    margin-left: 9%;
+    align-items: center;
+    display: block;
+    width: 80%;
+    height: 45%;
+}
+
+.grid-menu {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 10%;
+}
+
+.row {
+    display: flex;
+    margin-top: 2%;
+    justify-content: center;
+}
+
+.img-menu {
+    margin: auto;
+    width: 50%;
+}
+
+.div5 {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    height: 10%;
+}
+
+.pengajar {
+    align-items: center;
+    margin-left: 3%;
+}
+
+.contrainer {
+    align-items: center;
+}
+
+.title {
+    font-size: 20px;
+    margin-left: 5%;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color: black;
+    margin-bottom: 20px;
+}
+
+
+.div6 {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 17%;
+    height: 30%;
+}
+
 img {
-    margin-left: 10px;
+    margin-top: 10%;
+    width: 50%;
+}
+.img-pengajar {
+    align-items: center;
+    margin-top: 0;
+    display: flex;
+    margin: auto;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+.pengajar-name {
+    margin-top: 0;
+    font-size: 10px;
+    text-align: center;
+}
+
+
+.div-card {
+    display: flex;
+    margin-top: 5px;
+    background-color: #4df3ff;
+}
+
+.Recommend-course {
+    margin-top: 3%;
+    margin-left: 5%;
+    font-size: 20px;
+    color: black;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+.course {
+    margin-top: 0;
+    width: 40%;
+    height: 20%;
+    border: 1px solid #000000;
+}
+
+.card {
+    width: 50%;
+    height: 50%;
+}
+
+.text-menu {
+    font-size: 15px;
     margin-top: 10px;
-    width: 35px;
-    height: 35px;
-    border-radius: 10px;
+    color: rgb(255, 255, 255) !important;
 }

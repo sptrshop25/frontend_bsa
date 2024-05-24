@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Component, OnInit, ComponentFactoryResolver, ViewChild, ViewContainerRef } from '@angular/core';
 import { AlertController } from '@ionic/angular';
+import { CustomAlertComponent } from '../../custom-alert/custom-alert.component';
 import { Router } from '@angular/router';
 import axios from 'axios';
+import { ModalController } from '@ionic/angular';
+
 @Component({
   selector: 'app-sign-up',
   templateUrl: './sign-up.page.html',
@@ -19,30 +21,34 @@ export class SignUpPage implements OnInit {
     phone: '',
   };
 
-  token = '1395a7e8110da037f48dbf031b71e82d62121b1a8e809bef601885bd7706794f';
+  @ViewChild('alertContainer', { read: ViewContainerRef, static: true }) alertContainer!: ViewContainerRef;
 
+  isLoading = false;
   constructor(
-    private http: HttpClient,
     private alertController: AlertController,
     private router: Router,
-    
+    private modalController: ModalController,
+    private resolver: ComponentFactoryResolver
   ) {}
-  async presentAlert() {
-    const alert = await this.alertController.create({
-      header: 'Berhasil',
-      message: 'Selamat Akun Anda Berhasil Dibuat',
-      buttons: [
-        {
-          text: 'Lanjut Login',
-          handler: () => {
-            this.router.navigate(['/login']);
-          },
-        },
-      ],
+
+  async presentAlert(message: string) {
+    const modal = await this.modalController.create({
+      component: CustomAlertComponent,
+      componentProps: {
+        message: message
+      },
+      backdropDismiss: false
     });
 
-    await alert.present();
+    modal.onDidDismiss().then((result) => {
+      if (result.data && result.data.goToLogin) {
+        this.router.navigate(['/login']);
+      }
+    });
+
+    await modal.present();
   }
+
   async errorAlert(messages?: string) {
     const alert = await this.alertController.create({
       header: 'Gagal',
@@ -54,11 +60,11 @@ export class SignUpPage implements OnInit {
   }
 
   register() {
+    this.isLoading = true;
     axios
-      .post('https://d9c7-203-130-212-204.ngrok-free.app/api/register', this.formData)
+      .post('https://bfff-203-130-212-204.ngrok-free.app/api/register', this.formData)
       .then((response) => {
-        console.log('Response:', response);
-        this.presentAlert();
+        this.presentAlert('Register Berhasil');
       })
       .catch((error) => {
         if (error.response && error.response.data) {
@@ -75,12 +81,16 @@ export class SignUpPage implements OnInit {
           this.errorAlert('Terjadi kesalahan');
         }
         console.log('Error:', error);
+      })
+      .finally(() => {
+        this.isLoading = false;
       });
   }
 
   get passwordsMatch(): boolean {
     return this.formData.password === this.formData.confirmPassword;
   }
+
   isFormValid() {
     return (
       !!this.formData.email &&
@@ -95,6 +105,7 @@ export class SignUpPage implements OnInit {
       this.isPasswordValid
     );
   }
+
   isPasswordValid: boolean = true;
   validatePassword() {
     const password = this.formData.password;
@@ -126,5 +137,6 @@ export class SignUpPage implements OnInit {
   togglePasswordVisibilityConfirm() {
     this.showPassword = !this.showPassword;
   }
+
   ngOnInit() {}
 }
