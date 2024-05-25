@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import axios from 'axios';
 import { environment } from 'src/environments/environment';
+import { AlertController } from '@ionic/angular';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-tab-profile',
@@ -10,7 +12,7 @@ import { environment } from 'src/environments/environment';
 })
 export class TabProfilePage implements OnInit {
 
-  constructor(private router: Router) { 
+  constructor(private router: Router, private alertController: AlertController) {
     this.setName();
     this.setPhone();
     this.setEmail();
@@ -28,6 +30,30 @@ export class TabProfilePage implements OnInit {
 
   isLoading: boolean = false;
   
+  async presentLogoutConfirm() {
+    const alert = await this.alertController.create({
+      header: 'Konfirmasi',
+      message: 'Apakah Anda yakin akan keluar?',
+      buttons: [
+        {
+          text: 'Batal',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+            console.log('Logout dibatalkan');
+          }
+        }, {
+          text: 'Keluar',
+          handler: () => {
+            this.logout();
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
   logout(): void {
     localStorage.clear(); 
     this.router.navigate(['/login']); 
@@ -35,9 +61,8 @@ export class TabProfilePage implements OnInit {
   
   handleRefresh(event: any) {
     setTimeout(() => {
-      if (event.target) {
-        event.target.complete();
-      }
+      event.target.complete();
+      location.reload();
     }, 2000);
   }
 
@@ -53,10 +78,9 @@ export class TabProfilePage implements OnInit {
     }
   }
 
-  setEmail() {
-    const email = localStorage.getItem('email');
-    if (email) {
-      this.email = email;
+  setEmail(response: any = null) {
+    if (response && response.data.email) { 
+      this.email = response.data.email; 
     }
   }
 
@@ -81,7 +105,7 @@ export class TabProfilePage implements OnInit {
   ngOnInit() {
     axios.post(`${environment.apiUrl}/info_user`, null, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('authToken')}`
+        Authorization: `${localStorage.getItem('authToken')}`
       }
     })
     .then((response) => {
@@ -91,6 +115,7 @@ export class TabProfilePage implements OnInit {
       this.setName(response);
       this.setUserActive(response);
       this.statusTeacher(response);
+      this.setEmail(response);
     })
     .catch((error) => {
       console.error('Error:', error);

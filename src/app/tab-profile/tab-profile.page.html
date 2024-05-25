@@ -8,12 +8,6 @@
   <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-  <ion-loading
-  class="custom-loading"
-  [isOpen]="isLoading"
-  message="Loading..."
-  duration="3000">
-</ion-loading>
   <div style="background-color: #F4F3F3;">
   <div style="display: flex; align-items: center; justify-content: flex-start;" class="ms-4">
     <img src="../../../assets/img/bsa2.png" style="width: 80px; margin-top: 3px; margin-left: -10px;" class="rounded-circle mt-3">
@@ -58,55 +52,73 @@
   </div>
 </div>
 <div class="card-body mt-3" style="border-radius: 0; background-color: #ECE0FC;">
-  <div class="row">
-    <div class="col-8">
-      <p class="mt-3" style="color: #5200FF; font-size: 14px;" *ngIf="is_teacher === 'yes'">Kelola Kursus</p>
-      <p class="mt-3" style="color: #5200FF; font-size: 14px;" *ngIf="is_teacher !== 'yes'">Daftar Menjadi Pengajar</p>
+  <div class="row" style="margin-left: 1px;">
+    <div class="col-2">
+      <img src="../../../assets/img/kelola_kursus.png" alt="" style="width: 60%; margin-top: 13.5px;">
+    </div>
+    <div class="col-6">
+      <p class="mt-3" style="color: #5200FF; font-size: 14px; margin-left: -1.3rem;" *ngIf="is_teacher === 'yes'">Kelola Kursus</p>
+      <p class="mt-3" style="color: #5200FF; font-size: 14px; margin-left: -1.3rem;" *ngIf="is_teacher !== 'yes'">Mulai Menjadi Pengajar</p>
     </div>  
     <div class="col-4" [ngStyle]="{ 'display': is_teacher === 'yes' ? 'none' : 'block' }">
-      <p class="float-end mt-3" style="color: #000000; font-size: 14px;">Daftar Gratis</p>
+      <p class="float-end mt-3 me-2" style="color: #000000; font-size: 14px;">Daftar Gratis</p>
   </div>
   
   </div>
 </div>
 
 <div class="card-body mt-3 list-menu">
-  <div class="row">
+  <div class="row" style="margin-left: 1px;">
+    <div class="col-4">
+      <img src="../../../assets/img/favorit.png" alt="" style="width: 25%; margin-top: 13.5px;">
+    </div>
     <div class="col-8">
-      <p class="mt-3">Favorit Saya</p>
+      <p class="mt-3" style="margin-left: -5rem;">Favorit Saya</p>
     </div>
   </div>
 </div>
 <div class="card-body list-menu">
-  <div class="row">
+  <div class="row" style="margin-left: 1px;">
+    <div class="col-4">
+      <img src="../../../assets/img/terakhir_dilihat.png" alt="" style="width: 25%; margin-top: 13.5px;">
+    </div>
     <div class="col-8">
-      <p class="mt-3">Terakhir Dilihat</p>
+      <p class="mt-3" style="margin-left: -5rem;">Terakhir Dilihat</p>
     </div>
   </div>
 </div>
 <div class="card-body list-menu">
-  <div class="row">
+  <div class="row" style="margin-left: 1px;">
+    <div class="col-4">
+      <img src="../../../assets/img/voucher.png" alt="" style="width: 25%; margin-top: 13.5px;">
+    </div>
     <div class="col-8">
-      <p class="mt-3">Voucher Saya</p>
+      <p class="mt-3" style="margin-left: -5rem;">Voucher Saya</p>
     </div>
   </div>
 </div>
 <div class="card-body list-menu">
-  <div class="row">
+  <div class="row" style="margin-left: 1px;">
+    <div class="col-4">
+      <img src="../../../assets/img/faq.png" alt="" style="width: 25%; margin-top: 13.5px;">
+    </div>
     <div class="col-8">
-      <p class="mt-3">FAQ</p>
+      <p class="mt-3" style="margin-left: -5rem;">FAQ</p>
     </div>
   </div>
 </div>
 <div class="card-body list-menu">
-  <div class="row">
+  <div class="row" style="margin-left: 1px;">
+    <div class="col-4">
+      <img src="../../../assets/img/pusat_bantuan.png" alt="" style="width: 25%; margin-top: 13.5px;">
+    </div>
     <div class="col-8">
-      <p class="mt-3">Pusat Bantuan</p>
+      <p class="mt-3" style="margin-left: -5rem;">Pusat Bantuan</p>
     </div>
   </div>
 </div>
-<button class="btn d-flex mx-auto mt-2 mb-2" style="color: #FF0000; background-color: #FFF3F3;" (click)="logout()">
-  Logout 
+<button class="btn d-flex mx-auto mt-2 mb-2" style="color: #FF0000; background-color: #FFF3F3;" (click)="presentLogoutConfirm()">
+  Keluar 
   <ion-icon class="ms-2" style="font-size: 20px;" name="log-out-outline"></ion-icon>
 </button>
 </ion-content>

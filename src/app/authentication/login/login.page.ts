@@ -65,7 +65,6 @@ export class LoginPage implements OnInit {
         
         if (response.data.Token) {
           this.saveToken(response.data.Token);
-          localStorage.setItem('name', response.data.Name);
           localStorage.setItem('userId', response.data.UserId);
         }
         this.presentAlert();

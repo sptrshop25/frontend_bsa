@@ -9,14 +9,12 @@ import { environment } from '../../../environments/environment';
   styleUrls: ['./home.page.scss'],
 })
 export class HomePage implements OnInit, AfterViewInit {
-  salam: string = "";
-  name: string = "";
+  salam: string = '';
+  name: string = '';
   private autoScrollTimeout: any;
   private userScrolling = false;
 
-  constructor(
-    private router: Router
-  ) { 
+  constructor(private router: Router) {
     this.setSalam();
     this.setName();
   }
@@ -32,7 +30,7 @@ export class HomePage implements OnInit, AfterViewInit {
       let scrollIndex = 0;
       const images = scrollContainer.querySelectorAll('img');
       const totalImages = images.length;
-      const interval = 3000; 
+      const interval = 3000;
       const autoScroll = () => {
         if (!this.userScrolling) {
           scrollIndex = (scrollIndex + 1) % totalImages;
@@ -65,36 +63,43 @@ export class HomePage implements OnInit, AfterViewInit {
     const jam = waktu.getHours();
 
     if (jam >= 0 && jam < 12) {
-      this.salam = "Selamat Pagi";
+      this.salam = 'Selamat Pagi';
     } else if (jam >= 12 && jam < 18) {
-      this.salam = "Selamat Siang";
+      this.salam = 'Selamat Siang';
     } else {
-      this.salam = "Selamat Malam";
+      this.salam = 'Selamat Malam';
     }
   }
 
-  setName() {
-    const name = localStorage.getItem('name');
-    if (name) {
-      this.name = name;
+  setName(response: any = null) {
+    if (response && response.data.user_name) { 
+      this.name = response.data.user_name; 
     }
+  }
+
+  handleRefresh(event: any) {
+    setTimeout(() => {
+      event.target.complete();
+      location.reload();
+    }, 2000);
   }
 
   ngOnInit() {
-    this.fetchData();
-    // if (localStorage.getItem('authToken')) {
-    //   this.router.navigate(['/login']);
-    // } 
-  }
-
-  fetchData() {
-    const apiUrl = `${environment.apiUrl}/register`;
-    axios.get(apiUrl)
+    axios
+      .post(`${environment.apiUrl}/info_user`, null, {
+        headers: {
+          Authorization: `${localStorage.getItem('authToken')}`,
+        },
+      })
       .then((response) => {
         console.log('Response:', response);
+        this.setName(response);
       })
       .catch((error) => {
-        console.error('Error:', error);
+        console.log('Error:', error);
       });
+    // if (localStorage.getItem('authToken')) {
+    //   this.router.navigate(['/login']);
+    // }
   }
 }
