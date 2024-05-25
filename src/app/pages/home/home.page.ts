@@ -1,18 +1,63 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, HostListener } from '@angular/core';
 import axios from 'axios';
+import { Router } from '@angular/router';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
 })
-export class HomePage implements OnInit {
+export class HomePage implements OnInit, AfterViewInit {
   salam: string = "";
   name: string = "";
+  private autoScrollTimeout: any;
+  private userScrolling = false;
 
-  constructor() { 
+  constructor(
+    private router: Router
+  ) { 
     this.setSalam();
     this.setName();
+  }
+
+  ngAfterViewInit() {
+    this.setupAutoScroll();
+  }
+
+  setupAutoScroll() {
+    const scrollContainer = document.getElementById('scroll');
+
+    if (scrollContainer) {
+      let scrollIndex = 0;
+      const images = scrollContainer.querySelectorAll('img');
+      const totalImages = images.length;
+      const interval = 3000; 
+      const autoScroll = () => {
+        if (!this.userScrolling) {
+          scrollIndex = (scrollIndex + 1) % totalImages;
+          const nextImage = images[scrollIndex];
+          scrollContainer.scrollLeft = nextImage.offsetLeft;
+        }
+        this.autoScrollTimeout = setTimeout(autoScroll, interval);
+      };
+
+      autoScroll();
+    }
+  }
+
+  @HostListener('mousedown')
+  @HostListener('touchstart')
+  onUserScrollStart() {
+    this.userScrolling = true;
+    clearTimeout(this.autoScrollTimeout);
+  }
+
+  @HostListener('mouseup')
+  @HostListener('touchend')
+  onUserScrollEnd() {
+    this.userScrolling = false;
+    this.setupAutoScroll();
   }
 
   setSalam() {
@@ -37,21 +82,19 @@ export class HomePage implements OnInit {
 
   ngOnInit() {
     this.fetchData();
+    // if (localStorage.getItem('authToken')) {
+    //   this.router.navigate(['/login']);
+    // } 
   }
 
   fetchData() {
-    // Ganti URL dengan URL API yang dimaksud
-    const apiUrl = 'https://930b-110-138-88-26.ngrok-free.app/api/register';
-
-    // Lakukan permintaan GET ke API menggunakan Axios
+    const apiUrl = `${environment.apiUrl}/register`;
     axios.get(apiUrl)
       .then((response) => {
         console.log('Response:', response);
-        // Lakukan sesuatu dengan respons API di sini
       })
       .catch((error) => {
         console.error('Error:', error);
-        // Tangani kesalahan di sini
       });
   }
 }

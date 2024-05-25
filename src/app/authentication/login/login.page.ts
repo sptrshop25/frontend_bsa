@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import axios from 'axios';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -58,13 +59,14 @@ export class LoginPage implements OnInit {
   register() {
     this.isLoading = true;
     axios
-      .post('https://930b-110-138-88-26.ngrok-free.app/api/login', this.formData)
+      .post(`${environment.apiUrl}/login`, this.formData)
       .then((response) => {
         console.log('Response:', response);
         
         if (response.data.Token) {
           this.saveToken(response.data.Token);
           localStorage.setItem('name', response.data.Name);
+          localStorage.setItem('userId', response.data.UserId);
         }
         this.presentAlert();
       })
@@ -114,5 +116,8 @@ export class LoginPage implements OnInit {
   ngOnInit() {
     this.formData.email = '';
     this.formData.password = '';
+    // if (localStorage.getItem('authToken')) {
+    //   this.router.navigate(['/home']);
+    // } 
   }
 }

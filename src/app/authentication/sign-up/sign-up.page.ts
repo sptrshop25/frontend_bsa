@@ -4,6 +4,7 @@ import { CustomAlertComponent } from '../../custom-alert/custom-alert.component'
 import { Router } from '@angular/router';
 import axios from 'axios';
 import { ModalController } from '@ionic/angular';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-sign-up',
@@ -62,7 +63,7 @@ export class SignUpPage implements OnInit {
   register() {
     this.isLoading = true;
     axios
-      .post('https://930b-110-138-88-26.ngrok-free.app/api/register', this.formData)
+      .post(`${environment.apiUrl}/register`, this.formData)
       .then((response) => {
         this.presentAlert('Register Berhasil');
       })
@@ -138,5 +139,9 @@ export class SignUpPage implements OnInit {
     this.showPassword = !this.showPassword;
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    if (localStorage.getItem('authToken')) {
+      this.router.navigate(['/home']);
+    } 
+  }
 }

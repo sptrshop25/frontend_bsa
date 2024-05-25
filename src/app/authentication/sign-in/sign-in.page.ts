@@ -21,16 +21,19 @@ export class SignInPage implements OnInit {
   }
 
   ngOnInit() {
-    this.tokenCheckService.checkTokenValidity()
-      .then((isValid) => {
-        console.log('Token validity:', isValid);
-        if (isValid) {
-          this.router.navigate(['/home']);
-        } 
-      })
-      .catch((error) => {
-        console.error('Error checking token validity:', error);
-      });
+    // this.tokenCheckService.checkTokenValidity()
+    //   .then((isValid) => {
+    //     console.log('Token validity:', isValid);
+    //     if (isValid) {
+    //       this.router.navigate(['/home']);
+    //     } 
+    //   })
+    //   .catch((error) => {
+    //     console.error('Error checking token validity:', error);
+    //   });
+    if (localStorage.getItem('authToken')) {
+      this.router.navigate(['/home']);
+    } 
   }
 
 }

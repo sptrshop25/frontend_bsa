@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { } from 'swiper/element/bundle';
+import { Router, NavigationEnd } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -7,5 +8,11 @@ import { } from 'swiper/element/bundle';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
-  constructor() {}
+  constructor(private router: Router) {}
+  isActive(tab: string): boolean {
+    return this.router.url === tab;
+  }
+  isLoginPage(): boolean {
+    return this.router.url === '/home' || this.router.url === '/tab-kursus' || this.router.url === '/tab-history' || this.router.url === '/tab-profile'; 
+  }
 }

@@ -10,7 +10,8 @@ const routes: Routes = [
   },
   {
     path: 'home',
-    loadChildren: () => import('./pages/home/home.module').then( m => m.HomePageModule)
+    loadChildren: () => import('./pages/home/home.module').then( m => m.HomePageModule),
+    data: { showTab: true }
   },
   {
     path: 'sign-in',
@@ -23,6 +24,18 @@ const routes: Routes = [
   {
     path: 'login',
     loadChildren: () => import('./authentication/login/login.module').then( m => m.LoginPageModule)
+  },
+  {
+    path: 'tab-kursus',
+    loadChildren: () => import('./tab-kursus/tab-kursus.module').then( m => m.TabKursusPageModule)
+  },
+  {
+    path: 'tab-history',
+    loadChildren: () => import('./tab-history/tab-history.module').then( m => m.TabHistoryPageModule)
+  },
+  {
+    path: 'tab-profile',
+    loadChildren: () => import('./tab-profile/tab-profile.module').then( m => m.TabProfilePageModule)
   },
 ];
 

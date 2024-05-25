@@ -1,0 +1,22 @@
+.box-data-user {
+  width: 50%;
+  border-radius: 0;
+  background: none;
+  border-bottom: 1px solid #dfdfdf;
+  border-top: 1px solid #dfdfdf;
+  border-right: 1px solid #dfdfdf;
+  border-left: none;
+}
+
+.list-menu {
+  border-radius: 0;
+  background-color: #f4f3f3;
+  border-bottom: 1px solid #dfdfdf;
+  color: black;
+  font-size: 14px;
+}
+
+.custom-loading {
+    --background: rgba(0, 0, 0, 0.8);
+    --spinner-color: var(--ion-color-primary);
+  }

@@ -31,8 +31,10 @@
                 "output": "./svg"
               }
             ],
-            "styles": ["src/global.scss", "src/theme/variables.scss"],
-            "scripts": []
+            "styles": ["src/global.scss", "src/theme/variables.scss", "node_modules/owl.carousel/dist/assets/owl.carousel.css",
+            "node_modules/owl.carousel/dist/assets/owl.theme.default.css"],
+            "scripts": ["node_modules/jquery/dist/jquery.min.js",
+            "node_modules/owl.carousel/dist/owl.carousel.min.js"]
           },
           "configurations": {
             "production": {
@@ -111,8 +113,10 @@
                 "output": "./svg"
               }
             ],
-            "styles": ["src/global.scss", "src/theme/variables.scss"],
-            "scripts": []
+            "styles": ["src/global.scss", "src/theme/variables.scss", "node_modules/owl.carousel/dist/assets/owl.carousel.css",
+            "node_modules/owl.carousel/dist/assets/owl.theme.default.css"],
+            "scripts": ["node_modules/jquery/dist/jquery.min.js",
+            "node_modules/owl.carousel/dist/owl.carousel.min.js"]
           },
           "configurations": {
             "ci": {
