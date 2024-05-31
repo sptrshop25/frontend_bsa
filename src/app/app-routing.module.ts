@@ -31,6 +31,10 @@ const routes: Routes = [
     path: 'search-course',
     loadChildren: () => import('./pages/search-course/search-course.module').then( m => m.SearchCoursePageModule)
   },
+  {
+    path: 'filter-modal',
+    loadChildren: () => import('./filter-modal/filter-modal.module').then( m => m.FilterModalPageModule)
+  },
 ];
 @NgModule({
   schemas: [CUSTOM_ELEMENTS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],

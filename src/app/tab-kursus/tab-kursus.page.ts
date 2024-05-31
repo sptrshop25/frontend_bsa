@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ModalController } from '@ionic/angular';
+import { FilterModalPage } from '../filter-modal/filter-modal.page';
 
 @Component({
   selector: 'app-tab-kursus',
@@ -8,7 +10,7 @@ import { Router } from '@angular/router';
 })
 export class TabKursusPage implements OnInit {
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private modalController: ModalController) { }
 
   goBack() {
     this.router.navigate(['/previous-page']);
@@ -16,6 +18,14 @@ export class TabKursusPage implements OnInit {
 
   redirectToSearchPage() {
     this.router.navigate(['search-course']);
+  }
+
+  async openFilterModal() {
+    const modal = await this.modalController.create({
+      component: FilterModalPage,
+      cssClass: 'filter-modal',
+    });
+    modal.present();
   }
   ngOnInit() {
   }

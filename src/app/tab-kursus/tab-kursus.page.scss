@@ -102,3 +102,13 @@ img {
     display: flex;
     flex-wrap: nowrap;
   }
+
+  .no-card .modal-wrapper {
+    background-color: transparent;
+    box-shadow: none;
+    border: none;
+  }
+  
+  .no-card .ion-page {
+    background-color: rgba(0, 0, 0, 0.5); /* Menambahkan latar belakang semi-transparan */
+  }

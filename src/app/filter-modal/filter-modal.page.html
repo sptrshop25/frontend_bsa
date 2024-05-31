@@ -1,0 +1,70 @@
+<ion-content style="--background: transparent;">
+  <div class="d-flex justify-content-center">
+    <form class="mt-2" style="width: 90%">
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Filter Pencarian</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="dismiss()"><ion-icon name="close"></ion-icon></ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-item>
+        <ion-label position="stacked">Jenis</ion-label>
+        <ion-grid>
+          <ion-row>
+            <ion-col><button class="btn" [ngClass]="{'active': activeButton === 'semua'}" (click)="setActiveButton('semua')">Semua</button></ion-col>
+            <ion-col><button class="btn" [ngClass]="{'active': activeButton === 'pengajar'}" (click)="setActiveButton('pengajar')">Pengajar</button></ion-col>
+            <ion-col><button class="btn" [ngClass]="{'active': activeButton === 'kursus'}" (click)="setActiveButton('kursus')">Kursus</button></ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Batas Harga (RP)</ion-label>
+        <div class="row mt-2">
+          <div class="col-6">
+            <ion-input [(ngModel)]="minPrice" type="number" placeholder="Min" name="minPrice"></ion-input>
+          </div>
+          <div class="col-6">
+            <ion-input [(ngModel)]="maxPrice" type="number" placeholder="Max" name="maxPrice"></ion-input>
+          </div>
+          <p *ngIf="minPrice !== null && maxPrice !== null && minPrice > maxPrice" class="text-danger">Harga minimum harus lebih kecil dari harga maksimum</p>
+        </div>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Rating</ion-label>
+        <ion-grid>
+          <ion-row>
+            <ion-col size="4"><button class="btn" [ngClass]="{'active': activeBtnRating === '5'}" (click)="setActiveBtnRating('5')" style="font-size: 10px;">diatas 5 ★</button></ion-col>
+            <ion-col size="4"><button class="btn" [ngClass]="{'active': activeBtnRating === '4'}" (click)="setActiveBtnRating('4')" style="font-size: 10px;">diatas 4 ★</button></ion-col>
+            <ion-col size="4"><button class="btn" [ngClass]="{'active': activeBtnRating === '3'}" (click)="setActiveBtnRating('3')" style="font-size: 10px;">diatas 3 ★</button></ion-col>
+            <ion-col size="4"><button class="btn" [ngClass]="{'active': activeBtnRating === '2'}" (click)="setActiveBtnRating('2')" style="font-size: 10px;">diatas 2 ★</button></ion-col>
+            <ion-col size="4"><button class="btn" [ngClass]="{'active': activeBtnRating === '1'}" (click)="setActiveBtnRating('1')" style="font-size: 10px;">diatas 1 ★</button></ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Filter by</ion-label>
+        <ion-grid>
+          <ion-row>
+            <ion-col><button class="btn" [ngClass]="{'active': activeFilterBy === 'relevan'}" (click)="setActiveFilterBy('relevan')">Relevan</button></ion-col>
+            <ion-col><button class="btn" [ngClass]="{'active': activeFilterBy === 'terbaru'}" (click)="setActiveFilterBy('terbaru')">Terbaru</button></ion-col>
+            <ion-col><button class="btn" [ngClass]="{'active': activeFilterBy === 'terlaris'}" (click)="setActiveFilterBy('terlaris')">Terlaris</button></ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+
+      <ion-footer>
+        <ion-toolbar>
+          <ion-buttons slot="end">
+            <ion-button style="border: 1px solid #8000FF; color: #8000FF;" (click)="reset()">Reset</ion-button>
+            <ion-button [disabled]="minPrice !== null && maxPrice !== null && minPrice > maxPrice || isButtonDisabled()" style="--background: #8000FF; color: white;" (click)="apply()">Terapkan</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-footer>
+    </form>
+  </div>
+</ion-content>
