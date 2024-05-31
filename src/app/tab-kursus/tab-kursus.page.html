@@ -6,7 +6,7 @@
           <ion-icon class="icon" name="arrow-back-outline"></ion-icon>
         </ion-button>
       </ion-buttons>
-      <ion-searchbar placeholder="cari kursus" animated>
+      <ion-searchbar readonly (click)="redirectToSearchPage()" placeholder="cari kursus" animated>
         <ion-icon name="search" slot="start"></ion-icon>
       </ion-searchbar>
       <ion-buttons slot="end">

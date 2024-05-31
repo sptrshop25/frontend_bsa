@@ -1,7 +1,7 @@
 import { Component, OnInit, AfterViewInit, HostListener } from '@angular/core';
 import axios from 'axios';
 import { Router } from '@angular/router';
-import { environment } from '../../../environments/environment';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-home',
@@ -84,6 +84,9 @@ export class HomePage implements OnInit, AfterViewInit {
     }, 2000);
   }
 
+  test(){
+    this.router.navigate(['/tab-kursus/search-course']);
+  }
   ngOnInit() {
     axios
       .post(`${environment.apiUrl}/info_user`, null, {

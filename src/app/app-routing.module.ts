@@ -5,13 +5,16 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'sign-in',
-    pathMatch: 'full'
+    loadChildren: () => import('./authentication/sign-in/sign-in.module').then(m => m.SignInPageModule)
   },
   {
-    path: 'home',
-    loadChildren: () => import('./pages/home/home.module').then( m => m.HomePageModule)
+    path: 'tab',
+    loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
   },
+  // {
+  //   path: 'home',
+  //   loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
+  // },
   {
     path: 'sign-in',
     loadChildren: () => import('./authentication/sign-in/sign-in.module').then( m => m.SignInPageModule)
@@ -25,19 +28,10 @@ const routes: Routes = [
     loadChildren: () => import('./authentication/login/login.module').then( m => m.LoginPageModule)
   },
   {
-    path: 'tab-kursus',
-    loadChildren: () => import('./tab-kursus/tab-kursus.module').then( m => m.TabKursusPageModule)
-  },
-  {
-    path: 'tab-history',
-    loadChildren: () => import('./tab-history/tab-history.module').then( m => m.TabHistoryPageModule)
-  },
-  {
-    path: 'tab-profile',
-    loadChildren: () => import('./tab-profile/tab-profile.module').then( m => m.TabProfilePageModule)
+    path: 'search-course',
+    loadChildren: () => import('./pages/search-course/search-course.module').then( m => m.SearchCoursePageModule)
   },
 ];
-
 @NgModule({
   schemas: [CUSTOM_ELEMENTS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
   imports: [
@@ -45,4 +39,4 @@ const routes: Routes = [
   ],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

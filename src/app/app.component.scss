@@ -6,3 +6,11 @@
     color: #4D00CB !important; 
     
   }
+
+  ion-tab-bar {
+    --background: #f8f8f8;
+  }
+
+  .hide-tab-bar {
+    display: none;
+  }

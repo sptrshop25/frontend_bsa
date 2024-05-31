@@ -40,7 +40,7 @@ export class LoginPage implements OnInit {
       if (countdown === 0) {
         clearInterval(interval);
         alert.dismiss();
-        this.router.navigate(['/home']);
+        this.router.navigate(['/tab/tabs/home']);
       }
     }, 1000);
   }
