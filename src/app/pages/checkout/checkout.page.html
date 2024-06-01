@@ -1,0 +1,114 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-icon name="arrow-back-outline"></ion-icon>
+    </ion-buttons>
+    <ion-title>Checkout</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item lines="none">
+      <div class="flex-container">
+        <ion-checkbox>pilih semua</ion-checkbox>
+        <ion-label>Pilih semua (3)</ion-label>
+      </div>
+      <ion-button fill="clear" slot="end">Hapus</ion-button>
+    </ion-item>
+  </ion-list>
+
+
+  <ion-list>
+    <ion-item>
+      <div class="flex-container">
+        <ion-checkbox></ion-checkbox>
+        <ion-label class="label-teacher">
+          <img
+            src="../../../assets/img/bsa2.png"
+            alt=""
+            style="width: 20px;"
+            class="rounded-circle"
+          />
+          nama pengajar
+        </ion-label>
+      </div>
+    </ion-item>
+
+    <ion-item>
+      <div class="flex-container">
+        <ion-checkbox slot="start" checked></ion-checkbox>
+        <ion-thumbnail slot="start" class="thumbnail">
+          <img src="../../../assets/img/bsa2.png" />
+        </ion-thumbnail>
+        <ion-label>
+          <h2>Judul Kursus</h2>
+          <p class="rating">4.9 ★</p>
+          <p class="price">Rp23.900</p>
+        </ion-label>
+      </div>
+      <ion-button fill="clear" class="trash-button">
+        <ion-icon name="trash"></ion-icon>
+      </ion-button>
+    </ion-item>
+
+    <ion-item>
+      <div class="flex-container">
+        <ion-checkbox slot="start" checked></ion-checkbox>
+        <ion-thumbnail slot="start" class="thumbnail">
+          <img src="../../../assets/img/bsa2.png" />
+        </ion-thumbnail>
+        <ion-label>
+          <h2>Judul Kursus</h2>
+          <p class="rating">4.9 ★</p>
+          <p class="price">Rp23.900</p>
+        </ion-label>
+        <ion-button fill="clear" slot="end" class="trash-button">
+          <ion-icon name="trash"></ion-icon>
+        </ion-button>
+      </div>
+    </ion-item>
+
+    <ion-list>
+      <ion-item>
+        <div class="flex-container">
+          <ion-checkbox></ion-checkbox>
+          <ion-label class="label-teacher">
+            <img
+              src="../../../assets/img/bsa2.png"
+              alt=""
+              style="width: 20px;"
+              class="rounded-circle"
+            />
+            nama pengajar
+          </ion-label>
+        </div>
+      </ion-item>
+    </ion-list>
+
+    <ion-item>
+      <div class="flex-container">
+        <ion-checkbox slot="start" checked></ion-checkbox>
+        <ion-thumbnail slot="start" class="thumbnail">
+          <img src="../../../assets/img/bsa2.png" />
+        </ion-thumbnail>
+        <ion-label>
+          <h2>Judul Kursus</h2>
+          <p class="rating">4.9 ★</p>
+          <p class="price">Rp23.900</p>
+        </ion-label>
+        <ion-button fill="clear" slot="end" class="trash-button">
+          <ion-icon name="trash"></ion-icon>
+        </ion-button>
+      </div>
+    </ion-item>
+  </ion-list>
+
+  <ion-footer class="footer">
+    <ion-toolbar>
+      <ion-title>Total Harga</ion-title>
+      <ion-title slot="end">Rp47.800</ion-title>
+      <ion-button slot="end" color="primary">Checkout (2)</ion-button>
+    </ion-toolbar>
+  </ion-footer>
+</ion-content>

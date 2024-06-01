@@ -1,0 +1,87 @@
+ion-toolbar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+  
+  ion-buttons[slot="start"] {
+    color: #6000C1;
+    font-size: 2rem;
+    position: absolute;
+    left: 10px;
+  }
+  
+  .custom-title {
+    font-size: 1.2em;
+    text-align: center;
+    width: 100%;
+    font-family: "Times New Roman", Times, serif;
+  }
+  
+  @media (min-width: 768px) {
+    .custom-title {
+      font-size: 1.5em;
+    }
+  }
+  
+  ion-content{
+    .PersyatanTeknis{
+      font-size: 1.1em;
+      font-family: "Times New Roman", Times, serif;
+      margin-top: 20px;
+      margin-left: 20px;
+    }
+  
+    .container{
+      /* Mengubah warna outline dan label */
+    --border-color: #6000C1; /* Warna outline ungu */
+    --highlight-color-focused: #6000C1; /* Warna label ketika input fokus */
+    --highlight-color-invalid: #6000C1; /* Warna label ketika input tidak valid */
+    --color-focused: #6000C1; /* Warna label ketika input fokus */
+    --placeholder-color: #6000C1; /* Warna placeholder */
+  
+      display: flex !important;
+      align-items: center !important; 
+      justify-content: center !important;
+      margin: 0 auto !important;
+      width: 90% !important;
+      height: 50px !important;
+      padding-left: 10px !important;
+      padding-right: 10px !important;
+      // border: 1px solid rgb(248, 248, 248);
+      border-radius: 10px;
+      // color: gray;
+      -webkit-border-radius: 10px !important;
+      -moz-border-radius: 10px !important;
+      -ms-border-radius: 10px !important;
+      -o-border-radius: 10px !important;
+  
+    }
+    .tombol{
+        --ion-color-primary: #642DF4; 
+        margin-left: 30px;
+        font-family: "Times New Roman", Times, serif;
+      }
+
+      .kembali {
+        position: fixed;
+        bottom: 0;
+        left: 20px;
+        --ion-color-primary: #642DF4;
+        font-family: "Times New Roman", Times, serif;
+        margin-bottom: 20px;
+      }
+      
+      .lanjut {
+        position: fixed;
+        bottom: 0;
+        right: 20px;
+        --ion-color-primary: #642DF4;
+        font-family: "Times New Roman", Times, serif;
+        margin-bottom: 20px;
+      }
+    
+  }
+
+

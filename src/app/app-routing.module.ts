@@ -35,6 +35,30 @@ const routes: Routes = [
     path: 'filter-modal',
     loadChildren: () => import('./filter-modal/filter-modal.module').then( m => m.FilterModalPageModule)
   },
+  {
+    path: 'teacher-register',
+    loadChildren: () => import('./pages/teacher-register/teacher-register.module').then( m => m.TeacherRegisterPageModule)
+  },
+  {
+    path: 'teacher-register2',
+    loadChildren: () => import('./pages/teacher-register2/teacher-register2.module').then( m => m.TeacherRegister2PageModule)
+  },
+  {
+    path: 'teacher-register3',
+    loadChildren: () => import('./pages/teacher-register3/teacher-register3.module').then( m => m.TeacherRegister3PageModule)
+  },
+  {
+    path: 'kursus-saya',
+    loadChildren: () => import('./pages/kursus-saya/kursus-saya.module').then( m => m.KursusSayaPageModule)
+  },
+  {
+    path: 'kuis-detail',
+    loadChildren: () => import('./pages/kuis-detail/kuis-detail.module').then( m => m.KuisDetailPageModule)
+  },
+  {
+    path: 'checkout',
+    loadChildren: () => import('./pages/checkout/checkout.module').then( m => m.CheckoutPageModule)
+  },
 ];
 @NgModule({
   schemas: [CUSTOM_ELEMENTS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],

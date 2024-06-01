@@ -1,0 +1,63 @@
+ion-header{
+    ion-toolbar{
+        ion-icon{
+            color:#6000C1;
+
+        }
+        ion-title{
+            font-family: 'times new roman', 'Arial Narrow', Arial, sans-serif;
+            color:#6000C1;
+        }
+    }
+}
+  
+
+ion-content{
+    ion-list{
+        ion-item{
+            // display: flex;
+            // align-items: center;
+            // justify-content: space-between;
+            
+            // ion-checkbox{
+            //     margin-right: auto;
+
+
+            // }
+        }
+    }
+    ion-list{
+        ion-item{
+            .flex-container {
+                display: flex;
+                align-items: center;
+            }
+            
+            .flex-container ion-checkbox {
+                margin-right: 5px; /* Adjust the spacing as needed */
+            }
+            
+            .label-teacher img {
+                margin-left: 10px; /* Adjust the spacing as needed */
+            }
+
+            ion-button{
+                float:right;
+                
+            }
+        }
+    }
+}
+
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    z-index: 100;
+  }
+  
+
+  
+
+  

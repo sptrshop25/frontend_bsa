@@ -1,0 +1,45 @@
+ion-header{
+    ion-toolbar{
+        ion-icon{
+            color:#6000C1;
+
+        }
+        ion-title{
+            font-family: 'Imprint MT Shadow', 'Arial Narrow', Arial, sans-serif;
+            color:#6000C1;
+        }
+    }
+}
+
+.custom-button {
+    --background: #5CDF78;
+  }
+
+  .nav-button-1,
+  .nav-button-2 {
+    --ion-color-primary: #8000FF !important; /* Ubah warna latar belakang */
+    --ion-color-primary-contrast: #fff !important; /* Ubah warna teks */
+  }
+
+
+  
+  .button-container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin: 16px;
+  }
+  
+  .button-container ion-button {
+    margin: 0 8px; // Memberikan jarak horizontal antara tombol
+  }
+
+  ion-card-content{
+    text-align: justify;
+  }
+
+  ion-card{
+    font-family: "Times New Roman", Times, serif;
+  }
+  
+  

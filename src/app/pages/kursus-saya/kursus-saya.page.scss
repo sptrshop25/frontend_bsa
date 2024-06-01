@@ -1,0 +1,90 @@
+ion-toolbar {
+    display: flex;
+    justify-content: flex-start; 
+    align-items: center;
+    position: relative;
+}
+
+ion-buttons[slot="start"] {
+    color: #6000C1;
+    font-size: 2rem;
+    margin-right: 10px; /* Memberi jarak antara tombol dan judul */
+}
+
+.custom-title {
+    font-size: 1.2em;
+    font-family: "Times New Roman", Times, serif;
+}
+
+@media (min-width: 768px) {
+    .custom-title {
+        font-size: 1.5em;
+    }
+}
+
+.search-icon {
+    color: #6000C1; /* Warna ungu */
+    font-size: 2rem;
+  }
+
+ion-content {
+    padding-top: 10px;
+}
+  ion-segment-button {
+    font-family: 'Roboto', sans-serif;
+    --indicator-color: #6000C1;
+
+
+  }
+  
+  /* Material Design styles */
+  ion-segment-button.md {
+    --color: #000;
+    --color-checked: #6000C1;
+    --indicator-height: 4px;
+  }
+  
+  /* iOS styles */
+  ion-segment-button.ios {
+    --color: #6000C1;
+    --color-checked: #ffffff;
+    --border-radius: 20px;
+    // --background: #fff;
+    // --background-checked:#fff;
+    // --background-focused:#fff;
+    // --background-focused-opacity:#fff;
+    // --background-hover:#ffff;
+    // --background-hover-opacity:#fff;
+    // --border-color:#ffff;
+    // --color-focused:#ffff;
+    // --color-hover: #fff;
+    // --indicator-color:#fff;
+
+    
+  }
+  ion-list{
+    ion-label{
+      h2{
+        font-family: "Times New Roman", Times, serif;
+      }
+      p{
+        font-family: "Times New Roman", Times, serif;
+      }
+      .custom-progress-bar {
+        --progress-height: 100px; /* Mengubah tinggi progress bar */
+        --background: #e0e0e0; /* Mengubah warna background progress bar */
+        --buffer-background: #e0e0e0; /* Warna latar buffer */
+        --buffer-progress-color: #6000C1; /* Warna buffer progress */
+        --progress-background: #6000C1; /* Mengubah warna progress bar */
+      }
+      
+      /* Jika Anda ingin mengubah ukuran atau warna lebih spesifik pada layar tertentu, gunakan media query */
+      @media (min-width: 1000px) {
+        .custom-progress-bar {
+          --progress-height: 50px; /* Mengubah tinggi progress bar untuk layar yang lebih besar */
+        }
+      }
+      
+    }
+  }
+
