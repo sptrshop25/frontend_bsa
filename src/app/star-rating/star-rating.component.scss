@@ -1,0 +1,26 @@
+.stars {
+    display: flex;
+  }
+  
+  .star {
+    font-size: 10px; 
+    color: #ccc; 
+  }
+  
+  .star.full {
+    color: gold; 
+  }
+  
+  .star.half {
+    color: gold; 
+  }
+  
+  .star.half::before {
+    content: '\2605'; 
+    color: gold;
+    position: relative;
+    display: inline-block;
+    width: 50%;
+    overflow: hidden;
+  }
+  

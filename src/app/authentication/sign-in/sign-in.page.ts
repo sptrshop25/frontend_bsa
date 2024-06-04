@@ -32,7 +32,7 @@ export class SignInPage implements OnInit {
     //     console.error('Error checking token validity:', error);
     //   });
     if (localStorage.getItem('authToken')) {
-      this.router.navigate(['/home']);
+      this.router.navigate(['/']);
     } 
   }
 

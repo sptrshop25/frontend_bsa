@@ -141,7 +141,7 @@ export class SignUpPage implements OnInit {
 
   ngOnInit() {
     if (localStorage.getItem('authToken')) {
-      this.router.navigate(['/home']);
+      this.router.navigate(['/tab/tabs/home']);
     } 
   }
 }

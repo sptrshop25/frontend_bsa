@@ -37,27 +37,27 @@ const routes: Routes = [
   },
   {
     path: 'teacher-register',
-    loadChildren: () => import('./pages/teacher-register/teacher-register.module').then( m => m.TeacherRegisterPageModule)
+    loadChildren: () => import('./pages/search-course/teacher-register/teacher-register.module').then( m => m.TeacherRegisterPageModule)
   },
   {
     path: 'teacher-register2',
-    loadChildren: () => import('./pages/teacher-register2/teacher-register2.module').then( m => m.TeacherRegister2PageModule)
+    loadChildren: () => import('./pages/search-course/teacher-register2/teacher-register2.module').then( m => m.TeacherRegister2PageModule)
   },
   {
     path: 'teacher-register3',
-    loadChildren: () => import('./pages/teacher-register3/teacher-register3.module').then( m => m.TeacherRegister3PageModule)
+    loadChildren: () => import('./pages/search-course/teacher-register3/teacher-register3.module').then( m => m.TeacherRegister3PageModule)
   },
   {
     path: 'kursus-saya',
-    loadChildren: () => import('./pages/kursus-saya/kursus-saya.module').then( m => m.KursusSayaPageModule)
+    loadChildren: () => import('./pages/search-course/kursus-saya/kursus-saya.module').then( m => m.KursusSayaPageModule)
   },
   {
     path: 'kuis-detail',
-    loadChildren: () => import('./pages/kuis-detail/kuis-detail.module').then( m => m.KuisDetailPageModule)
+    loadChildren: () => import('./pages/search-course/kuis-detail/kuis-detail.module').then( m => m.KuisDetailPageModule)
   },
   {
     path: 'checkout',
-    loadChildren: () => import('./pages/checkout/checkout.module').then( m => m.CheckoutPageModule)
+    loadChildren: () => import('./pages/search-course/checkout/checkout.module').then( m => m.CheckoutPageModule)
   },
 ];
 @NgModule({

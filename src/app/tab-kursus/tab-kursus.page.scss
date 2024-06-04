@@ -94,9 +94,15 @@ img {
 
 .container-scroll {
     overflow-x: auto;
-    white-space: nowrap;
+    // white-space: nowrap;
     padding: 20px;
   }
+
+  .text-wrapper {
+    word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
+  }
+  
 
   .carousel-row {
     display: flex;

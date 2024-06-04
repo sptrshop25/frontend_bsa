@@ -8,13 +8,17 @@ import { TabKursusPageRoutingModule } from './tab-kursus-routing.module';
 
 import { TabKursusPage } from './tab-kursus.page';
 
+import { CurrencyFormatPipe } from './currency-format.pipe';
+
+import { StarRatingComponent } from '../star-rating/star-rating.component';
+
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    TabKursusPageRoutingModule
+    TabKursusPageRoutingModule,
   ],
-  declarations: [TabKursusPage]
+  declarations: [TabKursusPage, CurrencyFormatPipe, StarRatingComponent],
 })
 export class TabKursusPageModule {}
