@@ -10,7 +10,7 @@ import { TabKursusPage } from './tab-kursus.page';
 
 import { CurrencyFormatPipe } from './currency-format.pipe';
 
-import { StarRatingComponent } from '../star-rating/star-rating.component';
+import { SharedModulPageModule } from '../shared-modul/shared-modul.module';
 
 @NgModule({
   imports: [
@@ -18,7 +18,8 @@ import { StarRatingComponent } from '../star-rating/star-rating.component';
     FormsModule,
     IonicModule,
     TabKursusPageRoutingModule,
+    SharedModulPageModule
   ],
-  declarations: [TabKursusPage, CurrencyFormatPipe, StarRatingComponent],
+  declarations: [TabKursusPage, CurrencyFormatPipe],
 })
 export class TabKursusPageModule {}

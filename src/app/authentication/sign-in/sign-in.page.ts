@@ -31,8 +31,10 @@ export class SignInPage implements OnInit {
     //   .catch((error) => {
     //     console.error('Error checking token validity:', error);
     //   });
+    console.log(localStorage.getItem('authToken'));
+    
     if (localStorage.getItem('authToken')) {
-      this.router.navigate(['/']);
+      this.router.navigate(['/tab/tabs/home']);
     } 
   }
 

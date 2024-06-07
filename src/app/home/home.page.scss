@@ -195,11 +195,18 @@ img {
     margin-top: 10px;
     color: rgb(255, 255, 255) !important;
 }
-
 .container-scroll {
     overflow-x: auto;
-    white-space: nowrap;
+    // white-space: nowrap;
+    padding: 20px;
   }
+
+  .text-wrapper {
+    word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
+  }
+  
+
   .carousel-row {
     display: flex;
     flex-wrap: nowrap;

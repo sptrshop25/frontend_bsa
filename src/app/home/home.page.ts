@@ -3,12 +3,33 @@ import axios from 'axios';
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
 
+interface Course {
+  course_id: string;
+  user_name: string;
+  course_title: string;
+  course_category_id: number;
+  course_description: string;
+  course_price: number;
+  course_rating: number | null;
+  course_level: string;
+  course_is_free: string;
+  course_duration: number;
+  course_image: string;
+  created_at: string;
+  updated_at: string | null;
+  course_price_discount: number | null;
+  id: number;
+  category_name: string;
+}
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
 })
 export class HomePage implements OnInit, AfterViewInit {
+  groupedCourses: { category_name: string; courses: Course[] }[] = [];
+  isLoading = true;
   salam: string = '';
   name: string = '';
   private autoScrollTimeout: any;
@@ -62,10 +83,12 @@ export class HomePage implements OnInit, AfterViewInit {
     const waktu = new Date();
     const jam = waktu.getHours();
 
-    if (jam >= 0 && jam < 12) {
+    if (jam >= 0 && jam < 10) {
       this.salam = 'Selamat Pagi';
-    } else if (jam >= 12 && jam < 18) {
+    } else if (jam >= 10 && jam < 15) {
       this.salam = 'Selamat Siang';
+    } else if (jam >= 15 && jam < 18) {
+      this.salam = 'Selamat Sore';
     } else {
       this.salam = 'Selamat Malam';
     }
@@ -88,21 +111,57 @@ export class HomePage implements OnInit, AfterViewInit {
     this.router.navigate(['/tab-kursus/search-course']);
   }
   ngOnInit() {
-    axios
-      .post(`${environment.apiUrl}/info_user`, null, {
-        headers: {
-          Authorization: `${localStorage.getItem('authToken')}`,
-        },
-      })
-      .then((response) => {
-        console.log('Response:', response);
-        this.setName(response);
-      })
-      .catch((error) => {
-        console.log('Error:', error);
-      });
-    // if (localStorage.getItem('authToken')) {
-    //   this.router.navigate(['/login']);
-    // }
+    axios.get(`${environment.apiUrl}/get_courses`, {
+      headers: {
+        Authorization: `${localStorage.getItem('authToken')}`
+      }
+    })
+    .then((response) => {
+      console.log('Response:', response);
+      this.groupedCourses = this.groupCoursesByCategory(response.data);
+    })
+    .catch((error) => {
+      console.log('Error:', error);
+    })
+    .finally(() => {
+      this.isLoading = false;
+    });
+
+    axios.post(`${environment.apiUrl}/info_user`, null, {
+      headers: {
+        Authorization: `${localStorage.getItem('authToken')}`
+      }
+    })
+    .then((response) => {
+      console.log('Response:', response);
+      this.setName(response);
+    })
+    .catch((error) => {
+      console.log('Error:', error);
+    })
+    .finally(() => {
+      this.isLoading = false;
+    });
+  }
+
+  groupCoursesByCategory(courses: any[]): any[] {
+    const groupedCourses: { [key: string]: any[] } = {};
+    const recommendedCourses: any[] = [];
+    const courseFree : any[] = [];
+
+    courses.forEach(course => {
+      if (course.course_rating > 4) {
+        recommendedCourses.push(course);
+      }
+    });
+    const groupedCoursesArray = Object.keys(groupedCourses).map(category => {
+      return { category_name: category, courses: groupedCourses[category] };
+    });
+
+    if (recommendedCourses.length > 0) {
+      groupedCoursesArray.unshift({ category_name: 'Rekomendasi Kursus', courses: recommendedCourses });
+    }
+
+    return groupedCoursesArray;
   }
 }

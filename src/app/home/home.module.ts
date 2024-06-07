@@ -8,13 +8,18 @@ import { HomePageRoutingModule } from './home-routing.module';
 
 import { HomePage } from './home.page';
 
+import { CurrencyFormatPipe } from './currency-format.pipe';
+
+import { SharedModulPageModule } from '../shared-modul/shared-modul.module';
+
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    HomePageRoutingModule
+    HomePageRoutingModule,
+    SharedModulPageModule,
   ],
-  declarations: [HomePage]
+  declarations: [HomePage, CurrencyFormatPipe],
 })
 export class HomePageModule {}

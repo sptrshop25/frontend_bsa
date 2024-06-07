@@ -73,7 +73,7 @@ export class TabKursusPage implements OnInit {
     const courseFree : any[] = [];
 
     courses.forEach(course => {
-      if (course.course_rating > 4) {
+      if (course.course_rating >= 3) {
         recommendedCourses.push(course);
       }
       if (course.course_is_free === 'yes') {
