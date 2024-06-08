@@ -1,0 +1,35 @@
+ion-header{
+    ion-toolbar{
+        ion-icon{
+            color:#6000C1;
+
+        }
+        ion-title{
+            font-family: 'Imprint MT Shadow', 'Arial Narrow', Arial, sans-serif;
+            color:#6000C1;
+        }
+    }
+}
+
+ion-content{
+    ion-accordion-group {
+        margin-left: 16px;
+        margin-right: 16px;
+        margin-top: 16px;
+      }
+      ion-item{
+        font-family: 'Times New Roman', Times, serif;
+        ion-label{
+          font-family: 'Times New Roman', Times, serif;
+          
+        }
+      }
+      div{
+        ion-list{
+          .checo{
+            color:#24FF00;
+            ;
+          }
+        }
+      }
+}

@@ -1,0 +1,52 @@
+ion-header{
+  .custom{
+    --background:#8000FF;
+    ion-buttons{
+      color: #fff;
+      font-size: 1.5em;
+    }
+    ion-title{
+      color: #fff;
+      font-size: 1.2em;
+      text-align: center;
+      font-family: "Times New Roman", Times, serif;
+
+    }
+  }
+}
+
+.button-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+  --ion-color-primary: #642DF4;
+
+  ion-button {
+      margin-right: 10px;
+  }
+}
+
+.card-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-text {
+  margin-left: 10px;
+  text-align: left;
+  font-size: 10px;
+
+  span {
+      display: block;
+  }
+}
+.edithapus {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+
+  ion-button {
+      margin-right: 10px;
+  }
+}

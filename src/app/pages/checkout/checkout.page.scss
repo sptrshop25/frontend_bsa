@@ -50,11 +50,13 @@ ion-content{
 }
 
 
-.footer {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    z-index: 100;
+ion-footer {
+    ion-toolbar{
+        .Checkout {
+            --background: #6000C1;
+            --color: white;
+        }
+    }
   }
   
 

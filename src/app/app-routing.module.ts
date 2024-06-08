@@ -62,13 +62,17 @@ const routes: Routes = [
     loadChildren: () => import('./pages/kuis-detail/kuis-detail.module').then( m => m.KuisDetailPageModule)
   },
   {
+    path: 'shared-modul',
+    loadChildren: () => import('./shared-modul/shared-modul.module').then( m => m.SharedModulPageModule)
+  },
+  {
     path: 'checkout',
     loadChildren: () => import('./pages/checkout/checkout.module').then( m => m.CheckoutPageModule)
   },
   {
-    path: 'shared-modul',
-    loadChildren: () => import('./shared-modul/shared-modul.module').then( m => m.SharedModulPageModule)
-  },
+    path: 'hasil-cari',
+    loadChildren: () => import('./pages/hasil-cari/hasil-cari.module').then( m => m.HasilCariPageModule)
+  }
 ];
 @NgModule({
   schemas: [CUSTOM_ELEMENTS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],

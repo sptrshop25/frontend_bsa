@@ -1,0 +1,72 @@
+ion-header{
+    ion-toolbar{
+        ion-icon{
+            color:#6000C1;
+
+        }
+        ion-title{
+            font-family: 'Imprint MT Shadow', 'Arial Narrow', Arial, sans-serif;
+            color:#6000C1;
+        }
+    }
+}
+
+ion-content{
+    .button-container{
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        margin: 16px;
+        margin: 0 8px;
+        margin-top: 15px;
+
+        .custom-button{
+            --background: #5CDF78;
+            margin-left: 10px;
+            margin-right: 10px;
+
+        }
+        .nav-button-1,
+        .nav-button-2 {
+          --ion-color-primary: #8000FF !important; /* Ubah warna latar belakang */
+          --ion-color-primary-contrast: #fff !important; /* Ubah warna teks */
+        }
+    }
+    h2{
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        margin-top: 20px;
+        margin-left: 10px;
+    }
+    .video-container{
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        margin-top: 20px;
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+}
+
+
+
+  
+
+  
+ 
+  ion-card-content{
+    text-align: justify;
+  }
+
+  h2{
+    font-family: "Times New Roman", Times, serif;
+  }
+
+  div{
+    font-family: "Times New Roman", Times, serif;
+  }
+
+  ion-card{
+    font-family: "Times New Roman", Times, serif;
+  }

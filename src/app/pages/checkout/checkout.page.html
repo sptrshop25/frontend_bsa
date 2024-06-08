@@ -11,8 +11,8 @@
   <ion-list>
     <ion-item lines="none">
       <div class="flex-container">
-        <ion-checkbox>pilih semua</ion-checkbox>
-        <ion-label>Pilih semua (3)</ion-label>
+        <ion-checkbox>pilih semua(3)</ion-checkbox>
+        <ion-label></ion-label>
       </div>
       <ion-button fill="clear" slot="end">Hapus</ion-button>
     </ion-item>
@@ -47,7 +47,7 @@
           <p class="price">Rp23.900</p>
         </ion-label>
       </div>
-      <ion-button fill="clear" class="trash-button">
+      <ion-button slot="end" fill="clear" class="trash-button">
         <ion-icon name="trash"></ion-icon>
       </ion-button>
     </ion-item>
@@ -63,10 +63,10 @@
           <p class="rating">4.9 ★</p>
           <p class="price">Rp23.900</p>
         </ion-label>
-        <ion-button fill="clear" slot="end" class="trash-button">
-          <ion-icon name="trash"></ion-icon>
-        </ion-button>
       </div>
+      <ion-button slot="end" fill="clear" class="trash-button">
+        <ion-icon name="trash"></ion-icon>
+      </ion-button>
     </ion-item>
 
     <ion-list>
@@ -86,6 +86,7 @@
       </ion-item>
     </ion-list>
 
+
     <ion-item>
       <div class="flex-container">
         <ion-checkbox slot="start" checked></ion-checkbox>
@@ -97,18 +98,19 @@
           <p class="rating">4.9 ★</p>
           <p class="price">Rp23.900</p>
         </ion-label>
-        <ion-button fill="clear" slot="end" class="trash-button">
-          <ion-icon name="trash"></ion-icon>
-        </ion-button>
       </div>
+      <ion-button slot="end" fill="clear" class="trash-button">
+        <ion-icon name="trash"></ion-icon>
+      </ion-button>
     </ion-item>
   </ion-list>
 
-  <ion-footer class="footer">
-    <ion-toolbar>
-      <ion-title>Total Harga</ion-title>
-      <ion-title slot="end">Rp47.800</ion-title>
-      <ion-button slot="end" color="primary">Checkout (2)</ion-button>
-    </ion-toolbar>
-  </ion-footer>
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-title>Total Harga</ion-title>
+    <ion-title slot="end">Rp47.800</ion-title>
+    <ion-button class="Checkout" slot="end">Checkout (2)</ion-button>
+  </ion-toolbar>
+</ion-footer>

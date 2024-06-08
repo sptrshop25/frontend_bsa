@@ -1,0 +1,75 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-icon name="arrow-back-outline"></ion-icon>
+    </ion-buttons>
+    <ion-title>Judul Kursus</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-accordion-group [multiple]="true">
+    <ion-accordion value="pendahuluan">
+      <ion-item slot="header">
+        <ion-label>Pendahuluan</ion-label>
+        <p slot="end">1 pelajaran</p>
+      </ion-item>
+      <div slot="content">
+        <ion-list>
+          <ion-item>
+            <ion-icon name="play-outline" slot="start"></ion-icon>
+            <ion-label>Pendahuluan</ion-label>
+            <ion-icon class="checo" name="checkmark-circle" slot="end"></ion-icon>
+          </ion-item>
+        </ion-list>
+      </div>
+    </ion-accordion>
+
+    <ion-accordion value="instalasi">
+      <ion-item slot="header">
+        <ion-label>Instalasi Python dan VS Code</ion-label>
+        <p slot="end">2 pelajaran</p>
+      </ion-item>
+      <div slot="content">
+        <ion-list>
+          <ion-item>
+            <ion-icon name="play-outline" slot="start"></ion-icon>
+            <ion-label>Instalasi Python dan VS Code</ion-label>
+            <ion-icon class="checo" name="checkmark-circle" slot="end"></ion-icon>
+          </ion-item>
+          <ion-item>
+            <ion-icon name="play-outline" slot="start"></ion-icon>
+            <ion-label>Python untuk pemula</ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-icon name="help-circle-outline" slot="start"></ion-icon>
+            <ion-label>Quiz</ion-label>
+          </ion-item>
+        </ion-list>
+      </div>
+    </ion-accordion>
+
+    <ion-accordion value="carakerja">
+      <ion-item slot="header">
+        <ion-label>Cara Kerja Program dan Bytecode</ion-label>
+        <p slot="end">2 pelajaran</p>
+      </ion-item>
+      <div slot="content">
+        <ion-list>
+          <ion-item>
+            <ion-icon name="play-outline" slot="start"></ion-icon>
+            <ion-label>Cara Kerja Program dan Bytecode</ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-icon name="play-outline" slot="start"></ion-icon>
+            <ion-label>Python untuk pemula</ion-label>
+          </ion-item>
+        </ion-list>
+      </div>
+    </ion-accordion>
+  </ion-accordion-group>
+  
+</ion-content>
+
+
+
