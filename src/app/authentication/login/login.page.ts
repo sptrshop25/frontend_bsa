@@ -4,6 +4,7 @@ import { AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import axios from 'axios';
 import { environment } from '../../../environments/environment';
+import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
 
 @Component({
   selector: 'app-login',
@@ -29,7 +30,7 @@ export class LoginPage implements OnInit {
     const alert = await this.alertController.create({
       header: 'Login Berhasil',
       message: `Akan dialihkan ke halaman home dalam ${countdown} detik.`,
-      buttons: []
+      buttons: [],
     });
 
     await alert.present();
@@ -45,7 +46,6 @@ export class LoginPage implements OnInit {
     }, 1000);
   }
 
-
   async errorAlert(messages?: string) {
     const alert = await this.alertController.create({
       header: 'Gagal',
@@ -56,13 +56,47 @@ export class LoginPage implements OnInit {
     await alert.present();
   }
 
+  async successAlert(message: string) {
+    const alert = await this.alertController.create({
+      header: 'Sukses',
+      message: message,
+      buttons: ['OK']
+    });
+  
+    await alert.present();
+  }
+
+  async errorVerifiedAlert(messages?: string) {
+    const alert = await this.alertController.create({
+      header: 'Gagal',
+      message: messages,
+      buttons: [
+        {
+          text: 'Kirim Ulang',
+          handler: async () => {
+            try {
+              const response = await axios.post(`${environment.apiUrl}/resend/email`, {
+                email: this.formData.email
+              });
+              this.successAlert('Konfirmasi email berhasil dikirim ulang, cek email anda dan lakukan verifikasi lalu login kembali');
+            } catch (error) {
+              this.errorAlert('Gagal mengirim ulang email konfirmasi. Silakan coba lagi nanti.');
+            }
+          }
+        }
+      ]
+    });
+  
+    await alert.present();
+  }
+
   register() {
     this.isLoading = true;
     axios
       .post(`${environment.apiUrl}/login`, this.formData)
       .then((response) => {
         console.log('Response:', response);
-        
+
         if (response.data.Token) {
           this.saveToken(response.data.Token);
           localStorage.setItem('userId', response.data.UserId);
@@ -70,8 +104,18 @@ export class LoginPage implements OnInit {
         this.presentAlert();
       })
       .catch((error) => {
-        if (error.response && error.response.data && error.response.data.message === "Email or password is incorrect") {
+        if (
+          error.response &&
+          error.response.data &&
+          error.response.data.message === 'Email or password is incorrect'
+        ) {
           this.errorAlert('Email atau Password salah');
+        } else if (
+          error.response &&
+          error.response.data &&
+          error.response.data.message === 'Email not verified'
+        ) {
+          this.errorVerifiedAlert('Email belum terverifikasi, lakukan verifikasi dengan klik link yang dikirimkan ke email anda. Jika belum menerima email, silahkan kirim ulang klik tombol kirim ulang');
         } else {
           this.errorAlert('Terjadi kesalahan');
         }
@@ -79,25 +123,20 @@ export class LoginPage implements OnInit {
       .finally(() => {
         this.isLoading = false;
       });
-}
-
+  }
 
   saveToken(token: string) {
     localStorage.setItem('authToken', token);
   }
-  
+
   getToken(): string | null {
     return localStorage.getItem('authToken');
   }
 
-
   isFormValid() {
-    return (
-      !!this.formData.email &&
-      this.isEmailValid
-    );
+    return !!this.formData.email && this.isEmailValid;
   }
-  
+
   isEmailValid: boolean = true;
 
   validateEmail() {
@@ -117,6 +156,6 @@ export class LoginPage implements OnInit {
     this.formData.password = '';
     // if (localStorage.getItem('authToken')) {
     //   this.router.navigate(['/home']);
-    // } 
+    // }
   }
 }

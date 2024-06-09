@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TokenCheckService } from '../../token-check.service';
-// import { AuthService } from './auth.services';
+import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
 
 @Component({
   selector: 'app-sign-in',
@@ -20,22 +20,28 @@ export class SignInPage implements OnInit {
     this.router.navigateByUrl('login');
   }
 
-  ngOnInit() {
-    // this.tokenCheckService.checkTokenValidity()
-    //   .then((isValid) => {
-    //     console.log('Token validity:', isValid);
-    //     if (isValid) {
-    //       this.router.navigate(['/home']);
-    //     } 
-    //   })
-    //   .catch((error) => {
-    //     console.error('Error checking token validity:', error);
-    //   });
-    console.log(localStorage.getItem('authToken'));
-    
+  async ngOnInit() {
+    // Initialize Google Auth plugin
+
+    // Check if user is already authenticated
     if (localStorage.getItem('authToken')) {
       this.router.navigate(['/tab/tabs/home']);
     } 
+  }
+
+  async signInWithGoogle() {
+    try {
+      const googleUser = await GoogleAuth.signIn();
+      console.log('User:', googleUser);
+      // Lanjutkan dengan proses autentikasi di sini
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
+
+  async sendTokenToBackend(token: string) {
+    // Kirim token ke backend untuk verifikasi dan login
+    // Implementasi sesuai dengan kebutuhan backend Anda
   }
 
 }

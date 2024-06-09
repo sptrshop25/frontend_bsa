@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "792844258848",
+    "project_id": "bsa-courses",
+    "storage_bucket": "bsa-courses.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:792844258848:android:9b207267561b0e9b837645",
+        "android_client_info": {
+          "package_name": "io.ionic.starter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "792844258848-rq0s1llajr1seduqgt29cdv2tca6t7b3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCL_JToAguiPw0ITIq_FstG8bdCCNLDraU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "792844258848-rq0s1llajr1seduqgt29cdv2tca6t7b3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
