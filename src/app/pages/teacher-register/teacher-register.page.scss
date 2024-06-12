@@ -16,7 +16,7 @@ ion-buttons[slot="start"] {
   font-size: 1.2em;
   text-align: center;
   width: 100%;
-  font-family: "Times New Roman", Times, serif;
+  // font-family: "Times New Roman", Times, serif;
 }
 
 @media (min-width: 768px) {
@@ -28,7 +28,7 @@ ion-buttons[slot="start"] {
 ion-content{
   .riwayatpendidikan{
     font-size: 1.1em;
-    font-family: "Times New Roman", Times, serif;
+    // font-family: "Times New Roman", Times, serif;
     margin-top: 20px;
     margin-left: 20px;
   }
@@ -61,7 +61,7 @@ ion-content{
   .tombol{
     --ion-color-primary: #642DF4; 
     margin-left: 30px;
-    font-family: "Times New Roman", Times, serif;
+    // font-family: "Times New Roman", Times, serif;
   }
   .pengalaman{
     font-size: 1.1em;
@@ -90,22 +90,12 @@ ion-content{
     -ms-border-radius: 10px !important;
     -o-border-radius: 10px !important;
   }
-  .kembali {
+
+  .footer-toolbar {
     position: fixed;
     bottom: 0;
-    left: 20px;
-    --ion-color-primary: #642DF4;
-    font-family: "Times New Roman", Times, serif;
-    margin-bottom: 20px;
+    width: 100%;
   }
   
-  .lanjut {
-    position: fixed;
-    bottom: 0;
-    right: 20px;
-    --ion-color-primary: #642DF4;
-    font-family: "Times New Roman", Times, serif;
-    margin-bottom: 20px;
-  }
   
 }

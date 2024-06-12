@@ -1,0 +1,177 @@
+.contrainer {
+    background: linear-gradient(20deg, #e169ff, #ff72ec, #78d0ff);
+    width: 100%;
+    height: 10em;
+}
+
+.back {
+    width: 30px;
+    height: 30px;
+    margin-top: 7px;
+    margin-left: 7px;
+    color: white;
+}
+
+.contrainer-image {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.image {
+    width: 50px;
+    height: 50px;
+    border-radius: 30px;
+    margin-top: 10px;
+}
+
+.teacher-name{
+    margin-top: 10px;
+}
+
+.profile-stats {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  margin-top: 20px;
+  width: 100%;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+  width: 100px;
+}
+
+.stat ion-icon {
+  font-size: 20px;
+  margin-bottom: 5px;
+}
+
+.stat p {
+  margin: 0;
+  text-align: center;
+  font-size: 12px;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+  }
+  
+  ion-toolbar {
+    --background: #fff;
+    --border-radius: 10px;
+    --box-shadow: 0 2px 4px rgba(37, 33, 33, 0.1);
+  }
+  
+  ion-searchbar {
+    flex: 1;
+    --background: #fff;
+    --border-radius: 10px;
+    --box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  ion-avatar img {
+    border-radius: 50%;
+  }
+ 
+
+  .icon {
+    color: #8F00FF;
+  }
+
+  // @import "~bootstrap/dist/css/bootstrap.min.css";
+.centered-container {
+    width: 100%;
+    height: 50%;
+    display: flex;
+    overflow: hidden;
+    background: linear-gradient(to bottom right, 
+                            #8F00FF 20%, 
+                            #85B6FF 80%, 
+                            #A1EEFF 100%);
+}
+
+.title {
+    margin-top: 5%;
+    font-size: 17px;
+    font-weight: bold;
+    margin-left: 5%;
+    margin-bottom: 20px;
+}
+
+
+.div6 {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 17%;
+    height: 30%;
+}
+
+img {
+    margin-top: 10%;
+    width: 50%;
+}
+
+
+.div-card {
+    display: flex;
+    margin-top: 5px;
+    background-color: #4df3ff;
+}
+
+.Recommend-course {
+    margin-top: 3%;
+    margin-left: 5%;
+    font-size: 20px;
+    color: black;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.course {
+    margin-top: 0;
+    width: 40%;
+    height: 20%;
+    border: 1px solid #000000;
+}
+
+.card {
+    width: 50%;
+    height: 50%;
+}
+
+.text-menu {
+    font-size: 15px;
+    margin-top: 10px;
+    color: rgb(255, 255, 255) !important;
+}
+
+.container-scroll {
+    overflow-x: auto;
+    white-space: nowrap;
+    padding: 20px;
+  }
+
+  .carousel-row {
+    display: flex;
+    flex-wrap: nowrap;
+  }
+
+  .no-card .modal-wrapper {
+    background-color: transparent;
+    box-shadow: none;
+    border: none;
+  }
+  
+  .no-card .ion-page {
+    background-color: rgba(0, 0, 0, 0.5); /* Menambahkan latar belakang semi-transparan */
+  }

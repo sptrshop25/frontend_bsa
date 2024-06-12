@@ -56,7 +56,7 @@ export class TabKursusPage implements OnInit {
       }
     })
     .then((response) => {
-      console.log('Response:', response);
+      // console.log('Response:', response);
       this.groupedCourses = this.groupCoursesByCategory(response.data);
     })
     .catch((error) => {
@@ -73,16 +73,17 @@ export class TabKursusPage implements OnInit {
     const courseFree : any[] = [];
 
     courses.forEach(course => {
-      if (course.course_rating >= 3) {
+      
+      if (course.course_rating >= 4) {
         recommendedCourses.push(course);
       }
       if (course.course_is_free === 'yes') {
         courseFree.push(course);
       }
-      if (!groupedCourses[course.category_name]) {
-        groupedCourses[course.category_name] = [];
+      if (!groupedCourses[course.sub_category.category.category_name]) {
+        groupedCourses[course.sub_category.category.category_name] = [];
       }
-      groupedCourses[course.category_name].push(course);
+      groupedCourses[course.sub_category.category.category_name].push(course);
     });
 
     const groupedCoursesArray = Object.keys(groupedCourses).map(category => {

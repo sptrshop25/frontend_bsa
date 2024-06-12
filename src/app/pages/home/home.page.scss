@@ -1,0 +1,103 @@
+body {
+  font-family: Arial, sans-serif;
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  background-color: white;
+  padding: 10px;
+}
+
+.navbar .back {
+  margin-right: 20px;
+  font-size: 24px;
+  color: purple;
+  cursor: pointer;
+}
+
+.navbar .title {
+  flex-grow: 1;
+  font-size: 18px;
+  color: black;
+}
+
+.navbar .icon {
+  font-size: 24px;
+  color: rgb(165, 13, 221);
+  margin-left: 20px;
+  cursor: pointer;
+}
+
+.name-card {
+  background: linear-gradient(to bottom right, #6e1be3 20%, #8c5ad8 80%, #9863e5 100%)
+}
+
+.user-info {
+  color: white;
+  padding: 15px;
+  border-radius: 10px;
+}
+
+.logo-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+ion-icon {
+  margin-right: 5px;
+  width: 20px;
+  height: 20px;
+}
+
+.image {
+  border-radius: 50%;
+}
+
+.logo-section ion-img {
+  width: 50px;
+  height: 50px;
+  margin: 10px 0;
+}
+
+.qr-code {
+  width: 100px;
+  border-radius: 10% !important;
+  height: 100px;
+  -webkit-border-radius: 10% !important;
+  -moz-border-radius: 10% !important;
+  -ms-border-radius: 10% !important;
+  -o-border-radius: 10% !important;
+}
+
+.cetak-button {
+  background-color: #8024ff;
+  color: white;
+  width: 100px;
+  border-radius: 50%;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  /* Adds space between the grid items */
+}
+
+.grid-item {
+  background-color: #ccc;
+  border-radius: 10px;
+  text-align: center;
+  padding: 5px;
+}
+
+.stat-number {
+  font-size: 1em;
+  color: #6000C1;
+}
+
+.stat-label {
+  font-size: 8px;
+}

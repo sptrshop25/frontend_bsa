@@ -17,7 +17,8 @@ export class LoginPage implements OnInit {
     password: '',
   };
 
-  isLoading = false;
+  isButtonDisabled: boolean = false;
+  isLoading: boolean = false;
 
   constructor(
     private http: HttpClient,
@@ -72,22 +73,36 @@ export class LoginPage implements OnInit {
       message: messages,
       buttons: [
         {
+          text: 'Tutup',
+          role: 'cancel',
+          cssClass: 'secondary'
+        },
+        {
           text: 'Kirim Ulang',
-          handler: async () => {
-            try {
-              const response = await axios.post(`${environment.apiUrl}/resend/email`, {
-                email: this.formData.email
-              });
-              this.successAlert('Konfirmasi email berhasil dikirim ulang, cek email anda dan lakukan verifikasi lalu login kembali');
-            } catch (error) {
-              this.errorAlert('Gagal mengirim ulang email konfirmasi. Silakan coba lagi nanti.');
-            }
+          handler: () => {
+            this.resendConfirmationEmail();
           }
         }
       ]
     });
-  
+
     await alert.present();
+  }
+
+  async resendConfirmationEmail() {
+    this.isButtonDisabled = true;
+    this.isLoading = true;
+    try {
+      const response = await axios.post(`${environment.apiUrl}/resend/email`, {
+        email: this.formData.email
+      });
+      this.successAlert('Konfirmasi email berhasil dikirim ulang, cek email anda dan lakukan verifikasi lalu login kembali');
+    } catch (error) {
+      this.errorAlert('Gagal mengirim ulang email konfirmasi. Silakan coba lagi nanti.');
+    } finally {
+      this.isButtonDisabled = false;
+      this.isLoading = false;
+    }
   }
 
   register() {

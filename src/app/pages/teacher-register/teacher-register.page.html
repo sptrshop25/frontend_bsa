@@ -1,23 +1,34 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-icon name="arrow-back-outline"></ion-icon>
+  <ion-toolbar class="header-toolbar"> 
+    <ion-buttons slot="start"> 
+      <ion-back-button defaultHref="tab/tabs/profile"></ion-back-button> 
     </ion-buttons>
     <ion-title class="custom-title">Daftar Menjadi Pengajar</ion-title>
   </ion-toolbar>
 </ion-header>
-
 <ion-content>
   <p class="riwayatpendidikan">Riwayat Pendidikan</p>
-  <ion-input class="formgelarakademis"label="Gelar Akademis" label-placement="floating" fill="outline" placeholder="Enter text"></ion-input><br>
-  <ion-input class="formgelarakademis"label="Sekolah atau Universitas" label-placement="floating" fill="outline" placeholder="Enter text"></ion-input><br>
-  <ion-input class="formgelarakademis"label="Jurusan" label-placement="floating" fill="outline" placeholder="Enter text"></ion-input><br>
-  <ion-input class="formgelarakademis"label="Tahun Lulus" label-placement="floating" fill="outline" placeholder="Enter text"></ion-input><br>
-  <ion-button class="tombol" size="small">Tambah</ion-button><br><br>
+  <div *ngFor="let data of teacherData; let i = index">
+    <ion-input class="formgelarakademis" label="Gelar Akademis" label-placement="floating" fill="outline" placeholder="Enter text" [(ngModel)]="data.gelar"></ion-input><br>
+    <ion-input class="formgelarakademis" label="Sekolah atau Universitas" label-placement="floating" fill="outline" placeholder="Enter text" [(ngModel)]="data.sekolah"></ion-input><br>
+    <ion-input class="formgelarakademis" label="Jurusan" label-placement="floating" fill="outline" placeholder="Enter text" [(ngModel)]="data.jurusan"></ion-input><br>
+    <ion-input class="formgelarakademis" label="Tahun Lulus" label-placement="floating" fill="outline" placeholder="Enter text" [(ngModel)]="data.tahun"></ion-input><br>
+  </div>
+  <ion-button class="tombol" size="small" (click)="addPendidikan()">Tambah</ion-button><br><br>
   <p class="pengalaman">Pengalaman</p>
-  <ion-textarea class="formpengalaman"label="Gelar Akademis" label-placement="floating" fill="outline" placeholder="Enter text" size="big"></ion-textarea><br>
-  <ion-button class="tombol" size="small">Tambah</ion-button><br><br><br>
-  <ion-button class="kembali" fill="outline">Kembali</ion-button>
-  <ion-button class="lanjut" type="submit" >Lanjut</ion-button>
- 
+  <!-- Input Pengalaman -->
+  <div *ngFor="let pengalaman of pengalamanData; let i = index">
+    <ion-textarea class="formpengalaman" label="Pengalaman" label-placement="floating" fill="outline" placeholder="Enter text" size="big" [(ngModel)]="pengalamanData[i]"></ion-textarea><br>
+  </div>
+  <ion-button class="tombol" size="small" (click)="addPengalaman()">Tambah</ion-button><br><br><br>
 </ion-content>
+<ion-footer>
+  <ion-toolbar class="footer-toolbar p-1">
+    <ion-buttons slot="start">
+      <ion-button class="kembali rounded" fill="outline">Kembali</ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button style="background-color: #642DF4;" class="rounded" type="submit">Lanjut</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

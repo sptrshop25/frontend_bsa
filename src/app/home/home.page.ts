@@ -117,7 +117,7 @@ export class HomePage implements OnInit, AfterViewInit {
       }
     })
     .then((response) => {
-      console.log('Response:', response);
+      // console.log('Response:', response);
       this.groupedCourses = this.groupCoursesByCategory(response.data);
     })
     .catch((error) => {
@@ -133,7 +133,7 @@ export class HomePage implements OnInit, AfterViewInit {
       }
     })
     .then((response) => {
-      console.log('Response:', response);
+      // console.log('Response:', response);
       this.setName(response);
     })
     .catch((error) => {
@@ -147,10 +147,11 @@ export class HomePage implements OnInit, AfterViewInit {
   groupCoursesByCategory(courses: any[]): any[] {
     const groupedCourses: { [key: string]: any[] } = {};
     const recommendedCourses: any[] = [];
-    const courseFree : any[] = [];
 
     courses.forEach(course => {
-      if (course.course_rating > 4) {
+      // console.log(course);
+      
+      if (course.course_rating >= 4) {
         recommendedCourses.push(course);
       }
     });
@@ -161,6 +162,8 @@ export class HomePage implements OnInit, AfterViewInit {
     if (recommendedCourses.length > 0) {
       groupedCoursesArray.unshift({ category_name: 'Rekomendasi Kursus', courses: recommendedCourses });
     }
+    // console.log(recommendedCourses);
+    
 
     return groupedCoursesArray;
   }

@@ -101,6 +101,14 @@ export class TabProfilePage implements OnInit {
       this.is_teacher = response.data.user_teacher; 
     }
   }
+
+  manageCourse() {
+    this.router.navigate(['/manage-course']);
+  }
+
+  registerTeacher(){
+    this.router.navigate(['/teacher-register'])
+  }
   
   ngOnInit() {
     axios.post(`${environment.apiUrl}/info_user`, null, {

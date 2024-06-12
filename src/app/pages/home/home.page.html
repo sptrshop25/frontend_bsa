@@ -1,0 +1,119 @@
+<ion-header>
+  <div class="navbar">
+    <ion-back-button [style]="{color: 'purple'}" defaultHref="tab/tabs/profile"></ion-back-button>
+    <div class="title">Kelola Kursus Saya</div>
+    <div class="icon"><ion-icon slot="icon-only" name="settings-outline"></ion-icon></div>
+    <div class="icon"><ion-icon slot="icon-only" name="notifications-outline"></ion-icon></div>
+    <div class="icon"><ion-icon slot="icon-only" name="chatbubbles-outline"></ion-icon></div>
+  </div>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <button style="background-color: rgb(165, 13, 221); color: white; height: 40px; width: 80px; border-radius: 10px; align-items: center;"><ion-icon name="print-outline" style="text-align: center;"></ion-icon>cetak</button>
+  <ion-card [style]="{'border-radius': '10%'}">
+    <ion-grid>
+      <ion-row class="name-card">
+        <ion-col size="9" class="user-info">
+          <h6 style="font-size: 16px;">{{ name }}</h6>
+          <p style="font-size: 12px;">Guru Kursus</p>
+          <ion-icon name="call-outline"></ion-icon><span style="margin-top: -10px !important;">{{ no_hp }}</span><br>
+          <ion-icon [style]="{'top' : '5px'}" name="mail-outline"></ion-icon> <span>{{ email }}</span>
+        </ion-col>
+        <ion-col size="3" class="logo-section">
+          <img src="../../../../assets/img/bsa2.png" class="rounded-3 mt-1 w-50">
+          <img src="https://i.ibb.co.com/wNgPQX4/aswin-1.jpg" class="rounded-3 mt-5 mb-1 w-75">
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-card>
+  <div class="d-flex justify-content-center p-1">
+    <div class="card p-1 text-center w-100 rounded-4"
+      style="background-color: rgb(165, 13, 221); border-radius: none; font-size: 12px; width: 10px; height: 70px;">
+      <div class="row">
+        <div class="col-5" style="text-align: center;">
+          <h2 class="text-light mt-2 ms-4" style="font-size: 15px;">Rp 1.300.000</h2>
+          <p class="text-light mt-2 ms-4">Sedang diproses</p>
+        </div>
+        <div class="col-1">
+          <div class="ms-3 mt-1" style="background-color: #fff; width: 2px;
+          height: 50px; align-items: center;"></div>
+        </div>
+        <div class="col-5" style="text-align: center;">
+          <h2 class="text-light mt-2 ms-4" style="font-size: 15px;">Rp 50.000</h2>
+          <p class="text-light ms-4">Dapat ditarik</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p style="font-size: 20px;">Statistik Kursus</p>
+  <div class="card" style="background-color: #FAFAFA;">
+    <div class="card-body">
+      <div class="grid-container">
+        <div class="grid-item">
+          <div class="stat-number">{{count_courses}}</div>
+          <div class="stat-label">Jumlah Kursus</div>
+        </div>
+        <div class="grid-item">
+          <div class="stat-number">0</div>
+          <div class="stat-label">Jumlah Pelajar</div>
+        </div>
+        <div class="grid-item">
+          <div class="stat-number">{{average_rating}}</div>
+          <div class="stat-label">Rating</div>
+        </div>
+        <div class="grid-item">
+          <div class="stat-number">12</div>
+          <div class="stat-label">Peringkat</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="3" size-md="2">
+        <ion-card-content>
+          <div class="icon-container">
+            <div
+              style="align-items: center; display: flex; flex-direction: column; text-align: center; width: 50px; height: 50px;">
+              <img src="../../../../assets/img/course-management.png" alt="" style="width: 50px; height: 50px;">
+              <p style="font-size: 11px;">Manajemen Kursus</p>
+            </div>
+          </div>
+        </ion-card-content>
+      </ion-col>
+      <ion-col size="3" size-md="2">
+        <ion-card-content>
+          <div class="icon-container">
+            <div
+              style="align-items: center; display: flex; flex-direction: column; text-align: center; width: 50px; height: 50px;">
+              <img src="../../../../assets/img/Course-performance.png" alt="" style="width: 50px; height: 50px;">
+              <p style="font-size: 11px;">Performa Kursus</p>
+            </div>
+          </div>
+        </ion-card-content>
+      </ion-col>
+      <ion-col size="3" size-md="2">
+        <ion-card-content>
+          <div class="icon-container">
+            <div
+              style="align-items: center;display: flex; flex-direction: column; text-align: center; width: 50px; height: 50px;">
+              <img src="../../../../assets/img/course-student.png" alt="" style="width: 50px; height: 50px;">
+              <p style="font-size: 11px;">Manajemen Pelajar</p>
+            </div>
+          </div>
+        </ion-card-content>
+      </ion-col>
+      <ion-col size="3" size-md="2">
+        <ion-card-content>
+          <div class="icon-container">
+            <div
+              style="align-items: center; display: flex; flex-direction: column; text-align: center; width: 50px; height: 50px;">
+              <img src="../../../../assets/img/course-information.png" alt="" style="width: 50px; height: 50px;">
+              <p style="font-size: 11px;">Informasi Kursus</p>
+            </div>
+          </div>
+        </ion-card-content>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

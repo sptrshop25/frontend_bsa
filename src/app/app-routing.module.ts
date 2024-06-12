@@ -72,6 +72,10 @@ const routes: Routes = [
   {
     path: 'hasil-cari',
     loadChildren: () => import('./pages/hasil-cari/hasil-cari.module').then( m => m.HasilCariPageModule)
+  },
+  {
+    path: 'manage-course',
+    loadChildren: () => import('./pages/home/home.module').then( m => m.HomePageModule)
   }
 ];
 @NgModule({
