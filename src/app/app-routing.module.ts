@@ -76,6 +76,14 @@ const routes: Routes = [
   {
     path: 'manage-course',
     loadChildren: () => import('./pages/home/home.module').then( m => m.HomePageModule)
+  },
+  {
+    path: 'verification-forgot-password',
+    loadChildren: () => import('./authentication/verification-forgot-password/verification-forgot-password.module').then( m => m.VerificationForgotPasswordPageModule)
+  },
+  {
+    path: 'forgot-password',
+    loadChildren: () => import('./authentication/verification-forgot-password/verification-forgot-password.module').then( m => m.VerificationForgotPasswordPageModule)
   }
 ];
 @NgModule({

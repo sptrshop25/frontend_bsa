@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import axios from 'axios';
 import { environment } from 'src/environments/environment';
+import html2canvas from 'html2canvas';
+import { saveAs } from 'file-saver';
+import * as QRCode from 'qrcode';
 
 @Component({
   selector: 'app-home',
@@ -15,8 +18,9 @@ export class HomePage implements OnInit {
   no_hp: string = '';
   email: string = '';
   count_courses: number = 0;
-  average_rating: number = 0; // Mengganti nama variabel untuk lebih jelas
+  average_rating: number = 0; 
   isLoading: boolean = false;
+  qrCodeImageUrl: string = '';
 
   setName(response: any = null) { 
     if (response && response.data.user_name) { 
@@ -50,7 +54,39 @@ export class HomePage implements OnInit {
     }
   }
 
+  handleRefresh(event: any) {
+    setTimeout(() => {
+      event.target.complete();
+      location.reload();
+    }, 2000);
+  }
+
+  async generateQRCode() {
+    try {
+      const qrText = `Nama: ${this.name}, Email: ${this.email}`;
+      const qrImageBase64 = await QRCode.toDataURL(qrText);
+      this.qrCodeImageUrl = qrImageBase64;
+      console.log(qrText);
+    } catch (error) {
+      console.error('Gagal membuat QR Code', error);
+    }
+  }
+
+  captureCard() {
+    const cardElement = document.getElementById('cardToCapture');
+    if (cardElement) {
+      html2canvas(cardElement).then(canvas => {
+        canvas.toBlob(blob => {
+          if (blob) {
+            saveAs(blob, 'card-image.png');
+          }
+        });
+      });
+    }
+  }
+
   ngOnInit() {
+
     this.isLoading = true;
 
     axios.post(`${environment.apiUrl}/info_user`, null, {
@@ -63,6 +99,7 @@ export class HomePage implements OnInit {
       this.setName(response);
       this.setNoHp(response);
       this.setEmail(response);
+      this.generateQRCode();
     })
     .catch((error) => {
       console.log('Error:', error);

@@ -9,10 +9,15 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <button style="background-color: rgb(165, 13, 221); color: white; height: 40px; width: 80px; border-radius: 10px; align-items: center;"><ion-icon name="print-outline" style="text-align: center;"></ion-icon>cetak</button>
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <button (click)="captureCard()" style="background-color: rgb(165, 13, 221); color: white; height: 40px; width: 80px; border-radius: 10px; align-items: center;">
+    <ion-icon name="print-outline" style="text-align: center;"></ion-icon>cetak
+  </button>
   <ion-card [style]="{'border-radius': '10%'}">
     <ion-grid>
-      <ion-row class="name-card">
+      <ion-row id="cardToCapture" class="name-card">
         <ion-col size="9" class="user-info">
           <h6 style="font-size: 16px;">{{ name }}</h6>
           <p style="font-size: 12px;">Guru Kursus</p>
@@ -21,7 +26,7 @@
         </ion-col>
         <ion-col size="3" class="logo-section">
           <img src="../../../../assets/img/bsa2.png" class="rounded-3 mt-1 w-50">
-          <img src="https://i.ibb.co.com/wNgPQX4/aswin-1.jpg" class="rounded-3 mt-5 mb-1 w-75">
+          <img *ngIf="qrCodeImageUrl" [src]="qrCodeImageUrl" class="rounded-3 mt-5 mb-1 w-75">
         </ion-col>
       </ion-row>
     </ion-grid>

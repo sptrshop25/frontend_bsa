@@ -22,8 +22,9 @@
         [name]="showPassword ? 'eye-outline' : 'eye-off-outline'" 
         (click)="togglePasswordVisibility()">
       </ion-icon></ion-input>
-      <div class="float-end me-4 mt-2 mb-2">
-        <ion-checkbox [name]="showPassword ? 'eye-outline' : 'eye-off-outline'" (click)="togglePasswordVisibility()" class="show-password-checkbox" id="show-password" labelPlacement="end">Show Password</ion-checkbox>
+      <div class="ms-4 me-4 mt-2 mb-2">
+        <ion-checkbox [name]="showPassword ? 'eye-outline' : 'eye-off-outline'" (click)="togglePasswordVisibility()" class="show-password-checkbox float-start" id="show-password" labelPlacement="end">Show Password</ion-checkbox>
+        <a class="forgot-password float-end" [routerLink]="['/forgot-password']">Lupa kata sandi?</a>
       </div>
     </div>
     <br>
