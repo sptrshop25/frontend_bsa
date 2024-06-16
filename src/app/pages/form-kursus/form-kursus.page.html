@@ -1,0 +1,147 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-icon name="arrow-back-outline"></ion-icon>
+    </ion-buttons>
+    <ion-title>tambah kursus</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item>
+      <ion-input label="Judul Kursus" labelPlacement="floating" placeholder="masukan Judul kursus"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-select label="Tingkatan" label-placement="floating">
+        <ion-select-option value="Pemula">Pemula</ion-select-option>
+        <ion-select-option value="Menengah">Menengah</ion-select-option>
+        <ion-select-option value="Ahli">Ahli</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-select label="Bidang" label-placement="floating">
+        <ion-select-option value="Software Development">Software Development</ion-select-option>
+        <ion-select-option value="Data & Analytics">Data & Analytics</ion-select-option>
+        <ion-select-option value="Marketing">Marketing</ion-select-option>
+        <ion-select-option value="Design">Design</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-select label="Sub Bidang" label-placement="floating">
+        <ion-select-option value="Game Developer">Game Developer</ion-select-option>
+        <ion-select-option value="Web Developer">Web Developer</ion-select-option>
+        <ion-select-option value="Android Developer">Android Developer</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-input type="file" label="Banner Kursus" labelPlacement="floating" placeholder="masukan Banner Kursus"></ion-input>
+    </ion-item>
+
+    <p class="SyaratKursus">Syarat Kursus</p>
+    <ion-item class="syarat">
+      <ion-input label="Syarat Kursus" labelPlacement="floating" placeholder="masukan Judul kursus"></ion-input>
+      <ion-button fill="clear">
+        <ion-icon slot="end" name="trash"></ion-icon>
+      </ion-button>
+    </ion-item>
+    <ion-button class="tombol" size="small">Tambah</ion-button>
+
+    <ion-item>
+      <ion-textarea label="Deskripsi" labelPlacement="floating" placeholder="Masukan Deskripsi"></ion-textarea>
+    </ion-item>
+     
+  </ion-list>
+
+  <ion-list>
+    <ion-radio-group>
+      <ion-list-header>
+        <ion-label>Pilih Jenis Langganan</ion-label>
+      </ion-list-header>
+
+      <ion-radio-group class="langganan" value="strawberries">
+        <ion-radio class="unlimited" value="unlimited" labelPlacement="end">unlimited</ion-radio><br />
+        <ion-radio class="limited" value="limited" labelPlacement="end">limited</ion-radio><br />
+      </ion-radio-group>
+
+    </ion-radio-group>
+
+    <div>
+      <ion-item>
+        <ion-label position="floating">Masukkan Jumlah Bulan</ion-label>
+        <ion-input type="number"></ion-input>
+      </ion-item>
+    </div>
+  </ion-list>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-item>
+        <ion-input label="Bab 1" labelPlacement="floating" placeholder="masukan judul bab"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input label="sub Bab 1" labelPlacement="floating" placeholder="masukan judul sub bab"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input label="materi 1" type="file" labelPlacement="floating" placeholder="masukan konten"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-textarea label="Deskripsi pelajaran" labelPlacement="floating" placeholder="masukan Deskripsi pelajaran"></ion-textarea>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-button fill="outline" >Simpan</ion-button>
+        <ion-button class="hapus" fill="outline" color="danger">Hapus</ion-button>
+      </ion-item>
+    </ion-card-header>
+  
+    <!-- <ion-card-content>
+      <ion-accordion-group [multiple]="true">
+        <ion-accordion value="pendahuluan">
+          <ion-item slot="header">
+            <ion-label>Pendahuluan</ion-label>
+            <ion-button fill="clear">
+              <ion-icon slot="end" name="pencil-outline"></ion-icon>
+            </ion-button>
+            <ion-button slot="end" fill="clear" class="trash-button">
+              <ion-icon name="trash"></ion-icon>
+            </ion-button>
+          </ion-item>
+          <div slot="content">
+            <ion-list>
+              <div class="video-container">
+                <ion-thumbnail>
+                  <img src="../../../assets/img/BSA.png" alt="Video Thumbnail">
+                </ion-thumbnail>
+                <ion-label>ssstik.io_1692216335736.mp4</ion-label>
+                <ion-note>01:00</ion-note>
+                <div>
+                  <ion-button fill="outline" slot="start">ganti</ion-button>
+                </div>
+              </div>
+        
+              <ion-item>
+                <ion-label position="floating">Deskripsi Pelajaran</ion-label>
+                <ion-textarea></ion-textarea>
+              </ion-item>
+        
+              <ion-item lines="none">
+                <ion-button expand="block" color="primary">Simpan</ion-button>
+                <ion-button expand="block" color="light">Batal</ion-button>
+              </ion-item>
+            </ion-list>
+          </div>
+        </ion-accordion>
+      </ion-accordion-group>
+      <div>
+        <ion-button slot="start">Tambah</ion-button>
+      </div>
+    </ion-card-content> -->
+  </ion-card>
+  <div>
+    <ion-button class="tambah">tambah</ion-button>
+    <ion-button class="hapus" fill="outline" >hapus</ion-button>
+  </div>
+
+
+</ion-content>
+

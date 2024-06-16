@@ -1,0 +1,26 @@
+ion-toolbar {
+  --background: #fff;
+  --color: #000;
+}
+
+ion-title {
+  font-size: 24px;
+  font-family: "Times New Roman", Times, serif;
+}
+
+
+.notification-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.notification-card {
+  ion-label{
+    font-family: "Times New Roman", Times, serif;
+  }
+}
+
+ion-label{
+  font-family: "Times New Roman", Times, serif;
+}

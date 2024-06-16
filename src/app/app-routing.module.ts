@@ -84,6 +84,14 @@ const routes: Routes = [
   {
     path: 'forgot-password',
     loadChildren: () => import('./authentication/verification-forgot-password/verification-forgot-password.module').then( m => m.VerificationForgotPasswordPageModule)
+  },
+  {
+    path: 'reset-password',
+    loadChildren: () => import('./authentication/reset-password/reset-password.module').then( m => m.ResetPasswordPageModule)
+  },
+  {
+    path: 'reset-password',
+    loadChildren: () => import('./authentication/reset-password/reset-password.module').then( m => m.ResetPasswordPageModule)
   }
 ];
 @NgModule({

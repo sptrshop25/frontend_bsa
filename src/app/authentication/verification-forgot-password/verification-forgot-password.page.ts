@@ -13,37 +13,19 @@ import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
 export class VerificationForgotPasswordPage implements OnInit {
   formData = {
     email: '',
-    password: '',
+    otp: '',
   };
-
   isButtonDisabled: boolean = false;
   isLoading: boolean = false;
+  showOtpError: boolean = false;
+  showEmailError: boolean = false;
+  countdown: number = 0;
+  countdownInterval: any;
 
   constructor(
     private alertController: AlertController,
     private router: Router
   ) {}
-
-  async presentAlert() {
-    let countdown = 3;
-    const alert = await this.alertController.create({
-      header: 'Login Berhasil',
-      message: `Akan dialihkan ke halaman home dalam ${countdown} detik.`,
-      buttons: [],
-    });
-
-    await alert.present();
-
-    const interval = setInterval(() => {
-      countdown--;
-      alert.message = `Akan dialihkan ke halaman home dalam ${countdown} detik.`;
-      if (countdown === 0) {
-        clearInterval(interval);
-        alert.dismiss();
-        this.router.navigate(['/tab/tabs/home']);
-      }
-    }, 1000);
-  }
 
   async errorAlert(messages?: string) {
     const alert = await this.alertController.create({
@@ -65,70 +47,49 @@ export class VerificationForgotPasswordPage implements OnInit {
     await alert.present();
   }
 
-  async errorVerifiedAlert(messages?: string) {
-    const alert = await this.alertController.create({
-      header: 'Gagal',
-      message: messages,
-      buttons: [
-        {
-          text: 'Tutup',
-          role: 'cancel',
-          cssClass: 'secondary'
-        },
-        {
-          text: 'Kirim Ulang',
-          handler: () => {
-            this.resendConfirmationEmail();
+  sendOtp() {
+    axios
+      .post(`${environment.apiUrl}/request/reset-password`, this.formData)
+      .then((response) => {
+        this.startCountdown();
+      })
+      .catch((error) => {
+        if (error.response && error.response.data) {
+          if (error.response.data.message === 'Email not found') {
+            this.showEmailError = true;
           }
+        } else {
+          this.errorAlert('Terjadi kesalahan');
         }
-      ]
-    });
-
-    await alert.present();
-  }
-
-  async resendConfirmationEmail() {
-    this.isButtonDisabled = true;
-    this.isLoading = true;
-    try {
-      const response = await axios.post(`${environment.apiUrl}/resend/email`, {
-        email: this.formData.email
       });
-      this.successAlert('Konfirmasi email berhasil dikirim ulang, cek email anda dan lakukan verifikasi lalu login kembali');
-    } catch (error) {
-      this.errorAlert('Gagal mengirim ulang email konfirmasi. Silakan coba lagi nanti.');
-    } finally {
-      this.isButtonDisabled = false;
-      this.isLoading = false;
-    }
   }
 
-  register() {
+  startCountdown() {
+    this.countdown = 60;
+    this.countdownInterval = setInterval(() => {
+      if (this.countdown > 0) {
+        this.countdown--;
+      } else {
+        clearInterval(this.countdownInterval);
+      }
+    }, 1000);
+  }
+
+  validateOtp() {
     this.isLoading = true;
     axios
-      .post(`${environment.apiUrl}/login`, this.formData)
+      .post(`${environment.apiUrl}/verify_otp`, this.formData)
       .then((response) => {
-        console.log('Response:', response);
-
-        if (response.data.Token) {
-          this.saveToken(response.data.Token);
-          localStorage.setItem('userId', response.data.UserId);
-        }
-        this.presentAlert();
+        localStorage.setItem('otp', response.data.otp);
+        this.router.navigate(['/reset-password']);
       })
       .catch((error) => {
         if (
           error.response &&
           error.response.data &&
-          error.response.data.message === 'Email or password is incorrect'
+          error.response.data.message === 'Wrong otp'
         ) {
-          this.errorAlert('Email atau Password salah');
-        } else if (
-          error.response &&
-          error.response.data &&
-          error.response.data.message === 'Email not verified'
-        ) {
-          this.errorVerifiedAlert('Email belum terverifikasi, lakukan verifikasi dengan klik link yang dikirimkan ke email anda. Jika belum menerima email, silahkan kirim ulang klik tombol kirim ulang');
+        this.showOtpError = true;
         } else {
           this.errorAlert('Terjadi kesalahan');
         }
@@ -138,35 +99,30 @@ export class VerificationForgotPasswordPage implements OnInit {
       });
   }
 
-  saveToken(token: string) {
-    localStorage.setItem('authToken', token);
-  }
-
-  getToken(): string | null {
-    return localStorage.getItem('authToken');
-  }
-
   isFormValid() {
-    return !!this.formData.email && this.isEmailValid;
+    return !!this.formData.email && this.isEmailValid && this.formData.otp;
+  }
+
+  isOtpValid() {
+    return !!this.formData.otp;
+  }
+
+  isEmailValided() {
+    return this.isEmailValid && !!this.formData.email;
   }
 
   isEmailValid: boolean = true;
 
   validateEmail() {
+    this.showEmailError = false;
     const email = this.formData.email;
     const emailCriteria = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     this.isEmailValid = emailCriteria.test(email);
   }
 
-  showPassword: boolean = false;
-
-  togglePasswordVisibility() {
-    this.showPassword = !this.showPassword;
-  }
-
   ngOnInit() {
     this.formData.email = '';
-    this.formData.password = '';
+    this.formData.otp = '';
     // if (localStorage.getItem('authToken')) {
     //   this.router.navigate(['/home']);
     // }

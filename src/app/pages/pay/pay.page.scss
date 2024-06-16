@@ -1,0 +1,35 @@
+ion-header{
+    ion-toolbar{
+        ion-title{
+            font-family: 'times new roman', 'Arial Narrow', Arial, sans-serif;
+        }
+    }
+}
+
+ion-list {
+    background: #fff; /* Set list background color to white */
+    margin: 5px;
+    border-radius: 8px;
+    padding: 5px;
+    font-family: 'times new roman', 'Arial Narrow', Arial, sans-serif;
+  }
+  
+  .payment-icon {
+    height: 24px;
+    width: 24px;
+    margin-right: 8px;
+    vertical-align: middle;
+  }
+  
+  ion-label {
+    display: flex;
+    align-items: center;
+  }
+
+
+  
+  .checkout-button {
+    --background: #800fff; /* Set button background color to purple */
+    margin: 16px;
+    border-radius: 50px;
+  }

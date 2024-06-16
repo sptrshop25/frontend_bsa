@@ -1,0 +1,47 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-icon name="arrow-back-outline"></ion-icon>
+    </ion-buttons>
+    <ion-title>Payment</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-radio-group>
+      <ion-list-header>
+        <ion-label>pilih metode pembayaran</ion-label>
+      </ion-list-header>
+
+      <ion-item>
+        <ion-label>
+          <img src="../../../assets/img/paypal.png" class="payment-icon" alt="PayPal">
+          Paypal
+        </ion-label>
+        <ion-radio labelPlacement="end" value="paypal" checked></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>
+          <img src="../../../assets/img/mandiri.png" class="payment-icon" alt="PayPal">
+          Livin by Mandiri
+        </ion-label>
+        <ion-radio labelPlacement="end" value="mandiri" checked></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>
+          <img src="../../../assets/img/brimo.png" class="payment-icon" alt="BRImo">
+          BRImo
+        </ion-label>
+        <ion-radio labelPlacement="end" value="brimo"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+  </ion-list>
+</ion-content>
+
+<ion-footer>
+  
+  <ion-button expand="block" class="checkout-button">checkout now</ion-button>
+</ion-footer>
