@@ -3,7 +3,8 @@ import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { FilterModalPage } from '../filter-modal/filter-modal.page';
 import axios from 'axios';
-import { environment } from '../../environments/environment';
+import { environment }
+ from '../../environments/environment';
 
 interface Course {
   course_id: string;

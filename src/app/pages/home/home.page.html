@@ -3,8 +3,8 @@
     <ion-back-button [style]="{color: 'purple'}" defaultHref="tab/tabs/profile"></ion-back-button>
     <div class="title">Kelola Kursus Saya</div>
     <div class="icon"><ion-icon slot="icon-only" name="settings-outline"></ion-icon></div>
-    <div class="icon"><ion-icon slot="icon-only" name="notifications-outline"></ion-icon></div>
-    <div class="icon"><ion-icon slot="icon-only" name="chatbubbles-outline"></ion-icon></div>
+    <!-- <div class="icon"><ion-icon slot="icon-only" name="notifications-outline"></ion-icon></div>
+    <div class="icon"><ion-icon slot="icon-only" name="chatbubbles-outline"></ion-icon></div> -->
   </div>
 </ion-header>
 
@@ -36,7 +36,7 @@
       style="background-color: rgb(165, 13, 221); border-radius: none; font-size: 12px; width: 10px; height: 70px;">
       <div class="row">
         <div class="col-5" style="text-align: center;">
-          <h2 class="text-light mt-2 ms-4" style="font-size: 15px;">Rp 1.300.000</h2>
+          <h2 class="text-light mt-2 ms-4" style="font-size: 15px;">{{pending_balance | currencyFormat}}</h2>
           <p class="text-light mt-2 ms-4">Sedang diproses</p>
         </div>
         <div class="col-1">
@@ -44,7 +44,7 @@
           height: 50px; align-items: center;"></div>
         </div>
         <div class="col-5" style="text-align: center;">
-          <h2 class="text-light mt-2 ms-4" style="font-size: 15px;">Rp 50.000</h2>
+          <h2 class="text-light mt-2 ms-4" style="font-size: 15px;">{{balance | currencyFormat}}</h2>
           <p class="text-light ms-4">Dapat ditarik</p>
         </div>
       </div>
@@ -67,7 +67,7 @@
           <div class="stat-label">Rating</div>
         </div>
         <div class="grid-item">
-          <div class="stat-number">12</div>
+          <div class="stat-number">0</div>
           <div class="stat-label">Peringkat</div>
         </div>
       </div>

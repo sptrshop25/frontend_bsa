@@ -67,14 +67,14 @@ export class TabProfilePage implements OnInit {
   }
 
   setName(response: any = null) {
-    if (response && response.data.user_name) { 
-      this.name = response.data.user_name; 
+    if (response && response.data.data_user.user_name) { 
+      this.name = response.data.data_user.user_name; 
     }
   }
 
   setPhone(response: any = null) {
-    if (response && response.data.user_phone_number) { 
-      this.phone = response.data.user_phone_number; 
+    if (response && response.data.data_user.user_phone_number) { 
+      this.phone = response.data.data_user.user_phone_number; 
     }
   }
 
@@ -85,8 +85,8 @@ export class TabProfilePage implements OnInit {
   }
 
   setNickname(response: any = null) {
-    if (response && response.data.user_nickname) { 
-      this.nickname = response.data.user_nickname; 
+    if (response && response.data.data_user.user_nickname) { 
+      this.nickname = response.data.data_user.user_nickname; 
     }
   }
 

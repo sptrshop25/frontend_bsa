@@ -1,14 +1,10 @@
 <ion-header>
   <ion-toolbar>
     <div class="search-container">
-      <ion-buttons slot="start">
-        <ion-button>
-          <ion-icon class="icon" name="arrow-back-outline"></ion-icon>
-        </ion-button>
+      <ion-buttons slot="start"> 
+        <ion-back-button defaultHref="search-course"></ion-back-button> 
       </ion-buttons>
-      <ion-searchbar placeholder="cari kursus" animated>
-        <ion-icon name="search" slot="start"></ion-icon>
-      </ion-searchbar>
+      <ion-searchbar placeholder="cari kursus" animated [value]="query" (ionInput)="search()"></ion-searchbar>
       <ion-buttons slot="end">
         <ion-icon class="icon" name="filter-outline"></ion-icon>
       </ion-buttons>
@@ -17,67 +13,28 @@
 </ion-header>
 
 <ion-content>
-  <ion-list>
-    <ion-item>
-      <ion-avatar slot="start">
-        <ion-img src="../../../assets/img/bsa2.png"></ion-img>
-      </ion-avatar>
+  <ion-list *ngIf="searchResults.length > 0; else noResults">
+    <ion-item *ngFor="let course of searchResults">
       <ion-label>
-        <h2>Nama Pengajar</h2>
-        <p>100 peserta - 4.5 ★</p>
+        <ion-img src="{{ course.course_image }}"></ion-img>
+        <div class="row">
+          <div class="col-2">
+            <ion-avatar slot="start">
+              <ion-img class="w-50 h-50 mt-4" src="../../../assets/img/bsa2.png"></ion-img>
+            </ion-avatar>
+          </div>
+          <div class="col-10">
+            <h2 class="mt-3">{{ course.course_title }}</h2>
+            <p>{{ course.teacher.user_name }} - {{ course.course_rating ? course.course_rating + ' ★' : 'belum diulas' }}</p>
+          </div>
+        </div>
       </ion-label>
     </ion-item>
-
-    <ion-card>
-      <ion-img src="../../../assets/img/pappap.avif"></ion-img>
-      <ion-item>
-        <ion-avatar slot="start">
-          <ion-img src="../../../assets/img/bsa2.png"></ion-img>
-        </ion-avatar>
-        <ion-label>
-          <h2>Judul Kursus Judul Kursus Judul Kursus</h2>
-          <p>Nama pengajar - 3 ★</p>
-        </ion-label>
-      </ion-item>
-    </ion-card>
-
-
-    <ion-card>
-      <ion-img src="../../../assets/img/pappap.avif"></ion-img>
-      <ion-item>
-        <ion-avatar slot="start">
-          <ion-img src="../../../assets/img/bsa2.png"></ion-img>
-        </ion-avatar>
-        <ion-label>
-          <h2>Nama Pengajar</h2>
-          <p>Nama pengajar - 4.9 ★</p>
-        </ion-label>
-      </ion-item>
-    </ion-card>
-
-
-
-
-<ion-footer>
-  <ion-tab-bar slot="bottom">
-    <ion-tab-button tab="home">
-      <ion-icon name="home"></ion-icon>
-      <ion-label>Home</ion-label>
-    </ion-tab-button>
-
-    <ion-tab-button tab="kursus">
-      <ion-icon name="book"></ion-icon>
-      <ion-label>Kursus</ion-label>
-    </ion-tab-button>
-
-    <ion-tab-button tab="history">
-      <ion-icon name="time"></ion-icon>
-      <ion-label>History</ion-label>
-    </ion-tab-button>
-
-    <ion-tab-button tab="profile">
-      <ion-icon name="person"></ion-icon>
-      <ion-label>Profile</ion-label>
-    </ion-tab-button>
-  </ion-tab-bar>
-</ion-footer>
+  </ion-list>
+  
+  <ng-template #noResults>
+    <div class="no-results">
+      <p>Hasil "{{ query }}" tidak ditemukan, ubah kata kunci dan coba cari kembali.</p>
+    </div>
+  </ng-template>
+</ion-content>

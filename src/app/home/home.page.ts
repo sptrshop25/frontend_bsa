@@ -83,7 +83,7 @@ export class HomePage implements OnInit, AfterViewInit {
     const waktu = new Date();
     const jam = waktu.getHours();
 
-    if (jam >= 0 && jam < 10) {
+    if (jam >= 5 && jam < 10) {
       this.salam = 'Selamat Pagi';
     } else if (jam >= 10 && jam < 15) {
       this.salam = 'Selamat Siang';
@@ -95,8 +95,8 @@ export class HomePage implements OnInit, AfterViewInit {
   }
 
   setName(response: any = null) {
-    if (response && response.data.user_name) { 
-      this.name = response.data.user_name; 
+    if (response && response.data.data_user.user_name) { 
+      this.name = response.data.data_user.user_name; 
     }
   }
 

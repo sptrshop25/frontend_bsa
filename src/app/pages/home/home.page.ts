@@ -21,22 +21,36 @@ export class HomePage implements OnInit {
   average_rating: number = 0; 
   isLoading: boolean = false;
   qrCodeImageUrl: string = '';
+  balance: number = 0;
+  pending_balance: number = 0;
 
   setName(response: any = null) { 
-    if (response && response.data.user_name) { 
-      this.name = response.data.user_name; 
+    if (response && response.data.data_user.user_name) { 
+      this.name = response.data.data_user.user_name; 
     }
   }
 
   setNoHp(response: any = null) { 
-    if (response && response.data.user_phone_number) { 
-      this.no_hp = response.data.user_phone_number; 
+    if (response && response.data.data_user.user_phone_number) { 
+      this.no_hp = response.data.data_user.user_phone_number; 
+    }
+  }
+
+  setBalance(response: any = null) { 
+    if (response && response.data.balance) { 
+      this.balance = response.data.balance; 
+    }
+  }
+
+  setPendingBalance(response: any = null) { 
+    if (response && response.data.pb_balance) { 
+      this.pending_balance = response.data.pb_balance; 
     }
   }
 
   setEmail(response: any = null) { 
-    if (response && response.data.email) { 
-      this.email = response.data.email; 
+    if (response && response.data.data_user.user.email) { 
+      this.email = response.data.data_user.user.email; 
     }
   }
 
@@ -89,16 +103,17 @@ export class HomePage implements OnInit {
 
     this.isLoading = true;
 
-    axios.post(`${environment.apiUrl}/info_user`, null, {
+    axios.get(`${environment.apiUrl}/info_teacher`, {
       headers: {
         Authorization: `${localStorage.getItem('authToken')}`
       }
     })
     .then((response) => {
-      // console.log('Response:', response);
       this.setName(response);
       this.setNoHp(response);
       this.setEmail(response);
+      this.setBalance(response);
+      this.setPendingBalance(response);
       this.generateQRCode();
     })
     .catch((error) => {

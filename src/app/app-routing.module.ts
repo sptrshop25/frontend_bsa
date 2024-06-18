@@ -92,7 +92,12 @@ const routes: Routes = [
   {
     path: 'reset-password',
     loadChildren: () => import('./authentication/reset-password/reset-password.module').then( m => m.ResetPasswordPageModule)
+  },
+  {
+    path: 'detail-course',
+    loadChildren: () => import('./pages/detail-kursus/detail-kursus.module').then( m => m.DetailKursusPageModule)
   }
+  
 ];
 @NgModule({
   schemas: [CUSTOM_ELEMENTS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],

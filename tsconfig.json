@@ -4,7 +4,8 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
-      "@ionic/storage-angular": ["node_modules/@ionic/storage-angular"]
+      "@ionic/storage-angular": ["node_modules/@ionic/storage-angular"],
+      "@ionic/angular": ["node_modules/@ionic/angular/dist/index.d.ts"]
     },
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
