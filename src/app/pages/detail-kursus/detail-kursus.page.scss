@@ -7,7 +7,7 @@ ion-header{
 
       }
       ion-title{
-        font-family: 'Times New Roman', Times, serif;
+        // font-family: 'Times New Roman', Times, serif;
       }
       ion-buttons{
         .hati{
@@ -32,14 +32,11 @@ ion-header{
 
 
 ion-content {
-  font-family: 'Times New Roman', Times, serif;
     .banner {
       text-align: center;
       img {
         width: 100%;
         height: auto;
-        margin-right: 15px;
-        margin-left: 15px;
       }
     }
   
@@ -152,9 +149,9 @@ ion-content {
         margin-right: 16px;
       }
       ion-item{
-        font-family: 'Times New Roman', Times, serif;
+        // font-family: 'Times New Roman', Times, serif;
         ion-label{
-          font-family: 'Times New Roman', Times, serif;
+          // font-family: 'Times New Roman', Times, serif;
           
         }
       }

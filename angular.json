@@ -19,6 +19,11 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
+            "allowedCommonJsDependencies": [
+              "file-saver",
+              "html2canvas",
+              "qrcode"
+            ],
             "assets": [
               {
                 "glob": "**/*",
@@ -31,25 +36,31 @@
                 "output": "./svg"
               }
             ],
-            "styles": ["src/global.scss", "src/theme/variables.scss", "node_modules/owl.carousel/dist/assets/owl.carousel.css",
-            "node_modules/owl.carousel/dist/assets/owl.theme.default.css"],
-            "scripts": ["node_modules/jquery/dist/jquery.min.js",
-            "node_modules/owl.carousel/dist/owl.carousel.min.js"]
+            "styles": [
+              "src/global.scss",
+              "src/theme/variables.scss",
+              "node_modules/owl.carousel/dist/assets/owl.carousel.css",
+              "node_modules/owl.carousel/dist/assets/owl.theme.default.css"
+            ],
+            "scripts": [
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/owl.carousel/dist/owl.carousel.min.js"
+            ],
+            "budgets": [
+              {
+                "type": "initial",
+                "maximumWarning": "1MB",
+                "maximumError": "1.5MB"
+              },
+              {
+                "type": "anyComponentStyle",
+                "maximumWarning": "200KB",
+                "maximumError": "300KB"
+              }
+            ]
           },
           "configurations": {
             "production": {
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "2mb",
-                  "maximumError": "5mb"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
-                }
-              ],
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -113,10 +124,16 @@
                 "output": "./svg"
               }
             ],
-            "styles": ["src/global.scss", "src/theme/variables.scss", "node_modules/owl.carousel/dist/assets/owl.carousel.css",
-            "node_modules/owl.carousel/dist/assets/owl.theme.default.css"],
-            "scripts": ["node_modules/jquery/dist/jquery.min.js",
-            "node_modules/owl.carousel/dist/owl.carousel.min.js"]
+            "styles": [
+              "src/global.scss",
+              "src/theme/variables.scss",
+              "node_modules/owl.carousel/dist/assets/owl.carousel.css",
+              "node_modules/owl.carousel/dist/assets/owl.theme.default.css"
+            ],
+            "scripts": [
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/owl.carousel/dist/owl.carousel.min.js"
+            ]
           },
           "configurations": {
             "ci": {
@@ -128,19 +145,14 @@
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": [
-              "src/**/*.ts",
-              "src/**/*.html"
-            ]
+            "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
           }
         }
       }
     }
   },
   "cli": {
-    "schematicCollections": [
-      "@ionic/angular-toolkit"
-    ],
+    "schematicCollections": ["@ionic/angular-toolkit"],
     "analytics": "4cb9ce97-70f2-4cc8-8256-0c51f48f723c"
   },
   "schematics": {

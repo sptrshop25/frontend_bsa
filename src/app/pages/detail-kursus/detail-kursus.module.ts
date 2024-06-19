@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { DetailKursusPageRoutingModule } from './detail-kursus-routing.module';
 
 import { DetailKursusPage } from './detail-kursus.page';
+import { CurrencyFormatPipe } from './currency-format.pipe';
 
 @NgModule({
   imports: [
@@ -15,6 +16,6 @@ import { DetailKursusPage } from './detail-kursus.page';
     IonicModule,
     DetailKursusPageRoutingModule
   ],
-  declarations: [DetailKursusPage]
+  declarations: [DetailKursusPage, CurrencyFormatPipe],
 })
 export class DetailKursusPageModule {}

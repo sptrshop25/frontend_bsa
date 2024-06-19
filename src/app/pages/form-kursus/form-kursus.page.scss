@@ -1,6 +1,7 @@
 ion-header{
+    --background:#8000FF;
     ion-toolbar{
-        font-family: "Times New Roman", Times, serif;
+        // font-family: "Times New Roman", Times, serif;
     }
 }
 
@@ -17,7 +18,7 @@ ion-content{
                 --color-checked: #8000FF;
             }  
         }
-        font-family: "Times New Roman", Times, serif;
+        // font-family: "Times New Roman", Times, serif;
         --ion-color-base: #8000FF;
         --ion-color: #8000FF;
         ion-item{
@@ -54,16 +55,16 @@ ion-content{
             bottom: 0;
             margin-left: 20px;
             --ion-color-primary: #642DF4;
-            font-family: "Times New Roman", Times, serif;
+            // font-family: "Times New Roman", Times, serif;
             margin-bottom: 20px;
           }
           
         .hapus {
-            float: right;
+            // float: right;
             bottom: 0;
-            margin-right: 20px;
+            // margin-right: 20px;
             --ion-color-primary: #642DF4;
-            font-family: "Times New Roman", Times, serif;
+            // font-family: "Times New Roman", Times, serif;
             margin-bottom: 20px;
           }
           

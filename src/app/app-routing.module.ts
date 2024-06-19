@@ -96,6 +96,18 @@ const routes: Routes = [
   {
     path: 'detail-course',
     loadChildren: () => import('./pages/detail-kursus/detail-kursus.module').then( m => m.DetailKursusPageModule)
+  },
+  {
+    path: 'form-course',
+    loadChildren: () => import('./pages/form-kursus/form-kursus.module').then( m => m.FormKursusPageModule)
+  },
+  {
+    path: 'detail-kursus-saya',
+    loadChildren: () => import('./pages/detail-kursus-saya/detail-kursus-saya.module').then( m => m.DetailKursusSayaPageModule)
+  },
+  {
+    path: 'management-course',
+    loadChildren: () => import('./pages/manajemen-kursus/manajemen-kursus.module').then( m => m.ManajemenKursusPageModule)
   }
   
 ];

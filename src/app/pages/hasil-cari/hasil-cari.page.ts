@@ -9,7 +9,7 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./hasil-cari.page.scss'],
 })
 export class HasilCariPage implements OnInit {
-  searchResults: any[] = []; 
+  searchResults: any[] = [];
   query: string = '';
 
   constructor(private route: ActivatedRoute, private router: Router) {}
@@ -44,6 +44,10 @@ export class HasilCariPage implements OnInit {
 
   search() {
     this.router.navigate(['/search-course'], { queryParams: { q: this.query } });
+  }
+
+  navigateToDetail(courseId: string) {
+    this.router.navigate(['/detail-course'], { queryParams: { course_id: courseId } });
   }
 
   goBack() {

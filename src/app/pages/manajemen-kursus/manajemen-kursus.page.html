@@ -1,65 +1,56 @@
 <ion-header>
   <ion-toolbar class="custom">
     <ion-buttons slot="start">
-      <ion-icon name="arrow-back-outline"></ion-icon>
+      <ion-back-button defaultHref="manage-course"></ion-back-button>
     </ion-buttons>
-    <ion-title class="custom-title">Daftar Menjadi Pengajar</ion-title>
+    <ion-title class="custom-title">Manajemen Kursus</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-searchbar show-cancel-button="never" placeholder="Never Show"></ion-searchbar>
+  <!-- Optional: Add a search bar -->
+  <!-- <ion-searchbar show-cancel-button="never" placeholder="Cari Kursus"></ion-searchbar> -->
+
   <div class="button-container">
-      <ion-button>Tambah</ion-button>
-  </div>  
-  <ion-grid>
-    <ion-row>
-      <ion-col size="6">
-        <ion-card>
-          <div class="card m-1">
-            <img src="https://via.placeholder.com/500" class="img-fluid" alt="..." style="width: 100%; height: 70px;">
-            <div class="card-body">
-              <div class="card-content">
-                <img src="../../../assets/img/bsa2.png" style="width: 40px; margin-top: 3px; margin-left: -10px;" class="rounded-circle">
-                <div class="card-text">
-                  <span>Kecerdasan Tiruan</span>
-                  <span>Rindi Nabila - 4,5</span>
+    <ion-button (click)="addCourse()">Tambah</ion-button>
+  </div>
+
+  <!-- Display message if no courses -->
+  <ng-container *ngIf="noCoursesMessage; else courseList">
+    <div class="ion-text-center ion-padding">
+      <p>{{ noCoursesMessage }}</p>
+    </div>
+  </ng-container>
+
+  <!-- Display courses if available -->
+  <ng-template #courseList>
+    <ion-grid>
+      <ion-row>
+        <ion-col size="12" *ngFor="let course of courses">
+          <ion-card>
+            <div class="card m-1">
+              <img
+                [src]="course.course_image"
+                class="img-fluid"
+                alt="Course Image"
+                style="width: 100%; height: auto"
+              />
+              <div class="card-body">
+                <div>
+                  <span class="text-start"
+                    >{{ course.course_title }} &nbsp;</span
+                  >
+                  <br />
+                  <span style="font-size: 12px !important"
+                    >{{ course.course_rating ? course.course_rating + ' ★' :
+                    'belum diulas' }} - 10 &nbsp;👤</span
+                  >
                 </div>
               </div>
             </div>
-          </div>
-          <div class="edithapus">
-            <ion-button color="warning" fill="outline">edit</ion-button>
-            <ion-button color="danger" fill="outline">Hapus</ion-button>
-          </div>
-        </ion-card>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-  <ion-grid>
-      <ion-col size="6">
-        <ion-card>
-          <div class="card m-1">
-            <img src="https://via.placeholder.com/500" class="img-fluid" alt="..." style="width: 100%; height: 70px;">
-            <div class="card-body">
-              <div class="card-content">
-                <img src="../../../assets/img/bsa2.png" style="width: 40px; margin-top: 3px; margin-left: -10px;" class="rounded-circle">
-                <div class="card-text">
-                  <span>Kecerdasan Tiruan</span>
-                  <span>Rindi Nabila - 4,5</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="edithapus">
-            <ion-button color="warning" fill="outline">edit</ion-button>
-            <ion-button color="danger" fill="outline">Hapus</ion-button>
-          </div>
-        </ion-card>
-      </ion-col>
-
-  </ion-grid>
-
-  
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ng-template>
 </ion-content>
-

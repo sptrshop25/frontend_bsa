@@ -1,9 +1,9 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-icon name="arrow-back-outline"></ion-icon>
+      <ion-back-button defaultHref="tab/tabs/home"></ion-back-button>
     </ion-buttons>
-    <ion-title>Judul Kursus</ion-title>
+    <ion-title>{{ courseDetails?.course_title || 'Judul Kursus' }}</ion-title>
     <ion-buttons slot="end">
       <ion-icon class="hati" name="heart-outline"></ion-icon>
       <ion-icon class="share" name="share-social-outline"></ion-icon>
@@ -12,25 +12,35 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <div class="bannner">
-    <img src="../../../assets/img/pp.png" alt="Banner Image">
+<ion-content *ngIf="courseDetails">
+  <div class="banner">
+    <img [src]="courseDetails.course_image" alt="Banner Image" />
   </div>
   <div class="detailkursus">
-    <h2>Judul Kursus Judul Kursus Judul Kursus</h2>
+    <h2>{{ courseDetails.course_title }}</h2>
     <div class="rating">
-      <ion-icon name="star"></ion-icon>
-      <ion-icon name="star"></ion-icon>
-      <ion-icon name="star"></ion-icon>
-      <ion-icon name="star"></ion-icon>
-      <ion-icon name="star-half"></ion-icon>
-      <span>4.8</span>
+      <div *ngIf="courseDetails.course_rating">
+        <ion-icon name="star"></ion-icon>
+        <ion-icon name="star"></ion-icon>
+        <ion-icon name="star"></ion-icon>
+        <ion-icon name="star"></ion-icon>
+        <ion-icon name="star-half"></ion-icon>
+      </div>
+      <span
+        >{{ courseDetails.course_rating ? courseDetails.course_rating : 'belum
+        diulas' }}</span
+      >
       <span>• 1000 peserta</span>
       <span>• 10 peringkat</span>
     </div>
     <div class="harga">
-      <p>Rp23.900</p>
-      <p class="namapengajar">nama pengajar: <a href="#">nama pengajar</a></p>
+      <div style="display: flex; align-items: baseline;">
+        <p style="color: blueviolet; font-size: 25px;">{{ courseDetails.course_price | currencyFormat }}&nbsp;</p>
+      <del style="color: red;">{{ courseDetails.course_price_discount | currencyFormat }}</del>
+      </div>
+      <p class="namapengajar">
+        Instuktur: <a href="#">{{ courseDetails.teacher?.user_name }}</a>
+      </p>
     </div>
     <div class="kontenkursus">
       <h3>kursus ini mencakup:</h3>
@@ -42,33 +52,17 @@
         <li>berlaku selamanya</li>
       </ul>
     </div>
-    <div class="materikursus">
+    <!-- <div class="materikursus">
       <h3>yang akan dipelajari kursus ini</h3>
       <ul>
         <li>mempelajari tentang python dasar</li>
       </ul>
-    </div>
+    </div> -->
   </div>
-  
 
-  <div class="syaratkursus">
-    <h3>Persyaratan</h3>
-    <ul>
-      <li>sudah menonton minimal season 1 kimetsu no yaiba</li>
-    </ul>
-  </div>
-  
-  <div class="targetkursus">
-    <h3>kursus ini untuk:</h3>
-    <ul>
-      <li>programmer pemula</li>
-      <li>mahasiswa</li>
-    </ul>
-  </div>
-  
   <div class="deskripsikursus">
     <h3>Deskripsi</h3>
-    <p>Python adalah bahasa pemrograman tingkat tinggi yang serbaguna, mudah dipelajari, dan populer. Beberapa fungsi utama Python adalah untuk pengembangan web, analisis data, kecerdasan buatan, pengembangan permainan, pengembangan aplikasi desktop, pemrograman jaringan, pengolahan citra, dan pemodelan matematika.</p>
+    <p>{{ courseDetails.course_description }}</p>
   </div>
 
   <ion-accordion-group [multiple]="true">
@@ -82,7 +76,11 @@
           <ion-item>
             <ion-icon name="play-outline" slot="start"></ion-icon>
             <ion-label>Pendahuluan</ion-label>
-            <ion-icon class="checo" name="checkmark-circle" slot="end"></ion-icon>
+            <ion-icon
+              class="checo"
+              name="checkmark-circle"
+              slot="end"
+            ></ion-icon>
           </ion-item>
         </ion-list>
       </div>
@@ -98,7 +96,11 @@
           <ion-item>
             <ion-icon name="play-outline" slot="start"></ion-icon>
             <ion-label>Instalasi Python dan VS Code</ion-label>
-            <ion-icon class="checo" name="checkmark-circle" slot="end"></ion-icon>
+            <ion-icon
+              class="checo"
+              name="checkmark-circle"
+              slot="end"
+            ></ion-icon>
           </ion-item>
           <ion-item>
             <ion-icon name="play-outline" slot="start"></ion-icon>
@@ -131,132 +133,71 @@
       </div>
     </ion-accordion>
   </ion-accordion-group>
-  
 
-
-<ion-grid>
-  <div class="ratingdanulasan">
-    <div class="ringkasanrating">
-      <h3>Rating dan Ulasan</h3>
-      <div class="keseluruhanrating">
-        <span class="rating-score">4,8</span>
-        <div class="stars">
-          <ion-icon name="star"></ion-icon>
-          <ion-icon name="star"></ion-icon>
-          <ion-icon name="star"></ion-icon>
-          <ion-icon name="star"></ion-icon>
-          <ion-icon name="star-half"></ion-icon>
-        </div>
-        <span class="totalrating">825</span>
-        <div slot="end">
-          <a slot="end" href="#" class="see-all">See all</a>
-        </div>
-      </div>
-    </div>
-    <div class="rating-distribution">
-      <div class="rating-bar">
-        <span>98%</span>
-        <ion-progress-bar value="0.98"></ion-progress-bar>
-        <div class="stars">
-          <ion-icon name="star"></ion-icon>
-          <ion-icon name="star"></ion-icon>
-          <ion-icon name="star"></ion-icon>
-          <ion-icon name="star"></ion-icon>
-          <ion-icon name="star"></ion-icon>
+  <ion-grid>
+    <div class="ratingdanulasan">
+      <div class="ringkasanrating">
+        <h3>Rating dan Ulasan</h3>
+        <div class="keseluruhanrating">
+          <span class="rating-score">4,8</span>
+          <div class="stars">
+            <ion-icon name="star"></ion-icon>
+            <ion-icon name="star"></ion-icon>
+            <ion-icon name="star"></ion-icon>
+            <ion-icon name="star"></ion-icon>
+            <ion-icon name="star-half"></ion-icon>
+          </div>
+          <span class="totalrating">825</span>
+          <div slot="end">
+            <a slot="end" href="#" class="see-all">See all</a>
+          </div>
         </div>
       </div>
-      <div class="rating-bar">
-        <span>70%</span>
-        <ion-progress-bar value="0.70"></ion-progress-bar>
-        <div class="stars">
-          <ion-icon name="star"></ion-icon>
-          <ion-icon name="star"></ion-icon>
-          <ion-icon name="star"></ion-icon>
-          <ion-icon name="star"></ion-icon>
-          <ion-icon name="star-outline"></ion-icon>
-        </div>
-      </div>
-      <div class="rating-bar">
-        <span>45%</span>
-        <ion-progress-bar value="0.45" ></ion-progress-bar>
-        <div class="stars">
-          <ion-icon name="star"></ion-icon>
-          <ion-icon name="star"></ion-icon>
-          <ion-icon name="star"></ion-icon>
-          <ion-icon name="star-outline"></ion-icon>
-          <ion-icon name="star-outline"></ion-icon>
-        </div>
-      </div>
-      <div class="rating-bar">
-        <span>10%</span>
-        <ion-progress-bar value="0.10" ></ion-progress-bar>
-        <div class="stars">
-          <ion-icon name="star"></ion-icon>
-          <ion-icon name="star"></ion-icon>
-          <ion-icon name="star-outline"></ion-icon>
-          <ion-icon name="star-outline"></ion-icon>
-          <ion-icon name="star-outline"></ion-icon>
-        </div>
-      </div>
-      <div class="rating-bar">
-        <span>5%</span>
-        <ion-progress-bar value="0.05" ></ion-progress-bar>
-        <div class="stars">
-          <ion-icon name="star"></ion-icon>
-          <ion-icon name="star-outline"></ion-icon>
-          <ion-icon name="star-outline"></ion-icon>
-          <ion-icon name="star-outline"></ion-icon>
-          <ion-icon name="star-outline"></ion-icon>
+      <div class="rating-distribution">
+        <div *ngFor="let rating of ratingDistribution" class="rating-bar">
+          <span>{{ rating.percentage }}%</span>
+          <ion-progress-bar [value]="rating.value"></ion-progress-bar>
+          <div class="stars">
+            <ion-icon
+              *ngFor="let star of [].constructor(rating.stars)"
+              name="star"
+            ></ion-icon>
+            <ion-icon
+              *ngFor="let star of [].constructor(5 - rating.stars)"
+              name="star-outline"
+            ></ion-icon>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</ion-grid>
+  </ion-grid>
 
-<ion-list>
-  <ion-item>
-    <ion-avatar slot="start">
-      <img src="../../../assets/img/voucher.png">
-    </ion-avatar>
-    <ion-label>
-      <h2>Nama Pelajar</h2>
-      <p>4/7/2024</p>
-      <div class="stars">
-        <ion-icon name="star"></ion-icon>
-        <ion-icon name="star"></ion-icon>
-        <ion-icon name="star-outline"></ion-icon>
-        <ion-icon name="star-outline"></ion-icon>
-        <ion-icon name="star-outline"></ion-icon>
-      </div>
-    </ion-label>
-  </ion-item>
-
-  <ion-item>
-    <P>Kursus online Python ini sangat direkomendasikan bagi siapa saja yang ingin mempelajari bahasa pemrograman Python. Materi yang diajarkan sangat lengkap, mulai </P>
-  </ion-item>
-
-  <ion-item lines="none">
-    <ion-label>Apakah ulasan ini berguna?</ion-label>
-    <ion-buttons slot="end">
-      <ion-button>
-        <ion-icon slot="icon-only" name="thumbs-up-outline"></ion-icon>
-      </ion-button>
-      <ion-button>
-        <ion-icon slot="icon-only" name="thumbs-down-outline"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-  </ion-item>
-
-  <div class="card">
-    <span style="display: block;">pengajar</span>
-    <span style="display: block;">Terima kasih banyak atas ulasan Anda yang sangat positif! Kami senang mendengar bahwa Anda puas dengan kursus Python kami. Kami berusaha keras untuk menyediakan materi yang lengkap dan terstruktur den...</span>
-  </div>
-</ion-list>
-
-
-  
+  <ion-list>
+    <ion-item *ngFor="let review of reviews">
+      <ion-avatar slot="start">
+        <img src="../../../assets/img/voucher.png" />
+      </ion-avatar>
+      <ion-label>
+        <h2>{{ review.student_name }}</h2>
+        <p>{{ review.date }}</p>
+        <div class="stars">
+          <ion-icon
+            *ngFor="let star of [].constructor(review.rating)"
+            name="star"
+          ></ion-icon>
+          <ion-icon
+            *ngFor="let star of [].constructor(5 - review.rating)"
+            name="star-outline"
+          ></ion-icon>
+        </div>
+        <p>{{ review.comment }}</p>
+        <ion-note *ngIf="review.teacher_response"
+          >{{ review.teacher_response }}</ion-note
+        >
+      </ion-label>
+    </ion-item>
+  </ion-list>
 </ion-content>
-
 <ion-footer>
   <ion-toolbar>
       <ion-button slot="end" class="chat" fill="outline"><ion-icon name="chatbubble-outline"></ion-icon></ion-button>
@@ -264,4 +205,3 @@
       <ion-button slot="end" class="BELI">BELI SEKARANG</ion-button>
   </ion-toolbar>
 </ion-footer>
-

@@ -3,6 +3,7 @@ import axios from 'axios';
 import { environment } from 'src/environments/environment';
 import html2canvas from 'html2canvas';
 import { saveAs } from 'file-saver';
+import { Router } from '@angular/router';
 import * as QRCode from 'qrcode';
 
 @Component({
@@ -12,7 +13,7 @@ import * as QRCode from 'qrcode';
 })
 export class HomePage implements OnInit {
 
-  constructor() { }
+  constructor(private route: Router) { }
 
   name: string = '';
   no_hp: string = '';
@@ -135,5 +136,9 @@ export class HomePage implements OnInit {
     .finally(() => {
       this.isLoading = false;
     });
+  }
+
+  goToManageCourse() {
+    this.route.navigate(['/management-course']);
   }
 }

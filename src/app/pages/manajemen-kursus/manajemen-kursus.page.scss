@@ -8,8 +8,8 @@ ion-header{
     ion-title{
       color: #fff;
       font-size: 1.2em;
-      text-align: center;
-      font-family: "Times New Roman", Times, serif;
+      text-align: start;
+      // font-family: "Times New Roman", Times, serif;
 
     }
   }
@@ -34,7 +34,7 @@ ion-header{
 
 .card-text {
   margin-left: 10px;
-  text-align: left;
+  text-align: left !important;
   font-size: 10px;
 
   span {

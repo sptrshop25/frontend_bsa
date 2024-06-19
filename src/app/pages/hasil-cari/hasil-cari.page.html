@@ -1,20 +1,20 @@
 <ion-header>
   <ion-toolbar>
     <div class="search-container">
-      <ion-buttons slot="start"> 
-        <ion-back-button defaultHref="search-course"></ion-back-button> 
+      <ion-buttons slot="start">
+        <ion-back-button defaultHref="search-course"></ion-back-button>
       </ion-buttons>
-      <ion-searchbar placeholder="cari kursus" animated [value]="query" (ionInput)="search()"></ion-searchbar>
-      <ion-buttons slot="end">
+      <ion-searchbar placeholder="cari kursus" animated [value]="query" [disabled] (click)="search()"></ion-searchbar>
+      <!-- <ion-buttons slot="end">
         <ion-icon class="icon" name="filter-outline"></ion-icon>
-      </ion-buttons>
+      </ion-buttons> -->
     </div>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <ion-list *ngIf="searchResults.length > 0; else noResults">
-    <ion-item *ngFor="let course of searchResults">
+    <ion-item *ngFor="let course of searchResults" (click)="navigateToDetail(course.course_id)">
       <ion-label>
         <ion-img src="{{ course.course_image }}"></ion-img>
         <div class="row">
@@ -31,7 +31,7 @@
       </ion-label>
     </ion-item>
   </ion-list>
-  
+
   <ng-template #noResults>
     <div class="no-results">
       <p>Hasil "{{ query }}" tidak ditemukan, ubah kata kunci dan coba cari kembali.</p>
