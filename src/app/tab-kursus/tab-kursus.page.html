@@ -27,6 +27,7 @@
           class="card m-1 p-0"
           style="height: 200px"
           *ngFor="let course of group.courses"
+          (click)="navigateToDetail(course.course_id)"
         >
           <img
             [src]="course.course_image || 'https://via.placeholder.com/500'"

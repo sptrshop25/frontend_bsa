@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import axios from 'axios';
+import { environment } from 'src/environments/environment';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-pay',
@@ -7,9 +10,54 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PayPage implements OnInit {
 
-  constructor() { }
+  constructor(private router: Router, private route: ActivatedRoute) { }
+  paymentMethods: any[] = [];
+  selectedPaymentMethod: string = '';
+  courseId: string = '';
 
   ngOnInit() {
+    this.route.queryParams.subscribe(params => {
+      this.courseId = params['course_id'];
+      // console.log(this.courseId); // Untuk debugging
+    });
+    this.getPaymentMethods();
+  }
+  async getPaymentMethods() {
+    try {
+      const response = await axios.get(`${environment.apiUrl}/list-payment`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+        },
+      });
+      this.paymentMethods = response.data;
+      if (this.paymentMethods.length > 0) {
+        this.selectedPaymentMethod = this.paymentMethods[0].payment_method_code;
+      }
+      // console.log(this.paymentMethods);
+      
+    } catch (error) {
+      console.error('Error fetching payment methods:', error);
+    }
   }
 
+  checkout() {
+    // const response
+    const data = {
+      'course_id': this.courseId,
+      'transaction_method': this.selectedPaymentMethod
+    }
+    
+    axios.post(`${environment.apiUrl}/buy-course`, data, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+      },
+    })
+    .then((response) => {
+      console.log('Response:', response.data);
+      // this.router.navigate(['/payment-success']);
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+  }
 }

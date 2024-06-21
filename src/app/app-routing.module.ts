@@ -108,6 +108,10 @@ const routes: Routes = [
   {
     path: 'management-course',
     loadChildren: () => import('./pages/manajemen-kursus/manajemen-kursus.module').then( m => m.ManajemenKursusPageModule)
+  },
+  {
+    path: 'payment',
+    loadChildren: () => import('./pages/pay/pay.module').then( m => m.PayPageModule)
   }
   
 ];

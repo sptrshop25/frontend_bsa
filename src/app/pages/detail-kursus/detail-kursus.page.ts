@@ -2,6 +2,50 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import axios from 'axios';
 import { environment } from 'src/environments/environment';
+import { Router } from '@angular/router';
+
+interface Material {
+  material_sub_title: string;
+  completed: boolean;
+}
+
+interface Bab {
+  id: number;
+  title: string;
+  materials: Material[];
+}
+
+interface CourseDetails {
+  materialBabs: Bab[];
+  course: {
+    course_rating: number | null;
+  };
+}
+
+interface Rating {
+  id: number;
+  course_id: string;
+  user_id: string;
+  rating: number;
+  comment: string;
+  created_at: string;
+  updated_at: string;
+}
+
+interface RatingDistribution {
+  percentage: number;
+  value: number;
+  stars: number;
+  count: number;
+}
+
+interface Review {
+  student_name: string;
+  date: string;
+  rating: number;
+  comment: string;
+  teacher_response?: string;
+}
 
 @Component({
   selector: 'app-detail-kursus',
@@ -10,47 +54,195 @@ import { environment } from 'src/environments/environment';
 })
 export class DetailKursusPage implements OnInit {
   courseId: string = '';
-  courseDetails: any;
-  reviews: any[] = [
-    {
-      student_name: 'Nama Pelajar',
-      date: '4/7/2024',
-      rating: 3,
-      comment: 'Kursus online Python ini sangat direkomendasikan...',
-      teacher_response: 'Terima kasih banyak atas ulasan Anda yang sangat positif!...',
-    },
-  ];
-  ratingDistribution = [
-    { percentage: 98, value: 0.98, stars: 5 },
-    { percentage: 70, value: 0.70, stars: 4 },
-    { percentage: 45, value: 0.45, stars: 3 },
-    { percentage: 10, value: 0.10, stars: 2 },
-    { percentage: 5, value: 0.05, stars: 1 },
-  ];
+  course_details: any;
+  courseDetails: CourseDetails = {
+    materialBabs: [],
+    course: { course_rating: null },
+  };
+  reviews: Review[] = [];
+  firstThreeReviews: Review[] = [];
+  remainingReviews: Review[] = [];
+  ratingDistribution: RatingDistribution[] = [];
+  isWishlisted = false;
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit() {
-    this.route.queryParams.subscribe(params => {
+    this.route.queryParams.subscribe((params) => {
       this.courseId = params['course_id'];
       if (this.courseId) {
-        this.getCourseDetails(this.courseId);
+        this.getCourseDetails(this.courseId).then(() => {
+          this.isWishlisted = this.course_details.wishlist === 1;
+        });
       }
     });
   }
-
   async getCourseDetails(courseId: string) {
     try {
-      const response = await axios.get(`${environment.apiUrl}/detail-course/${courseId}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('authToken')}`,
-        },
-      });
-      console.log(response.data);
-      
-      this.courseDetails = response.data;
+      const response = await axios.get(
+        `${environment.apiUrl}/detail-course/${courseId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+          },
+        }
+      );
+      const courseDetails = response.data.course;
+      if (
+        courseDetails.course_rating !== null &&
+        !isNaN(courseDetails.course_rating)
+      ) {
+        this.setCourseRating(parseFloat(courseDetails.course_rating));
+      } else {
+        this.setCourseRating(null);
+      }
+      this.course_details = response.data;
+      this.processCourseDetails(response.data);
+      this.processReviews(response.data.course.rating);
+      this.processRatingDistribution(response.data.course.rating);
     } catch (error) {
       console.error('Error fetching course details:', error);
     }
+  }
+
+  setCourseRating(rating: number | null) {
+    this.courseDetails.course.course_rating = rating;
+  }
+
+  processCourseDetails(data: any) {
+    const materials = data.course.material_bab;
+    const materialBabs: Bab[] = [];
+
+    materials.forEach((material_bab: any) => {
+      let bab = materialBabs.find((b) => b.id === material_bab.id);
+      if (!bab) {
+        bab = {
+          id: material_bab.id,
+          title: material_bab.title,
+          materials: [],
+        };
+        materialBabs.push(bab);
+      }
+      if (bab) {
+        material_bab.course_materials.forEach((course_material: any) => {
+          bab!.materials.push({
+            material_sub_title: course_material.material_sub_title,
+            completed: false,
+          });
+        });
+      }
+    });
+
+    this.courseDetails.materialBabs = materialBabs;
+  }
+
+  isModalOpen = false;
+
+  setOpen(isOpen: boolean) {
+    this.isModalOpen = isOpen;
+  }
+  processReviews(ratings: any[]) {
+    this.reviews = ratings.map((rating) => {
+      return {
+        student_name: rating.user.data_user.user_name,
+        date: new Date(rating.created_at).toLocaleDateString(),
+        rating: rating.rating,
+        comment: rating.comment,
+        teacher_response: undefined,
+      };
+    });
+    this.firstThreeReviews = this.reviews.slice(0, 3);
+    this.remainingReviews = this.reviews;
+  }
+
+  processRatingDistribution(ratings: Rating[]) {
+    const ratingCounts = [0, 0, 0, 0, 0];
+    const totalRatings = ratings.length;
+
+    ratings.forEach((rating) => {
+      if (rating.rating >= 1 && rating.rating <= 5) {
+        ratingCounts[rating.rating - 1]++;
+      }
+    });
+
+    this.ratingDistribution = ratingCounts
+      .map((count, index) => {
+        const stars = index + 1;
+        const percentage = totalRatings > 0 ? (count / totalRatings) * 100 : 0;
+        return {
+          percentage: percentage,
+          value: percentage / 100,
+          stars: stars,
+          count: count,
+        };
+      })
+      .reverse();
+  }
+
+  getStarIcons(rating: number): string[] {
+    const fullStars = Math.floor(rating);
+    const hasHalfStar = rating - fullStars >= 0.5;
+    let starIcons: string[] = [];
+    for (let i = 0; i < fullStars; i++) {
+      starIcons.push('star');
+    }
+    if (hasHalfStar) {
+      starIcons.push('star-half');
+    }
+    while (starIcons.length < 5) {
+      starIcons.push('star-outline');
+    }
+    return starIcons;
+  }
+
+  navigateToDetail(courseId: string) {
+    this.router.navigate(['/payment'], {
+      queryParams: { course_id: courseId },
+    });
+  }
+
+  toggleWishlist(courseId: string) {
+    if (this.isWishlisted) {
+      this.removeWishlist(courseId);
+    } else {
+      this.saveWishlist(courseId);
+    }
+    this.isWishlisted = !this.isWishlisted;
+  }
+
+  saveWishlist(courseId: string) {
+    axios
+      .post(
+        `${environment.apiUrl}/save-wishlist`,
+        {
+          course_id: courseId,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+          },
+        }
+      )
+      .then((response) => {
+        // console.log('Wishlist saved successfully:', response.data);
+      })
+      .catch((error) => {
+        console.error('Error saving wishlist:', error);
+      });
+  }
+
+  removeWishlist(courseId: string) {
+    axios
+      .delete(`${environment.apiUrl}/remove-wishlist/${courseId}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+        },
+      })
+      .then((response) => {
+        // console.log('Wishlist removed successfully:', response.data);
+      })
+      .catch((error) => {
+        console.error('Error removing wishlist:', error);
+      });
   }
 }

@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-icon name="arrow-back-outline"></ion-icon>
+      <ion-back-button defaultHref="tab/tabs/home"></ion-back-button>
     </ion-buttons>
     <ion-title>Payment</ion-title>
   </ion-toolbar>
@@ -9,39 +9,24 @@
 
 <ion-content>
   <ion-list>
-    <ion-radio-group>
+    <ion-radio-group [(ngModel)]="selectedPaymentMethod">
       <ion-list-header>
-        <ion-label>pilih metode pembayaran</ion-label>
+        <ion-label>Pilih metode pembayaran</ion-label>
       </ion-list-header>
-
-      <ion-item>
-        <ion-label>
-          <img src="../../../assets/img/paypal.png" class="payment-icon" alt="PayPal">
-          Paypal
-        </ion-label>
-        <ion-radio labelPlacement="end" value="paypal" checked></ion-radio>
-      </ion-item>
-
-      <ion-item>
-        <ion-label>
-          <img src="../../../assets/img/mandiri.png" class="payment-icon" alt="PayPal">
-          Livin by Mandiri
-        </ion-label>
-        <ion-radio labelPlacement="end" value="mandiri" checked></ion-radio>
-      </ion-item>
-
-      <ion-item>
-        <ion-label>
-          <img src="../../../assets/img/brimo.png" class="payment-icon" alt="BRImo">
-          BRImo
-        </ion-label>
-        <ion-radio labelPlacement="end" value="brimo"></ion-radio>
+      <ion-item *ngFor="let method of paymentMethods">
+        <ion-radio labelPlacement="start" [value]="method.payment_method_code">
+          <img
+            [src]="method.payment_method_image"
+            class="payment-icon"
+            alt="{{ method.payment_method_name }}"
+          />
+          {{ method.payment_method_name }}</ion-radio
+        >
       </ion-item>
     </ion-radio-group>
   </ion-list>
 </ion-content>
 
 <ion-footer>
-  
-  <ion-button expand="block" class="checkout-button">checkout now</ion-button>
+  <ion-button expand="block" (click)="checkout()" class="checkout-button">checkout now</ion-button>
 </ion-footer>

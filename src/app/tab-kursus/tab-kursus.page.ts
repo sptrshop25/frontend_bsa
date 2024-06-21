@@ -101,4 +101,8 @@ export class TabKursusPage implements OnInit {
 
     return groupedCoursesArray;
   }
+
+  navigateToDetail(courseId: string) {
+    this.router.navigate(['/detail-course'], { queryParams: { course_id: courseId } });
+  }
 }

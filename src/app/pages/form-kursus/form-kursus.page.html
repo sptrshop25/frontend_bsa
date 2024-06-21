@@ -4,7 +4,13 @@
       <ion-back-button defaultHref="management-course"></ion-back-button>
     </ion-buttons>
     <ion-title>Tambah Kursus</ion-title>
-    <ion-button fill="clear" (click)="onCheckmarkClick()" [disabled]="isCheckmarkDisabled()" style="--ion-color-primary: #642DF4;" slot="end">
+    <ion-button
+      fill="clear"
+      (click)="onCheckmarkClick()"
+      [disabled]="isCheckmarkDisabled()"
+      style="--ion-color-primary: #642df4"
+      slot="end"
+    >
       <ion-icon slot="icon-only" name="checkmark-outline"></ion-icon>
     </ion-button>
   </ion-toolbar>
@@ -13,52 +19,104 @@
 <ion-content>
   <ion-list>
     <ion-item>
-      <ion-input [(ngModel)]="formData.judulKursus" label="Judul Kursus" labelPlacement="floating" placeholder="Masukkan Judul Kursus"></ion-input>
+      <ion-input
+        [(ngModel)]="formData.judulKursus"
+        label="Judul Kursus"
+        labelPlacement="floating"
+        placeholder="Masukkan Judul Kursus"
+      ></ion-input>
     </ion-item>
     <ion-item>
-      <ion-select [(ngModel)]="formData.tingkatan" label="Tingkatan" labelPlacement="floating">
+      <ion-select
+        [(ngModel)]="formData.tingkatan"
+        label="Tingkatan"
+        labelPlacement="floating"
+      >
         <ion-select-option value="Pemula">Pemula</ion-select-option>
         <ion-select-option value="Menengah">Menengah</ion-select-option>
         <ion-select-option value="Ahli">Ahli</ion-select-option>
       </ion-select>
     </ion-item>
     <ion-item>
-      <ion-select [(ngModel)]="formData.bidang" (ionChange)="onBidangChange()" label="Bidang" labelPlacement="floating">
-        <ion-select-option *ngFor="let bidang of bidangOptions" [value]="bidang.category_name">{{ bidang.category_name }}</ion-select-option>
+      <ion-select
+        [(ngModel)]="formData.bidang"
+        (ionChange)="onBidangChange()"
+        label="Bidang"
+        labelPlacement="floating"
+      >
+        <ion-select-option
+          *ngFor="let bidang of bidangOptions"
+          [value]="bidang.category_name"
+          >{{ bidang.category_name }}</ion-select-option
+        >
       </ion-select>
     </ion-item>
     <ion-item>
-      <ion-select [(ngModel)]="formData.subBidang" label="Sub Bidang" labelPlacement="floating">
-        <ion-select-option *ngFor="let sub of subBidangOptions" [value]="sub.sub_category_name">{{ sub.sub_category_name }}</ion-select-option>
+      <ion-select
+        [(ngModel)]="formData.subBidang"
+        label="Sub Bidang"
+        labelPlacement="floating"
+      >
+        <ion-select-option
+          *ngFor="let sub of subBidangOptions"
+          [value]="sub.sub_category_name"
+          >{{ sub.sub_category_name }}</ion-select-option
+        >
       </ion-select>
     </ion-item>
+    <label for="banner" style="margin-left: 30px">Banner Kursus</label>
     <ion-item>
-      <input type="file" (change)="handleFileInput($event, 'bannerKursus')" placeholder="Masukkan Banner Kursus">
+      <input
+        label="Masukkan Banner"
+        type="file"
+        (change)="handleFileInput($event, 'bannerKursus')"
+        placeholder="Masukkan Banner Kursus"
+        accept="image/*"
+      />
     </ion-item>
     <ion-item>
-      <ion-textarea [(ngModel)]="formData.deskripsi" label="Deskripsi" labelPlacement="floating" placeholder="Masukkan Deskripsi"></ion-textarea>
+      <ion-textarea
+        [(ngModel)]="formData.deskripsi"
+        label="Deskripsi"
+        labelPlacement="floating"
+        placeholder="Masukkan Deskripsi"
+      ></ion-textarea>
     </ion-item>
   </ion-list>
   <ion-list>
-    <ion-radio-group [(ngModel)]="formData.jenisHarga">
+    <ion-radio-group [(ngModel)]="formData.jenisHarga" value="berbayar">
       <ion-list-header>
         <ion-label>Pilih Jenis Harga</ion-label>
       </ion-list-header>
       <ion-item>
-        <ion-radio slot="start" value="free" labelPlacement="end">Free</ion-radio>
+        <ion-radio slot="start" value="free" labelPlacement="end"
+          >Free</ion-radio
+        >
       </ion-item>
       <ion-item>
-        <ion-radio slot="start" value="berbayar" labelPlacement="end" checked="true">Berbayar</ion-radio>
+        <ion-radio
+          slot="start"
+          value="berbayar"
+          labelPlacement="end"
+          checked="true"
+          >Berbayar</ion-radio
+        >
       </ion-item>
     </ion-radio-group>
-  
+
     <ion-item *ngIf="formData.jenisHarga === 'berbayar'">
       <ion-label position="floating">Masukkan Harga Kursus</ion-label>
       <ion-input [(ngModel)]="formData.hargaKursus" type="number"></ion-input>
-      <ion-label position="floating">Masukkan Harga Dicoret (Opsional)</ion-label>
+      <ion-label position="floating"
+        >Masukkan Harga Dicoret (Opsional)</ion-label
+      >
       <ion-input [(ngModel)]="formData.hargaDiskon" type="number"></ion-input>
-      <ion-item *ngIf="formData.jenisHarga === 'berbayar' && formData.hargaDiskon && formData.hargaDiskon < formData.hargaKursus">
-        <span class="text-danger">Harga dicoret harus lebih besar dari harga</span>
+      <ion-item
+        *ngIf="formData.jenisHarga === 'berbayar' && formData.hargaDiskon && formData.hargaDiskon < formData.hargaKursus"
+      >
+        <span class="text-danger"
+          >Harga dicoret harus lebih besar dari harga</span
+        >
       </ion-item>
     </ion-item>
   </ion-list>
@@ -68,10 +126,14 @@
         <ion-label>Pilih Jenis Langganan</ion-label>
       </ion-list-header>
       <ion-item>
-        <ion-radio slot="start" value="unlimited" labelPlacement="end">Unlimited</ion-radio>
+        <ion-radio slot="start" value="unlimited" labelPlacement="end"
+          >Unlimited</ion-radio
+        >
       </ion-item>
       <ion-item>
-        <ion-radio slot="start" value="limited" labelPlacement="end">Limited</ion-radio>
+        <ion-radio slot="start" value="limited" labelPlacement="end"
+          >Limited</ion-radio
+        >
       </ion-item>
     </ion-radio-group>
 
@@ -86,43 +148,130 @@
       <ion-label>Bab</ion-label>
       <ion-button (click)="addBab()">Tambah Bab</ion-button>
     </ion-list-header>
-    <div *ngFor="let bab of formData.babList; let i = index">
-      <ion-item>
-        <ion-input [(ngModel)]="bab.judul" label="Bab {{ i + 1 }}" labelPlacement="floating" placeholder="Masukkan Judul Bab"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-button slot="end" style="margin-right: -15px;" fill="outline" (click)="addSubBab(i)">Tambah Sub Bab</ion-button>
-      </ion-item>
-      <ion-item>
-        <ion-input [(ngModel)]="bab.subBab" label="Sub Bab {{ i + 1 }}" labelPlacement="floating" placeholder="Masukkan Sub Bab"></ion-input>
-      </ion-item>
-      <ion-item>
-        <input type="file" (change)="handleFileInput($event, 'materi', i)" placeholder="Masukkan Materi Bab">
-      </ion-item>
-      <ion-item>
-        <ion-textarea [(ngModel)]="bab.deskripsi" label="Deskripsi Bab {{ i + 1 }}" labelPlacement="floating" placeholder="Masukkan Deskripsi Bab"></ion-textarea>
-      </ion-item>
-      <div *ngIf="bab.subBabList && bab.subBabList.length > 0">
-        <ion-list>
-          <div *ngFor="let subBab of bab.subBabList; let j = index">
-            <ion-item>
-              <ion-input [(ngModel)]="subBab.judul" label="Sub Bab {{ j + 1 }}" labelPlacement="floating" placeholder="Masukkan Judul Sub Bab"></ion-input>
-            </ion-item>
-            <ion-item>
-              <input type="file" (change)="handleFileInput($event, 'materi', i, j)" placeholder="Masukkan Materi Sub Bab">
-            </ion-item>
-            <ion-item>
-              <ion-textarea [(ngModel)]="subBab.deskripsi" label="Deskripsi Sub Bab {{ j + 1 }}" labelPlacement="floating" placeholder="Masukkan Deskripsi Sub Bab"></ion-textarea>
-            </ion-item>
-            <ion-item>
-              <ion-button color="danger" fill="outline" (click)="removeSubBab(i, j)">Hapus Sub Bab</ion-button>
-            </ion-item>
-          </div>
-        </ion-list>
+    <div class="d-flex" style="flex-direction: column; align-items: center">
+      <div class="card m-2 p-2" style="width: 90%" *ngFor="let bab of formData.babList; let i = index">
+        <ion-item>
+          <ion-input
+            [(ngModel)]="bab.judul"
+            label="Bab {{ i + 1 }}"
+            labelPlacement="floating"
+            placeholder="Masukkan Judul Bab"
+          ></ion-input>
+        </ion-item>
+        <ion-item style="--background: transparent">
+          <ion-button slot="end" style="margin-right: -15px" fill="outline" (click)="addSubBab(i)">Tambah Sub Bab</ion-button>
+        </ion-item>
+        <div *ngIf="bab.subBabList && bab.subBabList.length > 0">
+          <ion-list>
+            <div class="card mb-2" *ngFor="let subBab of bab.subBabList; let j = index">
+              <ion-item class="mt-3">
+                <ion-select
+                  [(ngModel)]="subBab.pilihSubBab"
+                  label="Pilih tipe sub bab"
+                  labelPlacement="floating"
+                >
+                  <ion-select-option value="Materi">Materi</ion-select-option>
+                  <ion-select-option value="Quiz">Quiz</ion-select-option>
+                </ion-select>
+              </ion-item>
+              <div *ngIf="subBab.pilihSubBab === 'Materi'">
+                <ion-item>
+                  <ion-input
+                    [(ngModel)]="subBab.judul"
+                    label="Sub Bab"
+                    labelPlacement="floating"
+                    placeholder="Masukkan Judul Sub Bab"
+                  ></ion-input>
+                </ion-item>
+                <label for="materi" style="margin-left: 17px">Video Materi</label>
+                <ion-item>
+                  <input
+                    type="file"
+                    (change)="handleFileInput($event, 'materi', i, j)"
+                    placeholder="Masukkan Materi Sub Bab"
+                  />
+                </ion-item>
+                <ion-item>
+                  <ion-textarea
+                    [(ngModel)]="subBab.deskripsi"
+                    label="Deskripsi Sub Bab"
+                    labelPlacement="floating"
+                    placeholder="Masukkan Deskripsi Sub Bab"
+                  ></ion-textarea>
+                </ion-item>
+              </div>
+              <div *ngIf="subBab.pilihSubBab === 'Quiz'">
+                <ion-item>
+                  <ion-input
+                    label="Judul Kuis"
+                    placeholder="Masukkan Judul Kuis"
+                    labelPlacement="floating"
+                  ></ion-input>
+                </ion-item>
+                <ion-item>
+                  <ion-textarea
+                    label="Deskripsi Kuis"
+                    placeholder="Masukkan Deskripsi Kuis"
+                    labelPlacement="floating"
+                  ></ion-textarea>
+                </ion-item>
+                <ion-item>
+                  <ion-input
+                    type="number"
+                    label="Durasi Pengerjaan"
+                    placeholder="Masukkan Durasi Pengerjaan"
+                    labelPlacement="floating"
+                  ></ion-input>
+                </ion-item>
+                <ion-item style="--background: transparent">
+                  <ion-button slot="end" style="margin-right: -15px" fill="outline"
+                    (click)="addPertanyaan(i)">Tambah Pertanyaan</ion-button>
+                </ion-item>
+                <label for="materi" style="margin-left: 17px"
+                  >Gambar Soal (opsional)</label
+                >
+                <ion-item>
+                  <input
+                    type="file"
+                    (change)="handleFileInput($event, 'materi', i, j)"
+                    placeholder="Masukkan Materi Bab"
+                  />
+                </ion-item>
+                <ion-item>
+                  <ion-input
+                    label="Pertanyaan"
+                    placeholder="Masukkan Pertanyaan"
+                    labelPlacement="floating"
+                  ></ion-input>
+                </ion-item>
+                <ion-item>
+                  <ion-radio labelPlacement="end" value="opsi 1">opsi 1</ion-radio>
+                </ion-item>
+                <ion-item>
+                  <ion-radio labelPlacement="end" value="opsi 2">opsi 2</ion-radio>
+                </ion-item>
+                <ion-item>
+                  <ion-radio labelPlacement="end" value="opsi 3">opsi 3</ion-radio>
+                </ion-item>
+                <ion-item style="--background: transparent">
+                  <ion-button (click)="addOpsi(i, j)"> Tambah opsi </ion-button>
+                </ion-item>
+                <ion-item>
+                  <ion-textarea
+                    label="Kenapa jawaban ini benar"
+                    labelPlacement="floating"
+                  ></ion-textarea>
+                </ion-item>
+              </div>
+              <ion-item style="--background: transparent">
+                <ion-button color="danger" fill="outline" (click)="removeSubBab(i, j)">Hapus Sub Bab</ion-button>
+              </ion-item>
+            </div>
+          </ion-list>
+        </div>
+        <ion-button style="margin: 10px 0 0 0" fill="outline" color="danger" (click)="removeBab(i)">Hapus Bab</ion-button>
       </div>
-      <ion-item>
-        <ion-button color="danger" (click)="removeBab(i)">Hapus Bab</ion-button>
-      </ion-item>
     </div>
   </ion-list>
+  
 </ion-content>

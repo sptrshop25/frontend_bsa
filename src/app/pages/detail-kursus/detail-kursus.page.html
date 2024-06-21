@@ -3,131 +3,102 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="tab/tabs/home"></ion-back-button>
     </ion-buttons>
-    <ion-title>{{ courseDetails?.course_title || 'Judul Kursus' }}</ion-title>
+    <ion-title
+      >{{ course_details?.course.course_title || 'Judul Kursus' }}</ion-title
+    >
     <ion-buttons slot="end">
-      <ion-icon class="hati" name="heart-outline"></ion-icon>
-      <ion-icon class="share" name="share-social-outline"></ion-icon>
-      <ion-icon class="basket" name="basket-outline"></ion-icon>
+      <ion-icon
+        class="hati"
+        [name]="isWishlisted ? 'heart' : 'heart-outline'"
+        [color]="isWishlisted ? 'danger' : undefined"
+        (click)="toggleWishlist(course_details.course.course_id)"
+      ></ion-icon>
+
+      <!-- <ion-icon class="share" name="share-social-outline"></ion-icon>
+      <ion-icon class="basket" name="basket-outline"></ion-icon> -->
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content *ngIf="courseDetails">
+<ion-content *ngIf="course_details">
   <div class="banner">
-    <img [src]="courseDetails.course_image" alt="Banner Image" />
+    <img [src]="course_details.course.course_image" alt="Banner Image" />
   </div>
   <div class="detailkursus">
-    <h2>{{ courseDetails.course_title }}</h2>
+    <h2>{{ course_details.course.course_title }}</h2>
     <div class="rating">
-      <div *ngIf="courseDetails.course_rating">
-        <ion-icon name="star"></ion-icon>
-        <ion-icon name="star"></ion-icon>
-        <ion-icon name="star"></ion-icon>
-        <ion-icon name="star"></ion-icon>
-        <ion-icon name="star-half"></ion-icon>
+      <div *ngIf="courseDetails.course.course_rating" class="stars">
+        <ion-icon
+          *ngFor="let icon of getStarIcons(courseDetails.course.course_rating)"
+          [name]="icon"
+        ></ion-icon>
       </div>
-      <span
-        >{{ courseDetails.course_rating ? courseDetails.course_rating : 'belum
-        diulas' }}</span
+      <span class="rating-score"
+        >{{ courseDetails.course.course_rating ?
+        courseDetails.course.course_rating.toFixed(1) : 'Belum diulas' }}</span
       >
-      <span>• 1000 peserta</span>
-      <span>• 10 peringkat</span>
+      <span
+        >• &nbsp;{{course_details.count_student < 1 ? 'Belum ada pelajar' :
+        course_details.count_student + ' pelajar'}}</span
+      >
+      <!-- <span>• 10 peringkat</span> -->
     </div>
     <div class="harga">
-      <div style="display: flex; align-items: baseline;">
-        <p style="color: blueviolet; font-size: 25px;">{{ courseDetails.course_price | currencyFormat }}&nbsp;</p>
-      <del style="color: red;">{{ courseDetails.course_price_discount | currencyFormat }}</del>
+      <div style="display: flex; align-items: baseline">
+        <p style="color: blueviolet; font-size: 25px">
+          {{ course_details.course.course_price | currencyFormat }}&nbsp;
+        </p>
+        <del style="color: red"
+          >{{ course_details.course.course_price_discount | currencyFormat
+          }}</del
+        >
       </div>
       <p class="namapengajar">
-        Instuktur: <a href="#">{{ courseDetails.teacher?.user_name }}</a>
+        Instuktur:
+        <a href="#">{{ course_details.course.teacher?.user_name }}</a>
       </p>
     </div>
     <div class="kontenkursus">
       <h3>kursus ini mencakup:</h3>
       <ul>
-        <li>3 bab pembelajaran</li>
-        <li>4 video pembelajaran</li>
-        <li>1 quiz</li>
+        <li>{{ course_details.count_bab }} bab pembelajaran</li>
+        <li>{{ course_details.count_video_material }} video pembelajaran</li>
+        <li>{{ course_details.count_quiz }} quiz</li>
         <li>sertifikat penyelesaian</li>
-        <li>berlaku selamanya</li>
+        <li>
+          {{ course_details.course.course_duration ? 'aktif selama ' +
+          course_details.course.course_duration + ' Bulan' : 'aktif selamanya'
+          }}
+        </li>
       </ul>
     </div>
-    <!-- <div class="materikursus">
-      <h3>yang akan dipelajari kursus ini</h3>
-      <ul>
-        <li>mempelajari tentang python dasar</li>
-      </ul>
-    </div> -->
   </div>
 
   <div class="deskripsikursus">
     <h3>Deskripsi</h3>
-    <p>{{ courseDetails.course_description }}</p>
+    <p>{{ course_details.course.course_description }}</p>
   </div>
 
   <ion-accordion-group [multiple]="true">
-    <ion-accordion value="pendahuluan">
+    <ion-accordion
+      *ngFor="let bab of courseDetails.materialBabs"
+      [value]="bab.id"
+    >
       <ion-item slot="header">
-        <ion-label>Pendahuluan</ion-label>
-        <p slot="end">1 pelajaran</p>
+        <ion-label>{{ bab.title }}</ion-label>
+        <p slot="end">{{ bab.materials.length }} pelajaran</p>
       </ion-item>
       <div slot="content">
         <ion-list>
-          <ion-item>
+          <ion-item *ngFor="let material of bab.materials">
             <ion-icon name="play-outline" slot="start"></ion-icon>
-            <ion-label>Pendahuluan</ion-label>
+            <ion-label>{{ material.material_sub_title }}</ion-label>
             <ion-icon
+              *ngIf="material.completed"
               class="checo"
               name="checkmark-circle"
               slot="end"
             ></ion-icon>
-          </ion-item>
-        </ion-list>
-      </div>
-    </ion-accordion>
-
-    <ion-accordion value="instalasi">
-      <ion-item slot="header">
-        <ion-label>Instalasi Python dan VS Code</ion-label>
-        <p slot="end">2 pelajaran</p>
-      </ion-item>
-      <div slot="content">
-        <ion-list>
-          <ion-item>
-            <ion-icon name="play-outline" slot="start"></ion-icon>
-            <ion-label>Instalasi Python dan VS Code</ion-label>
-            <ion-icon
-              class="checo"
-              name="checkmark-circle"
-              slot="end"
-            ></ion-icon>
-          </ion-item>
-          <ion-item>
-            <ion-icon name="play-outline" slot="start"></ion-icon>
-            <ion-label>Python untuk pemula</ion-label>
-          </ion-item>
-          <ion-item>
-            <ion-icon name="help-circle-outline" slot="start"></ion-icon>
-            <ion-label>Quiz</ion-label>
-          </ion-item>
-        </ion-list>
-      </div>
-    </ion-accordion>
-
-    <ion-accordion value="carakerja">
-      <ion-item slot="header">
-        <ion-label>Cara Kerja Program dan Bytecode</ion-label>
-        <p slot="end">2 pelajaran</p>
-      </ion-item>
-      <div slot="content">
-        <ion-list>
-          <ion-item>
-            <ion-icon name="play-outline" slot="start"></ion-icon>
-            <ion-label>Cara Kerja Program dan Bytecode</ion-label>
-          </ion-item>
-          <ion-item>
-            <ion-icon name="play-outline" slot="start"></ion-icon>
-            <ion-label>Python untuk pemula</ion-label>
           </ion-item>
         </ion-list>
       </div>
@@ -139,23 +110,25 @@
       <div class="ringkasanrating">
         <h3>Rating dan Ulasan</h3>
         <div class="keseluruhanrating">
-          <span class="rating-score">4,8</span>
-          <div class="stars">
-            <ion-icon name="star"></ion-icon>
-            <ion-icon name="star"></ion-icon>
-            <ion-icon name="star"></ion-icon>
-            <ion-icon name="star"></ion-icon>
-            <ion-icon name="star-half"></ion-icon>
+          <span class="rating-score"
+            >{{ courseDetails.course.course_rating ?
+            courseDetails.course.course_rating.toFixed(1) : 'belum diulas'
+            }}</span
+          >
+          <div *ngIf="courseDetails.course.course_rating" class="stars">
+            <ion-icon
+              *ngFor="let icon of getStarIcons(courseDetails.course.course_rating)"
+              [name]="icon"
+            ></ion-icon>
           </div>
-          <span class="totalrating">825</span>
-          <div slot="end">
-            <a slot="end" href="#" class="see-all">See all</a>
-          </div>
+          <span class="totalrating"
+            >{{ course_details.count_user_rating }} ulasan</span
+          >
         </div>
       </div>
       <div class="rating-distribution">
         <div *ngFor="let rating of ratingDistribution" class="rating-bar">
-          <span>{{ rating.percentage }}%</span>
+          <span>{{ rating.count.toFixed(0) }} 👤</span>
           <ion-progress-bar [value]="rating.value"></ion-progress-bar>
           <div class="stars">
             <ion-icon
@@ -171,9 +144,9 @@
       </div>
     </div>
   </ion-grid>
-
   <ion-list>
-    <ion-item *ngFor="let review of reviews">
+    <h6 class="float-end" (click)="setOpen(true)">Lihat semua ulasan</h6>
+    <ion-item *ngFor="let review of firstThreeReviews">
       <ion-avatar slot="start">
         <img src="../../../assets/img/voucher.png" />
       </ion-avatar>
@@ -184,24 +157,82 @@
           <ion-icon
             *ngFor="let star of [].constructor(review.rating)"
             name="star"
+            style="color: gold"
           ></ion-icon>
           <ion-icon
             *ngFor="let star of [].constructor(5 - review.rating)"
             name="star-outline"
+            style="color: gold"
           ></ion-icon>
         </div>
         <p>{{ review.comment }}</p>
-        <ion-note *ngIf="review.teacher_response"
-          >{{ review.teacher_response }}</ion-note
-        >
+        <ion-note *ngIf="review.teacher_response">
+          {{ review.teacher_response }}
+        </ion-note>
       </ion-label>
     </ion-item>
   </ion-list>
+
+  <ion-modal [isOpen]="isModalOpen">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Semua Ulasan</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="setOpen(false)">Tutup</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <ion-list>
+          <ion-item *ngFor="let review of remainingReviews">
+            <ion-avatar slot="start">
+              <img src="../../../assets/img/voucher.png" />
+            </ion-avatar>
+            <ion-label>
+              <h2>{{ review.student_name }}</h2>
+              <p>{{ review.date }}</p>
+              <div class="stars">
+                <ion-icon
+                  *ngFor="let star of [].constructor(review.rating)"
+                  name="star"
+                  style="color: gold"
+                ></ion-icon>
+                <ion-icon
+                  *ngFor="let star of [].constructor(5 - review.rating)"
+                  name="star-outline"
+                  style="color: gold"
+                ></ion-icon>
+              </div>
+              <p>{{ review.comment }}</p>
+              <ion-note *ngIf="review.teacher_response">
+                {{ review.teacher_response }}
+              </ion-note>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
 </ion-content>
 <ion-footer>
   <ion-toolbar>
-      <ion-button slot="end" class="chat" fill="outline"><ion-icon name="chatbubble-outline"></ion-icon></ion-button>
-      <ion-button slot="end" class="Keranjang"  fill="outline"> <ion-icon class="basket" name="basket-outline"></ion-icon>   Keranjang</ion-button>
-      <ion-button slot="end" class="BELI">BELI SEKARANG</ion-button>
+    <!-- <ion-button slot="end" class="chat" fill="outline"
+      ><ion-icon name="chatbubble-outline"></ion-icon
+    ></ion-button> -->
+    <!-- <ion-button slot="start" class="Keranjang ms-4" fill="outline">
+      <ion-icon class="basket" name="basket-outline"></ion-icon>
+      &nbsp;Keranjang</ion-button
+    > -->
+    <span style="font-size: 14px" class="ms-2">Harga</span>
+    <h4 class="ms-4" style="color: blueviolet">
+      {{ course_details?.course?.course_price | currencyFormat }}
+    </h4>
+    <ion-button
+      slot="end"
+      (click)="navigateToDetail(course_details.course.course_id)"
+      class="BELI me-3 mt-1"
+      >BELI SEKARANG</ion-button
+    >
   </ion-toolbar>
 </ion-footer>

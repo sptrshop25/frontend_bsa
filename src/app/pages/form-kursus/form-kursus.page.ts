@@ -2,8 +2,7 @@ import { Component } from '@angular/core';
 import axios from 'axios';
 import { environment } from 'src/environments/environment';
 import { CustomAlertComponent } from './custom-alert/custom-alert.component';
-import { ModalController } from '@ionic/angular';
-import { AlertController } from '@ionic/angular';
+import { ModalController, AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
 
 interface Bab {
@@ -11,7 +10,8 @@ interface Bab {
   subBab: string;
   materi: File | null;
   deskripsi: string;
-  subBabList: SubBab[]; // Pastikan subBabList diinisialisasi di sini
+  subBabList: SubBab[];
+  pertanyaanList: Pertanyaan[];
 }
 
 interface SubBab {
@@ -19,6 +19,20 @@ interface SubBab {
   subBab: string;
   materi: File | null;
   deskripsi: string;
+  jenis: string;
+  pilihSubBab: string;
+}
+
+interface Pertanyaan {
+  id: number;
+  pertanyaan: string;
+  opsiList: Opsi[];
+  kenapaJawabanBenar: string;
+}
+
+interface Opsi {
+  id: number;
+  text: string;
 }
 
 interface FormData {
@@ -33,6 +47,7 @@ interface FormData {
   jenisLangganan: string;
   jenisHarga: string;
   jumlahBulan: string;
+  pilihSubBab: string;
   babList: Bab[];
 }
 
@@ -54,13 +69,20 @@ export class FormKursusPage {
     jenisLangganan: '',
     jenisHarga: '',
     jumlahBulan: '',
-    babList: []
+    pilihSubBab: '',
+    babList: [],
   };
 
   bidangOptions: any[] = [];
   subBidangOptions: any[] = [];
+  private pertanyaanIdCounter = 1;
+  private opsiIdCounter = 1;
 
-  constructor(private modalController: ModalController, private alertController: AlertController, private router: Router) { }
+  constructor(
+    private modalController: ModalController,
+    private alertController: AlertController,
+    private router: Router
+  ) {}
 
   async ngOnInit() {
     await this.fetchCategories();
@@ -81,7 +103,9 @@ export class FormKursusPage {
   }
 
   onBidangChange() {
-    const selectedBidang = this.bidangOptions.find(bidang => bidang.category_name === this.formData.bidang);
+    const selectedBidang = this.bidangOptions.find(
+      (bidang) => bidang.category_name === this.formData.bidang
+    );
     this.subBidangOptions = selectedBidang ? selectedBidang.sub_category : [];
   }
 
@@ -101,7 +125,7 @@ export class FormKursusPage {
       formDataToSend.append('jenisLangganan', this.formData.jenisLangganan);
       formDataToSend.append('jenisHarga', this.formData.jenisHarga);
       formDataToSend.append('jumlahBulan', this.formData.jumlahBulan);
-
+  
       this.formData.babList.forEach((bab, index) => {
         formDataToSend.append(`babList[${index}][judul]`, bab.judul);
         formDataToSend.append(`babList[${index}][subBab]`, bab.subBab);
@@ -109,37 +133,63 @@ export class FormKursusPage {
           formDataToSend.append(`babList[${index}][materi]`, bab.materi);
         }
         formDataToSend.append(`babList[${index}][deskripsi]`, bab.deskripsi);
-        
-        // Kirim juga subBabList di sini
+  
         if (bab.subBabList && bab.subBabList.length > 0) {
           bab.subBabList.forEach((subBab, subIndex) => {
-            formDataToSend.append(`babList[${index}][subBabList][${subIndex}][judul]`, subBab.judul);
-            formDataToSend.append(`babList[${index}][subBabList][${subIndex}][subBab]`, subBab.subBab);
+            formDataToSend.append(
+              `babList[${index}][subBabList][${subIndex}][judul]`,
+              subBab.judul
+            );
+            formDataToSend.append(
+              `babList[${index}][subBabList][${subIndex}][subBab]`,
+              subBab.subBab
+            );
             if (subBab.materi) {
-              formDataToSend.append(`babList[${index}][subBabList][${subIndex}][materi]`, subBab.materi);
+              formDataToSend.append(
+                `babList[${index}][subBabList][${subIndex}][materi]`,
+                subBab.materi
+              );
             }
-            formDataToSend.append(`babList[${index}][subBabList][${subIndex}][deskripsi]`, subBab.deskripsi);
+            formDataToSend.append(
+              `babList[${index}][subBabList][${subIndex}][deskripsi]`,
+              subBab.deskripsi
+            );
+          });
+        }
+  
+        if (bab.pertanyaanList && bab.pertanyaanList.length > 0) {
+          bab.pertanyaanList.forEach((pertanyaan, pertanyaanIndex) => {
+            formDataToSend.append(
+              `babList[${index}][pertanyaanList][${pertanyaanIndex}][pertanyaan]`,
+              pertanyaan.pertanyaan
+            );
+            pertanyaan.opsiList.forEach((opsi, opsiIndex) => {
+              formDataToSend.append(
+                `babList[${index}][pertanyaanList][${pertanyaanIndex}][opsiList][${opsiIndex}]`,
+                opsi.text
+              );
+            });
           });
         }
       });
-
-      const response = await axios.post(`${environment.apiUrl}/create_course`, formDataToSend, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          Authorization: `Bearer ${localStorage.getItem('authToken')}`,
-        },
-      });
+  
+      const response = await axios.post(
+        `${environment.apiUrl}/create_course`,
+        formDataToSend,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+          },
+        }
+      );
       this.presentAlert('Akun anda berhasil terdaftar sebagai pengajar');
-      if (response.status === 200) {
-        // console.log(response);
-      } else {
-        console.error('Form submission failed');
-      }
     } catch (error) {
       this.errorAlert('Terjadi kesalahan, coba beberapa saat kedepan');
       console.error('Error submitting form:', error);
     }
   }
+  
 
   async errorAlert(messages?: string) {
     const alert = await this.alertController.create({
@@ -157,26 +207,45 @@ export class FormKursusPage {
       subBab: '',
       materi: null,
       deskripsi: '',
-      subBabList: [] // Inisialisasi subBabList di sini
+      subBabList: [],
+      pertanyaanList: [],
     };
     this.formData.babList.push(newBab);
   }
 
   addSubBab(parentIndex: number) {
-    // Check if subBabList is defined
+    const newSubBab: SubBab = {
+      judul: '',
+      subBab: '',
+      materi: null,
+      deskripsi: '',
+      jenis: '',
+      pilihSubBab: '',
+    };
     if (!this.formData.babList[parentIndex].subBabList) {
       this.formData.babList[parentIndex].subBabList = [];
     }
-  
-    const newSubBab: SubBab = {
-      judul: '',
-      subBab: '', // Pastikan properti subBab ditambahkan di sini
-      materi: null,
-      deskripsi: ''
-    };
-  
-    // Tambahkan newSubBab ke dalam subBabList
     this.formData.babList[parentIndex].subBabList.push(newSubBab);
+  }  
+
+  addPertanyaan(babIndex: number) {
+    const newPertanyaan: Pertanyaan = {
+      id: this.pertanyaanIdCounter++,
+      pertanyaan: '',
+      opsiList: [],
+      kenapaJawabanBenar: '',
+    };
+    this.formData.babList[babIndex].pertanyaanList.push(newPertanyaan);
+  }
+
+  addOpsi(babIndex: number, pertanyaanIndex: number) {
+    const newOpsi: Opsi = {
+      id: this.opsiIdCounter++,
+      text: '',
+    };
+    this.formData.babList[babIndex].pertanyaanList[
+      pertanyaanIndex
+    ].opsiList.push(newOpsi);
   }
 
   removeBab(index: number) {
@@ -187,70 +256,14 @@ export class FormKursusPage {
     this.formData.babList[parentIndex].subBabList.splice(childIndex, 1);
   }
 
-  handleFileInput(event: Event, field: string, index?: number, subIndex?: number) {
-    const input = event.target as HTMLInputElement;
-    if (input.files && input.files.length > 0) {
-      if (index !== undefined && field === 'materi' && subIndex === undefined) {
-        this.formData.babList[index].materi = input.files[0];
-      } else if (index !== undefined && field === 'materi' && subIndex !== undefined) {
-        this.formData.babList[index].subBabList[subIndex].materi = input.files[0];
-      } else if (field === 'bannerKursus') {
-        this.formData.bannerKursus = input.files[0];
-      }
-    }
+  removePertanyaan(babIndex: number, pertanyaanIndex: number) {
+    this.formData.babList[babIndex].pertanyaanList.splice(pertanyaanIndex, 1);
   }
 
-  isCheckmarkDisabled(): boolean {
-    const isBabListValid = this.formData.babList.every(bab => {
-      if (!bab.judul || !bab.subBab || !bab.deskripsi) return false;
-      if (bab.subBabList && bab.subBabList.length > 0) {
-        return bab.subBabList.every(subBab => subBab.judul && subBab.subBab && subBab.deskripsi);
-      }
-      return true;
-    });
-
-    let isDisabled = false;
-
-    if (!this.formData.judulKursus) {
-      isDisabled = true;
-    }
-    if (this.formData.jenisHarga === 'berbayar') {
-      if (!this.formData.hargaKursus) {
-        isDisabled = true;
-      }
-      if (!this.formData.hargaDiskon) {
-        isDisabled = true;
-      }
-      if (this.formData.hargaDiskon && parseInt(this.formData.hargaDiskon) >= parseInt(this.formData.hargaKursus)) {
-        isDisabled = true;
-      }
-    }
-    if (!this.formData.tingkatan) {
-      isDisabled = true;
-    }
-    if (!this.formData.bidang) {
-      isDisabled = true;
-    }
-    if (!this.formData.subBidang) {
-      isDisabled = true;
-    }
-    if (!this.formData.deskripsi) {
-      isDisabled = true;
-    }
-    if (!this.formData.jenisLangganan) {
-      isDisabled = true;
-    }
-    if (this.formData.jenisLangganan === 'limited' && !this.formData.jumlahBulan) {
-      isDisabled = true;
-    }
-    // if (!isBabListValid) {
-    //   isDisabled = true;
-    // }
-    if (!this.formData.bannerKursus) {
-      isDisabled = true;
-    }
-
-    return isDisabled;
+  removeOpsi(babIndex: number, pertanyaanIndex: number, opsiIndex: number) {
+    this.formData.babList[babIndex].pertanyaanList[
+      pertanyaanIndex
+    ].opsiList.splice(opsiIndex, 1);
   }
 
   async presentAlert(message: string) {
@@ -271,7 +284,92 @@ export class FormKursusPage {
     await modal.present();
   }
 
+  isCheckmarkDisabled(): boolean {
+    const isBabListValid = this.formData.babList.every((bab) => {
+      if (!bab.judul || !bab.subBab || !bab.deskripsi) return false;
+      if (bab.subBabList && bab.subBabList.length > 0) {
+        return bab.subBabList.every(
+          (subBab) => subBab.judul && subBab.subBab && subBab.deskripsi
+        );
+      }
+      return true;
+    });
+
+    let isDisabled = false;
+
+    if (!this.formData.judulKursus) {
+      isDisabled = true;
+    }
+    if (this.formData.jenisHarga === 'berbayar') {
+      if (!this.formData.hargaKursus) {
+        isDisabled = true;
+      }
+      if (!this.formData.hargaDiskon) {
+        isDisabled = true;
+      }
+      if (
+        this.formData.hargaDiskon &&
+        parseInt(this.formData.hargaDiskon) <=
+          parseInt(this.formData.hargaKursus)
+      ) {
+        isDisabled = true;
+      }
+    }
+    if (!this.formData.tingkatan) {
+      isDisabled = true;
+    }
+    if (!this.formData.bidang) {
+      isDisabled = true;
+    }
+    if (!this.formData.subBidang) {
+      isDisabled = true;
+    }
+    if (!this.formData.deskripsi) {
+      isDisabled = true;
+    }
+    if (!this.formData.jenisLangganan) {
+      isDisabled = true;
+    }
+    if (
+      this.formData.jenisLangganan === 'limited' &&
+      !this.formData.jumlahBulan
+    ) {
+      isDisabled = true;
+    }
+    // if (!isBabListValid) {
+    //   isDisabled = true;
+    // }
+    if (!this.formData.bannerKursus) {
+      isDisabled = true;
+    }
+
+    return isDisabled;
+  }
+  handleFileInput(
+    event: Event,
+    field: string,
+    index?: number,
+    subIndex?: number
+  ) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      if (index !== undefined && field === 'materi' && subIndex === undefined) {
+        this.formData.babList[index].materi = input.files[0];
+      } else if (
+        index !== undefined &&
+        field === 'materi' &&
+        subIndex !== undefined
+      ) {
+        this.formData.babList[index].subBabList[subIndex].materi =
+          input.files[0];
+      } else if (field === 'bannerKursus') {
+        this.formData.bannerKursus = input.files[0];
+      }
+    }
+  }
   onCheckmarkClick() {
+    console.log(this.formData);
+    
     this.onSubmit();
   }
 }
