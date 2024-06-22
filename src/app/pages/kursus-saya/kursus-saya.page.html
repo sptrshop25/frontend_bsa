@@ -1,57 +1,41 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-icon name="arrow-back-outline"></ion-icon>
+      <ion-back-button defaultHref="tab/tabs/home"></ion-back-button>
     </ion-buttons>
     <ion-title class="custom-title">Kursus Saya</ion-title>
-    <ion-buttons slot="end">
+    <!-- <ion-buttons slot="end">
       <ion-icon name="search-outline" class="search-icon"></ion-icon>
-    </ion-buttons>
+    </ion-buttons> -->
   </ion-toolbar>
 </ion-header>
 
-
-
 <ion-content [fullscreen]="true">
-  <ion-segment value="custom">
-    <ion-segment-button value="custom">
-      <ion-label>ALL</ion-label>
+  <ion-segment [(ngModel)]="segmentValue" (ionChange)="segmentChanged($event)">
+    <ion-segment-button value="all">
+      <ion-label>Semua</ion-label>
     </ion-segment-button>
-    <ion-segment-button value="segment">
-      <ion-label>On Progress</ion-label>
+    <ion-segment-button value="in-progress">
+      <ion-label>Proses</ion-label>
     </ion-segment-button>
-    <ion-segment-button value="buttons">
+    <ion-segment-button value="completed">
       <ion-label>Selesai</ion-label>
     </ion-segment-button>
   </ion-segment>
 
   <ion-list>
-    <ion-item>
-      <ion-thumbnail slot="start">
-        <ion-img src="../../../assets/img/bsa2.png"></ion-img>
-      </ion-thumbnail>
-      <ion-label>
-        <h2>Judul Kursus</h2>
-        <p>Nama pengajar</p>
-        <p>3 Jam 43 Menit</p>
-        <ion-progress-bar class="custom-progress-bar" value="0.71"></ion-progress-bar>
-        <p>95/134</p>
-      </ion-label>
-    </ion-item>
-    <ion-item>
-      <ion-thumbnail slot="start">
-        <ion-img src="../../../assets/img/bsa2.png"></ion-img>
-      </ion-thumbnail>
-      <ion-label>
-        <h2>Judul Kursus</h2>
-        <p>Nama pengajar</p>
-        <p>3 Jam 43 Menit</p>
-        <ion-progress-bar value="1" color="danger"></ion-progress-bar>
-        <p>126/126</p>
+    <ion-item *ngFor="let course of filteredCourses">
+      <ion-label (click)="navigateToDetail(course.id)">
+        <ion-img style="width: 100%; height: 200px" [src]="course.image"></ion-img>
+        <h2>{{ course.title }}</h2>
+        <p>{{ course.teacher }}</p>
+        <ion-progress-bar 
+          [class.custom-progress-bar]="course.progress < 1" 
+          [value]="course.progress" 
+          [color]="course.progress === 1 ? 'success' : undefined">
+        </ion-progress-bar>
+        <p>{{ course.progressDetail }}</p>
       </ion-label>
     </ion-item>
   </ion-list>
 </ion-content>
-
-
-

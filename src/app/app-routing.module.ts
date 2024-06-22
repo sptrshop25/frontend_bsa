@@ -112,6 +112,18 @@ const routes: Routes = [
   {
     path: 'payment',
     loadChildren: () => import('./pages/pay/pay.module').then( m => m.PayPageModule)
+  },
+  {
+    path: 'wishlist',
+    loadChildren: () => import('./pages/wishlist/wishlist.module').then( m => m.WishlistPageModule)
+  },
+  {
+    path: 'my-course',
+    loadChildren: () => import('./pages/kursus-saya/kursus-saya.module').then( m => m.KursusSayaPageModule)
+  },
+  {
+    path: 'detail-my-course',
+    loadChildren: () => import('./pages/detail-kursus-saya/detail-kursus-saya.module').then( m => m.DetailKursusSayaPageModule)
   }
   
 ];

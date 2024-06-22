@@ -167,4 +167,8 @@ export class HomePage implements OnInit, AfterViewInit {
 
     return groupedCoursesArray;
   }
+
+  myCourses() {
+    this.router.navigate(['my-course']);
+  }
 }

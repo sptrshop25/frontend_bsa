@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="tab/tabs/home"></ion-back-button>
     </ion-buttons>
-    <ion-title>Payment</ion-title>
+    <ion-title>Pembayaran</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -28,5 +28,6 @@
 </ion-content>
 
 <ion-footer>
-  <ion-button expand="block" (click)="checkout()" class="checkout-button">checkout now</ion-button>
+  <ion-button expand="block" [disabled]="isLoading" (click)="checkout()" class="checkout-button"><ion-spinner *ngIf="isLoading"></ion-spinner>
+    <span *ngIf="!isLoading">bayar</span></ion-button>
 </ion-footer>

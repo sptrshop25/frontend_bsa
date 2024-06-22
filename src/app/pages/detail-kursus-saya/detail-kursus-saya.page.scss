@@ -12,15 +12,48 @@ ion-header{
 }
 
 ion-content{
+
+  ion-segment-button {
+    font-family: 'Roboto', sans-serif;
+    --indicator-color: #6000C1;
+  
+  
+  }
+  
+  /* Material Design styles */
+  ion-segment-button.md {
+    // --color: #000;
+    --color-checked: #6000C1;
+    --indicator-height: 4px;
+  }
+  
+  /* iOS styles */
+  ion-segment-button.ios {
+    --color: #6000C1;
+    --color-checked: #ffffff;
+    --border-radius: 20px;
+    // --background: #fff;
+    // --background-checked:#fff;
+    // --background-focused:#fff;
+    // --background-focused-opacity:#fff;
+    // --background-hover:#ffff;
+    // --background-hover-opacity:#fff;
+    // --border-color:#ffff;
+    // --color-focused:#ffff;
+    // --color-hover: #fff;
+    // --indicator-color:#fff;
+  
+    
+  }
     ion-accordion-group {
         margin-left: 16px;
         margin-right: 16px;
         margin-top: 16px;
       }
       ion-item{
-        font-family: 'Times New Roman', Times, serif;
+        // font-family: 'Times New Roman', Times, serif;
         ion-label{
-          font-family: 'Times New Roman', Times, serif;
+          // font-family: 'Times New Roman', Times, serif;
           
         }
       }
@@ -32,4 +65,79 @@ ion-content{
           }
         }
       }
+      .certificate-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;;
+        padding: 20px;
+        box-sizing: border-box;
+        position: relative;
+      }
+      
+      .frame {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 200px; /* Sesuaikan dengan lebar gambar bingkai Anda */
+        height: 380px;
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
+    
+      ion-card{
+      }
+    
+      .frame-left {
+        left: 0;
+        background-image: url('../../../assets/img/kiri.png');
+      }
+      
+      .frame-right {
+        right: 0;
+        background-image: url('../../../assets/img/kanan.png');
+      }
+    
+      .content {
+        text-align: center;
+        z-index: 1;
+        
+      }
+      
+      .logo {
+        width: 50px;
+        margin-bottom: 10px;
+      }
+      .sertifikat{
+        color: #8000FF;
+        // font-family: "Times New Roman", Times, serif;
+      }
+    
+      p{
+        // color: #000000;
+        // font-family: "Times New Roman", Times, serif;
+      }
+    
+      .student-name{
+        font-family: 'Brush Script MT', cursive;
+        color: #8000FF;
+      }
+    
+      .course-name{
+        color: #8000FF;
+        font-family: "Times New Roman", Times, serif;
+      }
+    
+      .footer {
+        align-items: center;;
+        display: flex;
+        justify-content: space-between;
+        width: 30%;
+        padding: 0 20px;
+      }
+      
+      .signature, .date {
+        display: flex;
+        align-items: center;
+      } 
 }

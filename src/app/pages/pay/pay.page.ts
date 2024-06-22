@@ -14,6 +14,7 @@ export class PayPage implements OnInit {
   paymentMethods: any[] = [];
   selectedPaymentMethod: string = '';
   courseId: string = '';
+  isLoading = false;
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
@@ -41,7 +42,7 @@ export class PayPage implements OnInit {
   }
 
   checkout() {
-    // const response
+    this.isLoading = true;
     const data = {
       'course_id': this.courseId,
       'transaction_method': this.selectedPaymentMethod
@@ -54,10 +55,14 @@ export class PayPage implements OnInit {
     })
     .then((response) => {
       console.log('Response:', response.data);
-      // this.router.navigate(['/payment-success']);
+      let url = response.data.data.checkout_url;
+      window.location.href = url;
     })
     .catch((error) => {
       console.error('Error:', error);
+    })
+    .finally(() => {
+      this.isLoading = false;
     });
   }
 }

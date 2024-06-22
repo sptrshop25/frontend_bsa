@@ -110,6 +110,10 @@ export class TabProfilePage implements OnInit {
     this.router.navigate(['/teacher-register'])
   }
   
+  wishlist() {
+    this.router.navigate(['/wishlist']);
+  }
+  
   ngOnInit() {
     axios.post(`${environment.apiUrl}/info_user`, null, {
       headers: {

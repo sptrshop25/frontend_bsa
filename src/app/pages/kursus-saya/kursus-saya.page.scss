@@ -13,7 +13,7 @@ ion-buttons[slot="start"] {
 
 .custom-title {
     font-size: 1.2em;
-    font-family: "Times New Roman", Times, serif;
+    // font-family: "Times New Roman", Times, serif;
 }
 
 @media (min-width: 768px) {
@@ -39,7 +39,7 @@ ion-content {
   
   /* Material Design styles */
   ion-segment-button.md {
-    --color: #000;
+    // --color: #000;
     --color-checked: #6000C1;
     --indicator-height: 4px;
   }
@@ -65,10 +65,10 @@ ion-content {
   ion-list{
     ion-label{
       h2{
-        font-family: "Times New Roman", Times, serif;
+        // font-family: "Times New Roman", Times, serif;
       }
       p{
-        font-family: "Times New Roman", Times, serif;
+        // font-family: "Times New Roman", Times, serif;
       }
       .custom-progress-bar {
         --progress-height: 100px; /* Mengubah tinggi progress bar */
