@@ -1,95 +1,158 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="tab/tabs/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Profil Pengajar</ion-title>
+  </ion-toolbar>
+</ion-header>
+
 <ion-content>
   <div class="contrainer">
-    <ion-icon class="back" name="arrow-back-outline"></ion-icon>
     <div class="contrainer-image">
-      <img src="../../../assets/img/contoh.png" alt="" class="image">
-      <p class="teacher-name">Nama Pengajar</p>
+      <img src="../../../assets/img/BSA.png" alt="" class="image" />
+      <p class="teacher-name fw-bold">{{ teacherData.data_user.user_name }}</p>
     </div>
   </div>
+
   <ion-grid>
     <ion-row class="profile-stats">
       <ion-col class="stat">
         <ion-icon name="star"></ion-icon>
-        <p>4,8 Peringkat Pengajar</p>
+        <p>{{ averageRating.toFixed(1) }} Rating Pengajar</p>
       </ion-col>
       <ion-col class="stat">
         <ion-icon name="chatbubbles"></ion-icon>
-        <p>978 Ulasan</p>
+        <p>{{ totalReviews }} Ulasan</p>
       </ion-col>
     </ion-row>
     <ion-row>
       <ion-col class="stat">
         <ion-icon name="people"></ion-icon>
-        <p>2000 Peserta</p>
-      </ion-col>
-      <ion-col class="stat">
-        <ion-icon name="time"></ion-icon>
-        <p>100 Jam Kursus</p>
+        <p>{{ totalParticipants }} Pelajar</p>
       </ion-col>
       <ion-col class="stat">
         <ion-icon name="play"></ion-icon>
-        <p>30 Kursus</p>
+        <p>{{ totalCourses }} Kursus</p>
       </ion-col>
     </ion-row>
   </ion-grid>
-  <div>
-    <h1 style="margin-left: 15px;  font-size: 25px; font: bold;">About Me</h1>
-    <h3 style="margin-left: 5px; font-size: 20px;">Nama saya [Name], saya adalah seorang pengajar bahasa indonesia.
-      wdhsdhhasdkjnasjkdhuyewfyuasdfgjgaSHBZNVWQUYDFASUYQWFSVVQWDKCH DGBSK,WDEASGC,ADEG</h3>
+
+  <h5 style="margin-left: 15px">Tentang Pengajar</h5>
+  <p style="margin-left: 15px">{{ teacherData.teacher_description }}</p>
+
+  <h5 style="margin-left: 15px">Informasi Kontak</h5>
+  <div class="content ms-3">
+    <div
+      *ngIf="teacherData?.teacher_link_linkedin"
+      class="d-flex align-items-center mb-2"
+    >
+      <ion-icon
+        name="logo-linkedin"
+        style="color: rgb(63, 146, 255); width: 25px; height: 25px"
+      ></ion-icon>
+      <a
+        href="{{ teacherData?.teacher_link_linkedin }}"
+        class="ms-2"
+        style="color: blueviolet"
+        >{{ teacherData?.teacher_link_linkedin }}</a
+      >
+    </div>
+    <div
+      *ngIf="teacherData?.teacher_link_github"
+      class="d-flex align-items-center mb-2"
+    >
+      <ion-icon name="logo-github" style="width: 25px; height: 25px"></ion-icon>
+      <a
+        href="{{ teacherData?.teacher_link_github }}"
+        class="ms-2"
+        style="color: blueviolet"
+        >{{ teacherData?.teacher_link_github }}</a
+      >
+    </div>
+    <div
+      *ngIf="teacherData?.teacher_link_youtube"
+      class="d-flex align-items-center mb-2"
+    >
+      <ion-icon
+        name="logo-youtube"
+        style="color: red; width: 25px; height: 25px"
+      ></ion-icon>
+      <a
+        href="{{ teacherData?.teacher_link_youtube }}"
+        class="ms-2"
+        style="color: blueviolet"
+        >{{ teacherData?.teacher_link_youtube }}</a
+      >
+    </div>
   </div>
-  <div class="content">
-    <div>
-      <div>
-        <ion-icon name="logo-linkedin" style="color: rgb(63, 146, 255); width: 40px; height: 40px;"></ion-icon>
-      </div>
-      <div>
-        <ion-icon name="link-outline" style="width: 40px; height: 40px;"></ion-icon>
-      </div>
-      <div>
-        <ion-icon name="logo-youtube" style="color: red; width: 40px; height: 40px;"></ion-icon>
+
+  <h5 style="margin-left: 15px;">Pengalaman</h5>
+  <div style="margin-left: 15px;">
+    <div *ngFor="let teacher_experience of teacherData.teacher_experience">
+      <div class="ms-2">
+        <p class="fw-bold mb-0" style="font-size: 18px">{{ teacher_experience.position }}</p>
+        <p class="mb-0" style="font-size: 14px">{{ teacher_experience.name }}</p>
+        <p class="mb-0" style="font-size: 14px">{{ teacher_experience.start_date }} - {{ teacher_experience.end_date ? teacher_experience.end_date : 'saat ini' }} · 3 thn 11 bln</p>
       </div>
     </div>
   </div>
-  <div>
-    <h1 style="margin-left: 15px;  font-size: 25px; font: bold; margin-top: 10px;">Terlaris</h1>
-    <div class="container-scroll">
-      <div class="row carousel-row text-center fw-bold" style="font-size: 12px;">
-        <div class="card m-1">
-          <img src="https://via.placeholder.com/500" class="img-fluid" alt="..." style="width: 100%; height: 70px;">
-          <div class="card-body">
-            <div style="display: flex; align-items: center; justify-content: center;">
-              <img src="../../../assets/img/bsa2.png" style="width: 40px; margin-top: 3px; margin-left: -10px;"
-                class="rounded-circle">
-              <div style="margin-left: 10px; text-align: left; font-size: 10px;">
-                <span style="display: block;">Kecerdasan Tiruan</span>
-                <span style="display: block;">Rindi Nabila - 4,5</span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="card m-1">
-          <img src="https://via.placeholder.com/500" class="img-fluid" alt="..." style="width: 100%; height: 70px;">
-          <div class="card-body">
-            <div style="display: flex; align-items: center; justify-content: center;">
-              <img src="../../../assets/img/bsa2.png" style="width: 40px; margin-top: 3px; margin-left: -10px;"
-                class="rounded-circle">
-              <div style="margin-left: 10px; text-align: left; font-size: 10px;">
-                <span style="display: block;">Kecerdasan Tiruan</span>
-                <span style="display: block;">Rindi Nabila - 4,5</span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="card m-1">
-          <img src="https://via.placeholder.com/500" class="img-fluid" alt="..." style="width: 100%; height: 70px;">
-          <div class="card-body">
-            <div style="display: flex; align-items: center; justify-content: center;">
-              <img src="../../../assets/img/bsa2.png" style="width: 40px; margin-top: 3px; margin-left: -10px;"
-                class="rounded-circle">
-              <div style="margin-left: 10px; text-align: left; font-size: 10px;">
-                <span style="display: block;">Kecerdasan Tiruan</span>
-                <span style="display: block;">Rindi Nabila - 4,5</span>
-              </div>
+
+  <h5 style="margin-left: 15px;" class="mb-3 mt-2">
+    Kursus
+  </h5>
+  <div class="container-scroll" style="margin-top: -30px">
+    <div class="row carousel-row text-center fw-bold" style="font-size: 12px">
+      <div
+        class="card m-1 p-0"
+        style="height: 200px"
+        *ngFor="let course of teacherData.course"
+        (click)="navigateToCourseDetails(course.course_id)"
+      >
+        <img
+          [src]="course.course_image || 'https://via.placeholder.com/500'"
+          class="img-fluid"
+          [alt]="course.course_title"
+          style="width: 100%; height: 90px; margin-top: 2px"
+        />
+        <div
+          class="card-body p-1"
+          style="display: flex; align-items: flex-start"
+        >
+          <div
+            style="
+              text-align: left;
+              font-size: 10px;
+              flex-grow: 1;
+              flex-wrap: wrap;
+              margin-top: 7px;
+            "
+          >
+            <span style="display: block; word-break: break-all; font-size: 12px"
+              >{{ course.course_title.length > 29 ?
+              course.course_title.substring(0, 29) + '...' : course.course_title
+              }}</span
+            >
+            <span
+              style="font-size: 14px; color: {{ course.course_price ? '#8F00FF' : 'green' }}"
+              >{{ course.course_price | currencyFormat }}
+              <span
+                style="
+                  color: gray;
+                  font-size: 10px;
+                  text-decoration: line-through;
+                "
+                >{{ course.course_price_discount | currencyFormat }}</span
+              ></span
+            >
+            <span style="display: block"
+              >{{ teacherData.data_user.user_name }}</span
+            >
+            <div style="display: flex; align-items: center">
+              <span>{{ course.course_rating }} &nbsp;</span>
+              <app-star-rating
+                [rating]="+(course?.course_rating || 0)"
+              ></app-star-rating>
             </div>
           </div>
         </div>

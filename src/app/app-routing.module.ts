@@ -124,6 +124,26 @@ const routes: Routes = [
   {
     path: 'detail-my-course',
     loadChildren: () => import('./pages/detail-kursus-saya/detail-kursus-saya.module').then( m => m.DetailKursusSayaPageModule)
+  },
+  {
+    path: 'detail-material',
+    loadChildren: () => import('./pages/video-player/video-player.module').then( m => m.VideoPlayerPageModule)
+  },
+  {
+    path: 'help-center',
+    loadChildren: () => import('./pages/help-center/help-center.module').then( m => m.HelpCenterPageModule)
+  },
+  {
+    path: 'help-center',
+    loadChildren: () => import('./pages/help-center/help-center.module').then( m => m.HelpCenterPageModule)
+  },
+  {
+    path: 'pay-checkout',
+    loadChildren: () => import('./pages/pay-checkout/pay-checkout.module').then( m => m.PayCheckoutPageModule)
+  },
+  {
+    path: 'teacher-profile',
+    loadChildren: () => import('./pages/teacher-profile/teacher-profile.module').then( m => m.TeacherProfilePageModule)
   }
   
 ];

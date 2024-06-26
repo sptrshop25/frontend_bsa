@@ -137,4 +137,7 @@ export class TabProfilePage implements OnInit {
     });    
   }
 
+  helpCenter() {
+    this.router.navigate(['/help-center']);
+  }
 }

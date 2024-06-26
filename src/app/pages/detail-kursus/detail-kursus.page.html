@@ -55,7 +55,7 @@
       </div>
       <p class="namapengajar">
         Instuktur:
-        <a href="#">{{ course_details.course.teacher?.user_name }}</a>
+        <a (click)="teacherProfile()">{{ course_details.course.teacher?.user_name }}</a>
       </p>
     </div>
     <div class="kontenkursus">
@@ -63,7 +63,7 @@
       <ul>
         <li>{{ course_details.count_bab }} bab pembelajaran</li>
         <li>{{ course_details.count_video_material }} video pembelajaran</li>
-        <li>{{ course_details.count_quiz }} quiz</li>
+        <!-- <li>{{ course_details.count_quiz }} quiz</li> -->
         <li>sertifikat penyelesaian</li>
         <li>
           {{ course_details.course.course_duration ? 'aktif selama ' +
@@ -225,14 +225,17 @@
       &nbsp;Keranjang</ion-button
     > -->
     <span style="font-size: 14px" class="ms-2">Harga</span>
-    <h4 class="ms-4" style="color: blueviolet">
-      {{ course_details?.course?.course_price | currencyFormat }}
-    </h4>
-    <ion-button
-      slot="end"
-      (click)="navigateToDetail(course_details.course.course_id)"
-      class="BELI me-3 mt-1"
-      >BELI SEKARANG</ion-button
-    >
+<h4 class="ms-4" style="color: blueviolet">
+  {{ course_details?.course?.course_price | currencyFormat }}
+</h4>
+<ion-button *ngIf="course_details?.course?.course_price !== 0"
+  slot="end"
+  (click)="navigateToDetail(course_details.course.course_id)"
+  class="BELI me-3 mt-1">BELI SEKARANG</ion-button>
+<ion-button *ngIf="course_details?.course?.course_price === 0"
+  slot="end"
+  (click)="transaction(course_details.course.course_id)"
+  class="BELI me-3 mt-1"
+>Dapatkan Sekarang</ion-button>
   </ion-toolbar>
 </ion-footer>

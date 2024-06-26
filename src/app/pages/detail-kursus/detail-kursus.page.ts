@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import axios from 'axios';
 import { environment } from 'src/environments/environment';
+import { CustomAlertComponent } from './custom-alert/custom-alert.component';
+import { ModalController, AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
 
 interface Material {
@@ -65,7 +67,7 @@ export class DetailKursusPage implements OnInit {
   ratingDistribution: RatingDistribution[] = [];
   isWishlisted = false;
 
-  constructor(private route: ActivatedRoute, private router: Router) {}
+  constructor(private route: ActivatedRoute, private router: Router, private modalController: ModalController, private alertController: AlertController) {}
 
   ngOnInit() {
     this.route.queryParams.subscribe((params) => {
@@ -196,8 +198,18 @@ export class DetailKursusPage implements OnInit {
   }
 
   navigateToDetail(courseId: string) {
-    this.router.navigate(['/payment'], {
-      queryParams: { course_id: courseId },
+    axios.get(`${environment.apiUrl}/check_course/${courseId}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+      }
+    })
+    .then((response) => {
+      this.router.navigate(['/detail-kursus'], {
+        queryParams: { course_id: courseId },
+      });
+    })
+    .catch((error) => {
+      this.errorAlert("Kursus ini sudah berada di daftar kursus kamu"); 
     });
   }
 
@@ -245,4 +257,62 @@ export class DetailKursusPage implements OnInit {
         console.error('Error removing wishlist:', error);
       });
   }
+
+  async presentAlert(message: string) {
+    const modal = await this.modalController.create({
+      component: CustomAlertComponent,
+      componentProps: {
+        message: message
+      },
+      backdropDismiss: false
+    });
+
+    modal.onDidDismiss().then((result) => {
+      if (result.data && result.data.goToLogin) {
+        this.router.navigate(['/management-course']);
+      }
+    });
+
+    await modal.present();
+  }
+
+  async errorAlert(messages?: string) {
+    const alert = await this.alertController.create({
+      header: 'Gagal',
+      message: messages,
+      buttons: ['OK'],
+    });
+
+    await alert.present();
+  }
+
+  transaction(courseId: string) {
+    axios.post(
+      `${environment.apiUrl}/transaction`,
+      {
+        course_id: courseId,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+        },
+      })
+      .then((response) => {
+        this.presentAlert("Transaksi Berhasil");
+      })
+      .catch((error) => {
+        console.error('Transaction failed:', error);
+        if (error.response.data.message === "Course already purchased") {
+          this.errorAlert("Kursus ini sudah berada di daftar kursus kamu"); 
+        } else {
+          this.errorAlert("Terjadi kesalahan, silahkan coba lagi nanti");
+        }
+      });
+    }
+
+    teacherProfile() {
+      this.router.navigate(['/teacher-profile'], {
+        queryParams: { teacher_id: this.course_details?.course.teacher_id },
+      });
+    }
 }

@@ -1,24 +1,32 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-icon name="arrow-back-outline"></ion-icon>
+      <ion-back-button defaultHref="tab/tabs/home"></ion-back-button>
     </ion-buttons>
-    <ion-title>Judul Kursus</ion-title>
+    <ion-title>{{ material.title }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <div class="button-container">
-    <ion-button class="custom-button selesai-button">Selesai</ion-button>
-    <ion-button class="nav-button-1"> <ion-icon name="arrow-back"></ion-icon></ion-button>
-    <ion-button class="nav-button-2"><ion-icon name="arrow-forward"></ion-icon></ion-button>
+    <ion-button class="custom-button selesai-button" (click)="markFinish(material.course_id, materialId)"
+      [disabled]="isCompleted"
+      *ngIf="!isCompleted">Tandai Selesai</ion-button>
+    <ion-button class="custom-button selesai-button" disabled *ngIf="isCompleted">Sudah Selesai</ion-button>
+    <ion-button class="nav-button-1" (click)="goToPreviousMaterial()" [disabled]="isPreviousDisabled">
+      <ion-icon name="arrow-back"></ion-icon>
+    </ion-button>
+    <!-- Tombol navigasi ke bab berikutnya -->
+    <ion-button class="nav-button-2" (click)="goToNextMaterial()" [disabled]="isNextDisabled">
+      <ion-icon name="arrow-forward"></ion-icon>
+    </ion-button>
   </div>
 
-  <h2>Pendahuluan</h2>
+  <h2>{{ material.material_sub_title }}</h2>
   
-  <div class="video-container">
+  <div class="video-container" *ngIf="material.material_file">
     <video width="100%" controls controlsList="nodownload">
-      <source src="../../../assets/img/pagugi.mkv" type="video/mp4">
+      <source [attr.src]="material.material_file" type="video/mp4">
       Your browser does not support the video tag.
     </video>
   </div>
@@ -28,7 +36,7 @@
       <ion-card-title>Deskripsi</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      pelajaran ini mempelajari tentang anatomi tubuh manusia, yang akan membantu kita memahami bagaimana tubuh kita bekerja dan bagaimana menjaga kesehatannya.
+      {{ material.material_description }}
     </ion-card-content>
   </ion-card>
 </ion-content>

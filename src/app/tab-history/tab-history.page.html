@@ -2,76 +2,59 @@
   <ion-toolbar>
     <div class="search-container">
       <ion-buttons slot="start">
-        <ion-button>
-          <ion-icon class="icon" name="arrow-back-outline"></ion-icon>
-        </ion-button>
         <ion-title class="title">Riwayat</ion-title>
-        <ion-icon name="ellipsis-vertical"></ion-icon>
       </ion-buttons>
     </div>
   </ion-toolbar>
-  <ion-segment value="kursus">
-    <ion-segment-button value="aktivitas">
-      <ion-label>Aktivitas</ion-label>
+  <ion-segment [(ngModel)]="segmentValue" (ionChange)="setSegmentValue($event)">
+    <ion-segment-button value="proses">
+      <ion-label>Proses</ion-label>
     </ion-segment-button>
-    <ion-segment-button value="kursus">
-      <ion-label>Kursus</ion-label>
+    <ion-segment-button value="selesai">
+      <ion-label>Selesai</ion-label>
     </ion-segment-button>
-    <ion-segment-button value="pembelian">
-      <ion-label>Pembelian</ion-label>
+    <ion-segment-button value="semua">
+      <ion-label>Semua</ion-label>
     </ion-segment-button>
   </ion-segment>
 </ion-header>
 
 <ion-content>
   <ion-list>
-    <ion-item>
+    <ion-item *ngFor="let transaction of getFilteredTransactions(segmentValue)" (click)="setOpen(true)">
       <ion-thumbnail slot="start">
-        <img src="../../assets/img/BSA.png">
+        <img [src]="transaction.course[0]?.course_image">
       </ion-thumbnail>
       <ion-label>
-        <h2>Judul Kursus</h2>
-        <p>Nama Pengajar</p>
-        <p>
-          <ion-badge color="success" class="text-menu">Aktif</ion-badge> 04-12-2024
-        </p>
+        <h2>{{ transaction.transaction_id }}</h2>
+        <h2>{{ transaction.course[0]?.course_title }}</h2>
+        <p>{{ transaction.course[0]?.teacher_id }}</p>
+        <p>{{ transaction.created_at | date: 'medium' }}</p>
       </ion-label>
-    </ion-item>
-    <ion-item>
-      <ion-thumbnail slot="start" class="text-menu">
-        <img src="../../assets/img/BSA.png">
-      </ion-thumbnail>
-      <ion-label>
-        <h2>Judul Kursus</h2>
-        <p>Nama Pengajar</p>
-        <p>
-          <ion-badge color="success" class="text-menu">Aktif</ion-badge> Aktif selamanya
-        </p>
-      </ion-label>
-    </ion-item>
-    <ion-item>
-      <ion-thumbnail slot="start">
-        <img src="../../assets/img/BSA.png">
-      </ion-thumbnail>
-      <ion-label>
-        <h2>Judul Kursus</h2>
-        <p>Nama Pengajar</p>
-        <p>
-          <ion-badge color="danger" class="danger">Tidak Aktif</ion-badge> 04-01-2024
-        </p>
-      </ion-label>
-    </ion-item>
-    <ion-item>
-      <ion-thumbnail slot="start">
-        <img src="../../assets/img/BSA.png">
-      </ion-thumbnail>
-      <ion-label>
-        <h2>Judul Kursus</h2>
-        <p>Nama Pengajar</p>
-        <p>
-          <ion-badge color="success" class="text-menu">Aktif</ion-badge> Berakhir 3 hari lagi
-        </p>
-      </ion-label>
+      <span class="bg-primary p-1 rounded" *ngIf="transaction.transaction_status !== 'PAID'">Belum dibayar</span>
+      <span class="bg-success p-1 rounded" *ngIf="transaction.transaction_status === 'PAID'">Berhasil</span>
     </ion-item>
   </ion-list>
+
+  <ion-modal [isOpen]="isModalOpen">
+    <ng-template>
+      <ion-content class="modal-content">
+        <img class="mt-5" src="../../assets/img/course-management.png">
+        <h2>Kursus Selesai!</h2>
+        <p>Silakan tinggalkan ulasan Anda</p>
+        <div class="stars">
+          <ion-icon name="star"></ion-icon>
+          <ion-icon name="star"></ion-icon>
+          <ion-icon name="star"></ion-icon>
+          <ion-icon name="star"></ion-icon>
+          <ion-icon name="star-outline"></ion-icon>
+        </div>
+        <ion-textarea placeholder="Kirim Ulasan Anda Tentang kursus ini"></ion-textarea>
+        <div class="button-group">
+          <ion-button color="tertiary">Kirim Ulasan</ion-button>
+          <ion-button color="light" (click)="setOpen(false)">Batal</ion-button>
+        </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
 </ion-content>

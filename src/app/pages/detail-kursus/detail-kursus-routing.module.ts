@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { DetailKursusPage } from './detail-kursus.page';
 
+
 const routes: Routes = [
   {
     path: '',

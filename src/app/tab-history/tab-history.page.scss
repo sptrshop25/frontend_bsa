@@ -1,5 +1,5 @@
 ion-segment {
-    --background: #f8f8f8;
+    // --background: #f8f8f8;
   }
   
   ion-segment-button {
@@ -32,3 +32,66 @@ ion-icon {
   .danger {
     color: rgb(255, 220, 220);
   }
+
+  .modal-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .modal-icon {
+    width: 100px;
+    height: 100px;
+    background: linear-gradient(45deg, #a359c7, #7e35c0);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  
+  .modal-icon img {
+    width: 50px;
+    height: 50px;
+  }
+  
+  h2 {
+    color: #a359c7;
+    margin-bottom: 10px;
+  }
+  
+  .stars {
+    display: flex;
+    justify-content: center;  /* Center horizontally */
+    align-items: center;      /* Center vertically */
+    margin: 10px 0;
+  }
+  
+  .stars ion-icon {
+    font-size: 30px;
+    color: gold;
+  }
+  
+  
+  ion-textarea {
+    border: 1px solid #a359c7;
+    border-radius: 10px;
+    width: calc(100% - 20px); /* Adjust width to account for margin */
+    margin-bottom: 20px;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+  
+  .button-group {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+  
+  .button-group ion-button {
+    flex: 1;
+    margin: 0 5px;
+  }
+  

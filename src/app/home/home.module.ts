@@ -12,6 +12,8 @@ import { CurrencyFormatPipe } from './currency-format.pipe';
 
 import { SharedModulPageModule } from '../shared-modul/shared-modul.module';
 
+// import { LiveChatComponent } from '../live-chat/live-chat.component';
+
 @NgModule({
   imports: [
     CommonModule,

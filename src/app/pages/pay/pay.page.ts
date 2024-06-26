@@ -56,7 +56,8 @@ export class PayPage implements OnInit {
     .then((response) => {
       console.log('Response:', response.data);
       let url = response.data.data.checkout_url;
-      window.location.href = url;
+      // window.location.href = url;
+      this.router.navigate(['/pay-checkout'], { queryParams: { url: url } });
     })
     .catch((error) => {
       console.error('Error:', error);

@@ -24,6 +24,7 @@
         label="Judul Kursus"
         labelPlacement="floating"
         placeholder="Masukkan Judul Kursus"
+        [counter]="true" maxlength="50"
       ></ion-input>
     </ion-item>
     <ion-item>
@@ -80,6 +81,7 @@
         label="Deskripsi"
         labelPlacement="floating"
         placeholder="Masukkan Deskripsi"
+        [counter]="true" maxlength="100"
       ></ion-textarea>
     </ion-item>
   </ion-list>
@@ -156,6 +158,7 @@
             label="Bab {{ i + 1 }}"
             labelPlacement="floating"
             placeholder="Masukkan Judul Bab"
+            [counter]="true" maxlength="50"
           ></ion-input>
         </ion-item>
         <ion-item style="--background: transparent">
@@ -171,7 +174,7 @@
                   labelPlacement="floating"
                 >
                   <ion-select-option value="Materi">Materi</ion-select-option>
-                  <ion-select-option value="Quiz">Quiz</ion-select-option>
+                  <ion-select-option value="Quiz" disabled>Quiz (Soon)</ion-select-option>
                 </ion-select>
               </ion-item>
               <div *ngIf="subBab.pilihSubBab === 'Materi'">
@@ -181,6 +184,7 @@
                     label="Sub Bab"
                     labelPlacement="floating"
                     placeholder="Masukkan Judul Sub Bab"
+                    [counter]="true" maxlength="50"
                   ></ion-input>
                 </ion-item>
                 <label for="materi" style="margin-left: 17px">Video Materi</label>
@@ -197,6 +201,7 @@
                     label="Deskripsi Sub Bab"
                     labelPlacement="floating"
                     placeholder="Masukkan Deskripsi Sub Bab"
+                    [counter]="true" maxlength="100"
                   ></ion-textarea>
                 </ion-item>
               </div>
@@ -206,6 +211,7 @@
                     label="Judul Kuis"
                     placeholder="Masukkan Judul Kuis"
                     labelPlacement="floating"
+                    [counter]="true" maxlength="50"
                   ></ion-input>
                 </ion-item>
                 <ion-item>
@@ -213,6 +219,7 @@
                     label="Deskripsi Kuis"
                     placeholder="Masukkan Deskripsi Kuis"
                     labelPlacement="floating"
+                    [counter]="true" maxlength="100"
                   ></ion-textarea>
                 </ion-item>
                 <ion-item>
@@ -242,6 +249,7 @@
                     label="Pertanyaan"
                     placeholder="Masukkan Pertanyaan"
                     labelPlacement="floating"
+                    [counter]="true" maxlength="100"
                   ></ion-input>
                 </ion-item>
                 <ion-item>

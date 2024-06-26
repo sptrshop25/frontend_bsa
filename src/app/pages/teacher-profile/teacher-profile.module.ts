@@ -7,14 +7,17 @@ import { IonicModule } from '@ionic/angular';
 import { TeacherProfilePageRoutingModule } from './teacher-profile-routing.module';
 
 import { TeacherProfilePage } from './teacher-profile.page';
+import { CurrencyFormatPipe } from './currency-format.pipe';
+import { SharedModulPageModule } from '../../shared-modul/shared-modul.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    TeacherProfilePageRoutingModule
+    TeacherProfilePageRoutingModule,
+    SharedModulPageModule
   ],
-  declarations: [TeacherProfilePage]
+  declarations: [TeacherProfilePage, CurrencyFormatPipe]
 })
 export class TeacherProfilePageModule {}

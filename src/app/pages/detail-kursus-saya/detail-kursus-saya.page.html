@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="my-course"></ion-back-button>
     </ion-buttons>
-    <ion-title>Judul Kursus</ion-title>
+    <ion-title>{{ title_course }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -12,7 +12,7 @@
     <ion-segment-button value="custom">
       <ion-label>Pelajaran</ion-label>
     </ion-segment-button>
-    <ion-segment-button value="segment">
+    <ion-segment-button value="segment" [disabled]="isMaterialSuccessEmpty">
       <ion-label>Sertifikat</ion-label>
     </ion-segment-button>
   </ion-segment>
@@ -27,10 +27,10 @@
           </ion-item>
           <div slot="content">
             <ion-list>
-              <ion-item *ngFor="let material of bab.course_materials">
+              <ion-item *ngFor="let material of bab.course_materials" (click)="detailMaterial(material.material_id)">
                 <ion-icon name="play-outline" slot="start"></ion-icon>
                 <ion-label>{{ material.material_sub_title }}</ion-label>
-                <ion-icon class="check-icon" *ngIf="material.completed" name="checkmark-circle" slot="end"></ion-icon>
+                <ion-icon *ngIf="isMaterialSuccessNotEmpty(material)" class="check-icon text-success" name="checkmark-circle" slot="end"></ion-icon>
               </ion-item>
             </ion-list>
           </div>

@@ -12,6 +12,8 @@ interface Course {
   progressDetail: string;
   completedCount: number;
   courseMaterials: CourseMaterial[];
+  activePeriod: any;
+  status: string;
 }
 
 interface CourseMaterial {
@@ -41,7 +43,7 @@ export class KursusSayaPage implements OnInit {
       }
     })
       .then(response => {
-        const data = response.data;
+        const data = response.data; 
         this.courses = data.map((courseData: any) => this.mapCourseData(courseData));
         this.filterCourses();
       })
@@ -51,6 +53,8 @@ export class KursusSayaPage implements OnInit {
   }
 
   mapCourseData(courseData: any): Course {
+    // console.log(courseData.active_period);
+    
     const totalMaterials = courseData.material_bab.reduce((acc: number, bab: any) => acc + bab.course_materials.length, 0);
     const progress = courseData.completed_count / totalMaterials;
     return {
@@ -62,6 +66,8 @@ export class KursusSayaPage implements OnInit {
       progressDetail: `${courseData.completed_count}/${totalMaterials}`,
       completedCount: courseData.completed_count,
       courseMaterials: this.extractCourseMaterials(courseData.material_bab),
+      activePeriod: courseData.active_period,
+      status: courseData.status
     };
   }
 
@@ -87,7 +93,36 @@ export class KursusSayaPage implements OnInit {
     }
   }
 
-  navigateToDetail(materialId: string) {
-    this.router.navigate(['/detail-my-course'], { queryParams: { material_id: materialId } });
+  navigateToDetail(materialId: string, status: string) {
+    if (status !== 'inactive') {
+      this.router.navigate(['/detail-my-course'], { queryParams: { material_id: materialId } });
+    }
   }
+
+  getStatusText(status: string): string {
+    switch (status) {
+      case 'active':
+        return 'Aktif';
+      case 'inactive':
+        return 'Tidak aktif';
+      case 'completed':
+        return 'Selesai';
+      default:
+        return '';
+    }
+  }
+  
+  getStatusClass(status: string): string {
+    switch (status) {
+      case 'active':
+        return 'bg-success';
+      case 'inactive':
+        return 'bg-danger';
+      case 'completed':
+        return 'bg-purple';
+      default:
+        return '';
+    }
+  }
+  
 }

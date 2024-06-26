@@ -8,6 +8,7 @@ import { DetailKursusPageRoutingModule } from './detail-kursus-routing.module';
 
 import { DetailKursusPage } from './detail-kursus.page';
 import { CurrencyFormatPipe } from './currency-format.pipe';
+import { CustomAlertComponent } from './custom-alert/custom-alert.component';
 
 @NgModule({
   imports: [
@@ -16,6 +17,6 @@ import { CurrencyFormatPipe } from './currency-format.pipe';
     IonicModule,
     DetailKursusPageRoutingModule
   ],
-  declarations: [DetailKursusPage, CurrencyFormatPipe],
+  declarations: [DetailKursusPage, CurrencyFormatPipe, CustomAlertComponent],
 })
 export class DetailKursusPageModule {}

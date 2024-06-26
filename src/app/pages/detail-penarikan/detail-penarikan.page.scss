@@ -1,0 +1,68 @@
+ion-content {
+    --ion-background-color: #f8f8f8;
+  }
+  
+  .status {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .status-text {
+    color: green;
+    font-size: 1.2em;
+    margin-left: 5px;
+  }
+  
+  .date-time {
+    text-align: center;
+    color: gray;
+    margin-top: 10px;
+  }
+  
+  .total-amount {
+    text-align: center;
+    font-size: 2em;
+    margin: 20px 0;
+  }
+  
+  ion-card {
+    margin-top: 20px;
+    background: #f1f1f1;
+  }
+  
+  .card-content {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .card-header {
+    margin-bottom: 20px;
+  }
+  
+  .card-details {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  
+  .detail-item {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 5px 0;
+  }
+  
+  h1 {
+    font-size: 15px;
+  }
+  
+  h2 {
+    font-size: 15px;
+  }
+
+  hr.new3 {
+    border-top: 2px dotted rgb(0, 0, 0);
+  }
+  
