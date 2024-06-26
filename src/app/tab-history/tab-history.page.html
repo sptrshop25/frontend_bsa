@@ -21,18 +21,18 @@
 
 <ion-content>
   <ion-list>
-    <ion-item *ngFor="let transaction of getFilteredTransactions(segmentValue)" (click)="setOpen(true)">
+    <ion-item *ngFor="let transaction of getFilteredTransactions(segmentValue)" (click)="setOpen(true, transaction.course[0]?.course_id)">
       <ion-thumbnail slot="start">
         <img [src]="transaction.course[0]?.course_image">
       </ion-thumbnail>
       <ion-label>
         <h2>{{ transaction.transaction_id }}</h2>
         <h2>{{ transaction.course[0]?.course_title }}</h2>
-        <p>{{ transaction.course[0]?.teacher_id }}</p>
+        <!-- <p>{{ transaction.course[0]?.teacher_id }}</p> -->
         <p>{{ transaction.created_at | date: 'medium' }}</p>
       </ion-label>
-      <span class="bg-primary p-1 rounded" *ngIf="transaction.transaction_status !== 'PAID'">Belum dibayar</span>
-      <span class="bg-success p-1 rounded" *ngIf="transaction.transaction_status === 'PAID'">Berhasil</span>
+      <span class="bg-primary p-1 rounded" *ngIf="transaction.transaction_status !== 'PAID'" style="font-size: 12px;">Belum dibayar</span>
+      <span class="bg-success p-1 rounded" *ngIf="transaction.transaction_status === 'PAID'" style="font-size: 12px;">Berhasil</span>
     </ion-item>
   </ion-list>
 
@@ -43,15 +43,14 @@
         <h2>Kursus Selesai!</h2>
         <p>Silakan tinggalkan ulasan Anda</p>
         <div class="stars">
-          <ion-icon name="star"></ion-icon>
-          <ion-icon name="star"></ion-icon>
-          <ion-icon name="star"></ion-icon>
-          <ion-icon name="star"></ion-icon>
-          <ion-icon name="star-outline"></ion-icon>
+          <ion-icon *ngFor="let star of [1, 2, 3, 4, 5]" 
+                    [name]="isStarFilled(star) ? 'star' : 'star-outline'" 
+                    (click)="setRating(star)">
+          </ion-icon>
         </div>
-        <ion-textarea placeholder="Kirim Ulasan Anda Tentang kursus ini"></ion-textarea>
+        <ion-textarea placeholder="Kirim Ulasan Anda Tentang kursus ini" [(ngModel)]="comment"></ion-textarea>
         <div class="button-group">
-          <ion-button color="tertiary">Kirim Ulasan</ion-button>
+          <ion-button [disabled]="!canSubmitReview()" (click)="submitReview()" color="tertiary">Kirim Ulasan</ion-button>
           <ion-button color="light" (click)="setOpen(false)">Batal</ion-button>
         </div>
       </ion-content>

@@ -12,6 +12,9 @@ export class TabHistoryPage implements OnInit {
   segmentValue: string = 'proses';
   isModalOpen: boolean = false;
   transactions: any[] = [];
+  rating: number = 0;
+  comment: string = '';
+  selectedCourseId: string = '';
 
   constructor() { }
 
@@ -39,8 +42,11 @@ export class TabHistoryPage implements OnInit {
     }
   }
 
-  setOpen(isOpen: boolean) {
+  setOpen(isOpen: boolean, courseId?: string) {
     this.isModalOpen = isOpen;
+    if (courseId) {
+      this.selectedCourseId = courseId;
+    }
   }
 
   getFilteredTransactions(status: string) {
@@ -51,5 +57,33 @@ export class TabHistoryPage implements OnInit {
       status === 'proses' ? transaction.transaction_status !== 'PAID' : transaction.transaction_status === 'PAID'
     );
   }
+
+  setRating(value: number) {
+    this.rating = value;
+  }
+  isStarFilled(starNumber: number): boolean {
+    return starNumber <= this.rating;
+  }
+
+  canSubmitReview(): boolean {
+    return this.rating > 0 && this.comment.trim().length > 0;
+  }  
   
+  async submitReview() {
+    try {
+      const response = await axios.post(`${environment.apiUrl}/rating_course `, {
+        course_id: this.selectedCourseId,
+        rating: this.rating,
+        comment: this.comment
+      }, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+        },
+      });
+      console.log('Review submitted successfully:', response.data);
+      this.setOpen(false);
+    } catch (error) {
+      console.error('Error submitting review:', error);
+    }
+  }
 }

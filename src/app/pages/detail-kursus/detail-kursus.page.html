@@ -54,7 +54,7 @@
         >
       </div>
       <p class="namapengajar">
-        Instuktur:
+        Pengajar:
         <a (click)="teacherProfile()">{{ course_details.course.teacher?.user_name }}</a>
       </p>
     </div>
@@ -144,9 +144,9 @@
       </div>
     </div>
   </ion-grid>
-  <ion-list>
+  <ion-list *ngIf="firstThreeReviews.length > 0">
     <h6 class="float-end" (click)="setOpen(true)">Lihat semua ulasan</h6>
-    <ion-item *ngFor="let review of firstThreeReviews">
+    <ion-item *ngFor="let review of firstThreeReviews" >
       <ion-avatar slot="start">
         <img src="../../../assets/img/voucher.png" />
       </ion-avatar>

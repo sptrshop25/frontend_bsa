@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import axios from 'axios';
 import { environment } from 'src/environments/environment';
 import { ActivatedRoute, Router } from '@angular/router';
+import * as moment from 'moment';
 
 interface Rating {
   id: number;
@@ -55,6 +56,15 @@ interface TeacherExperience {
   is_still_working: string;
 }
 
+interface TeacherEducationHistory {
+  id: number;
+  teacher_id: string;
+  teacher_degree_title: string;
+  teacher_university: string;
+  teacher_major: string;
+  teacher_graduation_year: string;
+}
+
 interface TeacherData {
   teacher_id: string;
   teacher_description: string;
@@ -86,6 +96,7 @@ interface TeacherData {
   };
   teacher_experience: TeacherExperience[];
   course: Course[];
+  teacher_education_history: TeacherEducationHistory[];
 }
 
 @Component({
@@ -125,12 +136,14 @@ export class TeacherProfilePage implements OnInit {
     },
     course: [],
     teacher_experience: [],
+    teacher_education_history: [],
   };
 
   averageRating: number = 0;
   totalReviews: number = 0;
   totalParticipants: number = 0;
   totalCourses: number = 0;
+  showFullDescription: boolean[] = [];
 
   constructor(private route: ActivatedRoute, private router: Router) {}
 
@@ -164,6 +177,7 @@ export class TeacherProfilePage implements OnInit {
           }
         }
         
+        this.showFullDescription.push(false);
         // Hitung jumlah ulasan
         this.totalReviews = this.teacherData.course.reduce((total, course) => total + course.rating.length, 0);
 
@@ -178,8 +192,24 @@ export class TeacherProfilePage implements OnInit {
       });
   }
 
+  toggleDescription(index: number): void {
+    this.showFullDescription[index] = !this.showFullDescription[index];
+  }
+
   navigateToCourseDetails(courseId: string) {
     this.router.navigate(['/detail-course'], { queryParams: { course_id: courseId } });
+  }
+
+  formatDate(dateStr: string): string {
+    return moment(dateStr).format('MMM YYYY');
+  }
+
+  calculateDuration(startDate: string, endDate: string | null): string {
+    const start = moment(startDate);
+    const end = endDate ? moment(endDate) : moment();
+    const years = end.diff(start, 'years');
+    const months = end.diff(start, 'months') % 12;
+    return `${years} thn ${months} bln`;
   }
 
 }

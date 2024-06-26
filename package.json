@@ -43,6 +43,7 @@
     "html2canvas": "^1.4.1",
     "ionicons": "^7.0.0",
     "jquery": "^3.7.1",
+    "moment": "^2.30.1",
     "owl.carousel": "^2.3.4",
     "qrcode": "^1.5.3",
     "rxjs": "~7.8.0",
