@@ -22,6 +22,12 @@ interface Course {
   category_name: string;
 }
 
+interface Teacher {
+  teacher_id: string;
+  name: string;
+  profile_picture: string;
+}
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.page.html',
@@ -32,6 +38,7 @@ export class HomePage implements OnInit, AfterViewInit {
   isLoading = true;
   salam: string = '';
   name: string = '';
+  topTeachers: Teacher[] = [];
   private autoScrollTimeout: any;
   private userScrolling = false;
 
@@ -106,10 +113,6 @@ export class HomePage implements OnInit, AfterViewInit {
       location.reload();
     }, 2000);
   }
-
-  test(){
-    this.router.navigate(['/tab-kursus/search-course']);
-  }
   ngOnInit() {
     axios.get(`${environment.apiUrl}/get_courses`, {
       headers: {
@@ -127,7 +130,7 @@ export class HomePage implements OnInit, AfterViewInit {
       this.isLoading = false;
     });
 
-    axios.post(`${environment.apiUrl}/info_user`, null, {
+    axios.get(`${environment.apiUrl}/info_user`, {
       headers: {
         Authorization: `${localStorage.getItem('authToken')}`
       }
@@ -141,6 +144,19 @@ export class HomePage implements OnInit, AfterViewInit {
     })
     .finally(() => {
       this.isLoading = false;
+    });
+    axios.get(`${environment.apiUrl}/list-teacher-top`, {
+      headers: {
+        Authorization: `${localStorage.getItem('authToken')}`
+      }
+    }) 
+    .then((response) => {
+      this.topTeachers = response.data;
+      console.log('Top Teachers:', this.topTeachers);
+      
+    })
+    .catch((error) => {
+      console.log('Error fetching top teachers:', error);
     });
   }
 
@@ -170,5 +186,13 @@ export class HomePage implements OnInit, AfterViewInit {
 
   myCourses() {
     this.router.navigate(['my-course']);
+  }
+
+  teacherProfile(teacher_id = '') {
+    this.router.navigate(['teacher-profile'], { queryParams: { teacher_id } });
+  }
+
+  courseDetail(course_id = '') {
+    this.router.navigate(['detail-course'], { queryParams: { course_id } });
   }
 }

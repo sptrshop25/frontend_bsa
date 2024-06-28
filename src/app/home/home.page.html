@@ -36,7 +36,7 @@
   </div>
     <div class="row justify-content-center text-center">
       <div class="col-4" (click)="myCourses()">
-        <div (click)="test()" class="position-relative">
+        <div (click)="myCourses()" class="position-relative">
           <img src="../../../assets/img/kursus_saya.png" alt="">
         </div>
         <p class="mt-2">Kursus Saya</p>
@@ -56,48 +56,19 @@
     </div>
   <!-- </div> -->
   <br>
-  <P class="title">Top Pengajar</P>
-  <div class="container-scroll">
+  <P class="title mb-0">Top Pengajar</P>
+  <div class="container-scroll mt-0">
     <div
       class="row carousel-row text-center fw-bold"
       style="font-size: 12px;"
     >
-      <div class="col">
-        <img
-          src="../../../assets/img/bsa2.png"
-          alt=""
-          style="width: 50px;"
-          class="rounded-circle"
-        />
-        <p class="mt-1">Rindi Nabila</p>
-      </div>
-      <div class="col">
-        <img
-          src="../../../assets/img/bsa2.png"
-          alt=""
-          style="width: 50px;"
-          class="rounded-circle"
-        />
-        <p class="mt-1">Rindi Nabila</p>
-      </div>
-      <div class="col">
-        <img
-          src="../../../assets/img/bsa2.png"
-          alt=""
-          style="width: 50px;"
-          class="rounded-circle"
-        />
-        <p class="mt-1">Rindi Nabila</p>
-      </div>
-      <div class="col">
-        <img
-          src="../../../assets/img/bsa2.png"
-          alt=""
-          style="width: 50px;"
-          class="rounded-circle"
-        />
-        <p class="mt-1">Rindi Nabila</p>
-      </div>
+    <div class="col" *ngFor="let teacher of topTeachers" (click)="teacherProfile(teacher.teacher_id)" style="display: flex; flex-direction: column; align-items: center;">
+      <ion-avatar>
+        <img [src]="teacher.profile_picture ? teacher.profile_picture : '../../../assets/img/bsa2.png'" style="width: 50px; height: 50px" class="rounded-circle">
+      </ion-avatar>
+      <p class="mt-1">{{ teacher.name.length > 12 ? teacher.name.substring(0, 12) + '...' : teacher.name }}</p>
+    </div>
+    
     </div>
   </div>
   <br>
@@ -109,6 +80,7 @@
           class="card m-1 p-0"
           style="height: 200px"
           *ngFor="let course of group.courses"
+          (click)="courseDetail(course.course_id)"
         >
           <img
             [src]="course.course_image || 'https://via.placeholder.com/500'"
@@ -153,5 +125,4 @@
       </div>
     </div>
   </div>
-  <!-- <app-live-chat></app-live-chat> -->
 </ion-content>

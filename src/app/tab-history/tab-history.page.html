@@ -21,7 +21,7 @@
 
 <ion-content>
   <ion-list>
-    <ion-item *ngFor="let transaction of getFilteredTransactions(segmentValue)" (click)="setOpen(true, transaction.course[0]?.course_id)">
+    <ion-item *ngFor="let transaction of getFilteredTransactions(segmentValue)" (click)="setOpen(true, transaction.course[0]?.course_id, transaction.transaction_id, transaction.transaction_status, transaction.transaction_url_checkout)">
       <ion-thumbnail slot="start">
         <img [src]="transaction.course[0]?.course_image">
       </ion-thumbnail>
@@ -29,7 +29,7 @@
         <h2>{{ transaction.transaction_id }}</h2>
         <h2>{{ transaction.course[0]?.course_title }}</h2>
         <!-- <p>{{ transaction.course[0]?.teacher_id }}</p> -->
-        <p>{{ transaction.created_at | date: 'medium' }}</p>
+        <p>{{ transaction.created_at | date:'dd MMM yyyy | HH:mm:ss' }}</p>
       </ion-label>
       <span class="bg-primary p-1 rounded" *ngIf="transaction.transaction_status !== 'PAID'" style="font-size: 12px;">Belum dibayar</span>
       <span class="bg-success p-1 rounded" *ngIf="transaction.transaction_status === 'PAID'" style="font-size: 12px;">Berhasil</span>

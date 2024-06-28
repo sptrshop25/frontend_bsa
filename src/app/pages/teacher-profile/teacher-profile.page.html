@@ -10,9 +10,11 @@
 <ion-content>
   <div class="contrainer">
     <div class="contrainer-image">
-      <img src="../../../assets/img/BSA.png" alt="" class="image" />
-      <p class="teacher-name fw-bold">{{ teacherData.data_user.user_name }}</p>
-      <i style="font-size: 12px;">Bergabung sejak {{ teacherData.created_at | date : 'dd MMMM yyyy' }}</i>
+      <ion-avatar>
+        <img [src]="teacherData.data_user.user_profile_picture ? teacherData.data_user.user_profile_picture : 'assets/img/bsa2.png'" alt="" class="image mt-3" />
+      </ion-avatar>
+      <p class="teacher-name fw-bold mb-1 mt-4">{{ teacherData.data_user.user_name }}</p>
+      <i style="font-size: 12px;">Menjadi pengajar sejak {{ teacherData.created_at | date : 'dd MMMM yyyy' }}</i>
     </div>
   </div>
 
@@ -42,7 +44,7 @@
   <h5 style="margin-left: 15px; margin-right: 15px">Tentang Pengajar</h5>
   <p style="margin-left: 15px; margin-right: 15px">{{ teacherData.teacher_description }}</p>
 
-  <h5 style="margin-left: 15px; margin-right: 15px">Informasi Kontak</h5>
+  <h5 *ngIf="teacherData?.teacher_link_linkedin || teacherData?.teacher_link_github" style="margin-left: 15px; margin-right: 15px">Informasi Kontak</h5>
   <div class="content ms-3">
     <div
       *ngIf="teacherData?.teacher_link_linkedin"
@@ -88,7 +90,7 @@
     </div>
   </div>
 
-  <h5 class="mt-3" style="margin-left: 15px; margin-right: 15px;">Pengalaman</h5>
+  <h5 *ngIf="teacherData?.teacher_experience" class="mt-3" style="margin-left: 15px; margin-right: 15px;">Pengalaman</h5>
   <div style="margin-left: 15px; margin-right: 15px;">
     <div *ngFor="let teacher_experience of teacherData.teacher_experience; let i = index">
       <div class="ms-2">
@@ -113,13 +115,13 @@
     </div>
   </div>
 
-  <h5 class="mt-3" style="margin-left: 15px; margin-right: 15px;">Pendidikan</h5>
+  <h5 *ngIf="teacherData?.teacher_education_history" class="mt-3" style="margin-left: 15px; margin-right: 15px;">Pendidikan</h5>
   <div style="margin-left: 15px; margin-right: 15px;">
     <div *ngFor="let teacher_education_history of teacherData.teacher_education_history; let i = index">
       <div class="ms-2">
         <p class="fw-bold mb-1" style="font-size: 18px">{{ teacher_education_history.teacher_university }}</p>
         <p class="mb-1" style="font-size: 14px">{{ teacher_education_history.teacher_degree_title }} - {{ teacher_education_history.teacher_major }}</p>
-        <p class="mb-1" style="font-size: 14px">Lulus pada tahun {{ teacher_education_history.teacher_graduation_year }}</p>
+        <p class="mb-1" style="font-size: 14px">{{ formatDate(teacher_education_history.teacher_start_year) }} - {{ formatDate(teacher_education_history.teacher_graduation_year) }} · {{ calculateDuration(teacher_education_history.teacher_start_year, teacher_education_history.teacher_graduation_year) }}</p>
         
       </div>
       <div *ngIf="i !== teacherData.teacher_education_history.length - 1" style="margin-bottom: 15px;"></div>
@@ -128,7 +130,7 @@
   </div>
   
   
-  <h5 style="margin-left: 15px; margin-right: 15px;" class="mb-3 mt-2">
+  <h5 *ngIf="teacherData?.course" style="margin-left: 15px; margin-right: 15px;" class="mb-3 mt-2">
     Kursus
   </h5>
   <div class="container-scroll" style="margin-top: -30px">
@@ -159,8 +161,8 @@
             "
           >
             <span style="display: block; word-break: break-all; font-size: 12px"
-              >{{ course.course_title.length > 29 ?
-              course.course_title.substring(0, 29) + '...' : course.course_title
+              >{{ course.course_title.length > 40 ?
+              course.course_title.substring(0, 40) + '...' : course.course_title
               }}</span
             >
             <span

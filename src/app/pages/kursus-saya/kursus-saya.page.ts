@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import axios from 'axios';
 import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
+import { ToastController } from '@ionic/angular';
+import { CustomAlertComponent } from './custom-alert/custom-alert.component';
+import { ModalController, AlertController } from '@ionic/angular';
 
 interface Course {
   id: string;
@@ -14,6 +17,7 @@ interface Course {
   courseMaterials: CourseMaterial[];
   activePeriod: any;
   status: string;
+  price: number;
 }
 
 interface CourseMaterial {
@@ -30,7 +34,10 @@ export class KursusSayaPage implements OnInit {
   courses: Course[] = [];
   filteredCourses: Course[] = [];
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private toastController: ToastController, private modalController: ModalController, private alertController: AlertController
+  ) {}
 
   ngOnInit() {
     this.fetchCourseData();
@@ -53,14 +60,13 @@ export class KursusSayaPage implements OnInit {
   }
 
   mapCourseData(courseData: any): Course {
-    // console.log(courseData.active_period);
-    
     const totalMaterials = courseData.material_bab.reduce((acc: number, bab: any) => acc + bab.course_materials.length, 0);
     const progress = courseData.completed_count / totalMaterials;
     return {
       id: courseData.course_id,
       title: courseData.course.course_title,
       teacher: courseData.teacher,
+      price: courseData.course.course_price,
       image: courseData.course.course_image,
       progress: progress,
       progressDetail: `${courseData.completed_count}/${totalMaterials}`,
@@ -93,9 +99,52 @@ export class KursusSayaPage implements OnInit {
     }
   }
 
-  navigateToDetail(materialId: string, status: string) {
-    if (status !== 'inactive') {
-      this.router.navigate(['/detail-my-course'], { queryParams: { material_id: materialId } });
+  async navigateToDetail(materialId: string, status: string, course_id: string, price: number) {
+    if (status === 'inactive') {
+      if (price === 0) {
+        axios.post(`${environment.apiUrl}/extend-course`, {
+          'course_id': course_id,
+        }, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('authToken')}`
+          }
+        })
+          .then(response => {
+            this.presentAlert(response.data.message);
+            this.fetchCourseData();
+            // console.log(response.data);
+            
+          })
+          .catch(error => {
+            console.error('Error fetching course data:', error);
+            this.presentAlert("Terjadi kesalahan, silahkan coba lagi");
+          });
+      } else {
+        this.router.navigate(['payment'], { queryParams: { course_id: course_id } });
+      }
+    } else {
+      const currentDateTime = new Date();
+      const activePeriodDateTime = new Date(this.getActivePeriodDate(status));
+
+      // if (activePeriodDateTime <= currentDateTime) {
+      //   const toast = await this.toastController.create({
+      //     message: 'Kursus sudah tidak aktif, tidak dapat membuka detail.',
+      //     duration: 2000,
+      //     position: 'bottom'
+      //   });
+      //   toast.present();
+      // } else {
+        this.router.navigate(['/detail-my-course'], { queryParams: { material_id: materialId } });
+      // }
+    }
+  }
+
+  getActivePeriodDate(status: string): string {
+    switch (status) {
+      case 'active':
+        return 'Aktif selamanya'; // Misalnya, untuk status 'active', kembalikan nilai tanggal yang sesuai
+      default:
+        return ''; // Pastikan untuk menangani semua kasus yang mungkin
     }
   }
 
@@ -125,4 +174,31 @@ export class KursusSayaPage implements OnInit {
     }
   }
   
+  async presentAlert(message: string) {
+    const modal = await this.modalController.create({
+      component: CustomAlertComponent,
+      componentProps: {
+        message: message
+      },
+      backdropDismiss: false
+    });
+
+    modal.onDidDismiss().then((result) => {
+      if (result.data && result.data.goToLogin) {
+        this.router.navigate(['/my-course']);
+      }
+    });
+
+    await modal.present();
+  }
+
+  async errorAlert(messages?: string) {
+    const alert = await this.alertController.create({
+      header: 'Gagal',
+      message: messages,
+      buttons: ['OK'],
+    });
+
+    await alert.present();
+  }
 }

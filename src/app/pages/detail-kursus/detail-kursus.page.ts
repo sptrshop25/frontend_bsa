@@ -30,6 +30,7 @@ interface Rating {
   user_id: string;
   rating: number;
   comment: string;
+  profile_picture: string;
   created_at: string;
   updated_at: string;
 }
@@ -46,6 +47,7 @@ interface Review {
   date: string;
   rating: number;
   comment: string;
+  profile_picture: string;
   teacher_response?: string;
 }
 
@@ -150,6 +152,7 @@ export class DetailKursusPage implements OnInit {
         date: new Date(rating.created_at).toLocaleDateString(),
         rating: rating.rating,
         comment: rating.comment,
+        profile_picture: rating.user.data_user.user_profile_picture,
         teacher_response: undefined,
       };
     });
@@ -269,7 +272,7 @@ export class DetailKursusPage implements OnInit {
 
     modal.onDidDismiss().then((result) => {
       if (result.data && result.data.goToLogin) {
-        this.router.navigate(['/management-course']);
+        this.router.navigate(['/my-course']);
       }
     });
 
@@ -298,6 +301,8 @@ export class DetailKursusPage implements OnInit {
         },
       })
       .then((response) => {
+        console.log('Transaction successful:', response.data);
+        
         this.presentAlert("Transaksi Berhasil");
       })
       .catch((error) => {

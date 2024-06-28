@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import axios from 'axios';
+import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
+import { CustomAlertComponent } from './custom-alert/custom-alert.component';
+import { ModalController } from '@ionic/angular';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-tab-history',
@@ -16,7 +20,7 @@ export class TabHistoryPage implements OnInit {
   comment: string = '';
   selectedCourseId: string = '';
 
-  constructor() { }
+  constructor(private router: Router, private modalController: ModalController, private alertController: AlertController) { }
 
   async ngOnInit() {
     await this.fetchTransactions();
@@ -42,7 +46,19 @@ export class TabHistoryPage implements OnInit {
     }
   }
 
-  setOpen(isOpen: boolean, courseId?: string) {
+  setOpen(isOpen: boolean, courseId?: string, transactionId?: string, status?: string, url?: string) {
+    if (isOpen && courseId) {
+      const transaction = this.transactions.find(t => t.course[0]?.course_id === courseId);
+      if (transaction && transaction.course[0]?.rating?.length > 0) {
+       if (status === 'PAID') {
+        this.router.navigate(['/receipt'], { queryParams: { transaction_id: transactionId } });
+       } else {
+        this.router.navigate(['/pay-checkout'], { queryParams: { url: url } });
+       }
+        return;
+      }
+    }
+
     this.isModalOpen = isOpen;
     if (courseId) {
       this.selectedCourseId = courseId;
@@ -80,10 +96,39 @@ export class TabHistoryPage implements OnInit {
           Authorization: `Bearer ${localStorage.getItem('authToken')}`,
         },
       });
-      console.log('Review submitted successfully:', response.data);
+      this.presentAlert("Ulasan Anda Berhasil");
+      await this.fetchTransactions();
       this.setOpen(false);
     } catch (error) {
+      this.errorAlert("Terjadi kesalahan");
       console.error('Error submitting review:', error);
     }
+  }
+
+  async presentAlert(message: string) {
+    const modal = await this.modalController.create({
+      component: CustomAlertComponent,
+      componentProps: {
+        message: message
+      },
+      backdropDismiss: false
+    });
+
+    modal.onDidDismiss().then((result) => {
+      if (result.data && result.data.goToLogin) {
+        this.router.navigate(['/tab/tabs/history']);
+      }
+    });
+
+    await modal.present();
+  }
+
+  async errorAlert(messages?: string) {
+    const alert = await this.alertController.create({
+      header: 'Gagal',
+      message: messages,
+      buttons: ['Coba Lagi'],
+    });
+    await alert.present();
   }
 }

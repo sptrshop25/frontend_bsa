@@ -8,6 +8,7 @@ import { KursusSayaPageRoutingModule } from './kursus-saya-routing.module';
 
 import { KursusSayaPage } from './kursus-saya.page';
 
+import { CustomAlertComponent } from './custom-alert/custom-alert.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -15,6 +16,6 @@ import { KursusSayaPage } from './kursus-saya.page';
     IonicModule,
     KursusSayaPageRoutingModule
   ],
-  declarations: [KursusSayaPage]
+  declarations: [KursusSayaPage, CustomAlertComponent]
 })
 export class KursusSayaPageModule {}

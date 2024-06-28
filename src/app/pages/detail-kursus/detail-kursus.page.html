@@ -145,10 +145,10 @@
     </div>
   </ion-grid>
   <ion-list *ngIf="firstThreeReviews.length > 0">
-    <h6 class="float-end" (click)="setOpen(true)">Lihat semua ulasan</h6>
+    <h6 *ngIf="remainingReviews.length > 3" class="float-end" (click)="setOpen(true)">Lihat semua ulasan</h6>
     <ion-item *ngFor="let review of firstThreeReviews" >
       <ion-avatar slot="start">
-        <img src="../../../assets/img/voucher.png" />
+        <img [src]="review.profile_picture ? review.profile_picture : 'assets/img/bsa2.png'" alt="" class="image"/>
       </ion-avatar>
       <ion-label>
         <h2>{{ review.student_name }}</h2>
@@ -187,7 +187,7 @@
         <ion-list>
           <ion-item *ngFor="let review of remainingReviews">
             <ion-avatar slot="start">
-              <img src="../../../assets/img/voucher.png" />
+              <img [src]="review.profile_picture ? review.profile_picture : 'assets/img/bsa2.png'" />
             </ion-avatar>
             <ion-label>
               <h2>{{ review.student_name }}</h2>

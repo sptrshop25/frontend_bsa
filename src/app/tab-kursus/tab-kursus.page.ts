@@ -23,6 +23,9 @@ interface Course {
   course_price_discount: number | null;
   id: number;
   category_name: string;
+  teacher: {
+    user_name: string;
+  }
 }
 
 @Component({

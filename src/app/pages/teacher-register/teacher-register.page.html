@@ -19,6 +19,7 @@
           fill="outline"
           placeholder="Enter text"
           formControlName="description"
+          [counter]="true" maxlength="1000"
         ></ion-textarea>
         <br>
         <ion-input
@@ -84,13 +85,23 @@
             ></ion-input>
             <br />
             <ion-input
-              type="number"
+              type="date"
+              class="formgelarakademis"
+              label="Tahun Masuk"
+              label-placement="floating"
+              fill="outline"
+              placeholder="Enter text"
+              formControlName="tahun_masuk"
+            ></ion-input>
+            <br />
+            <ion-input
+              type="date"
               class="formgelarakademis"
               label="Tahun Lulus"
               label-placement="floating"
               fill="outline"
               placeholder="Enter text"
-              formControlName="tahun"
+              formControlName="tahun_lulus"
             ></ion-input>
             <br />
             <ion-button

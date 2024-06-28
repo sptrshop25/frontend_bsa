@@ -72,7 +72,8 @@ export class TeacherRegisterPage implements OnInit {
       gelar: ['', Validators.required],
       sekolah: ['', Validators.required],
       jurusan: ['', Validators.required],
-      tahun: ['', Validators.required],
+      tahun_masuk: ['', Validators.required],
+      tahun_lulus: ['', Validators.required],
     }));
   }
 

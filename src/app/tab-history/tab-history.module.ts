@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { TabHistoryPageRoutingModule } from './tab-history-routing.module';
 
 import { TabHistoryPage } from './tab-history.page';
+import { CustomAlertComponent } from './custom-alert/custom-alert.component';
 
 @NgModule({
   imports: [
@@ -16,6 +17,6 @@ import { TabHistoryPage } from './tab-history.page';
     TabHistoryPageRoutingModule,
     DatePipe
   ],
-  declarations: [TabHistoryPage]
+  declarations: [TabHistoryPage, CustomAlertComponent],
 })
 export class TabHistoryPageModule {}

@@ -25,6 +25,7 @@ export class TabProfilePage implements OnInit {
   phone: string = '';
   email: string = '';
   nickname: string = '';
+  image_profile: string = '';
   user_active: string = '';
   is_teacher: string = '';
 
@@ -78,6 +79,12 @@ export class TabProfilePage implements OnInit {
     }
   }
 
+  setImageProfile(response: any = null) {
+    // if (response && response.data.data_user.user_image_profile) { 
+      this.image_profile = response.data.data_user.user_profile_picture; 
+    // }
+  }
+
   setEmail(response: any = null) {
     if (response && response.data.email) { 
       this.email = response.data.email; 
@@ -115,19 +122,21 @@ export class TabProfilePage implements OnInit {
   }
   
   ngOnInit() {
-    axios.post(`${environment.apiUrl}/info_user`, null, {
+    axios.get(`${environment.apiUrl}/info_user`, {
       headers: {
         Authorization: `${localStorage.getItem('authToken')}`
       }
     })
     .then((response) => {
-      console.log('Response:', response);
       this.setNickname(response); 
       this.setPhone(response);
       this.setName(response);
       this.setUserActive(response);
       this.statusTeacher(response);
       this.setEmail(response);
+      this.setImageProfile(response);
+      // console.log(response.data.data_user.user_profile_picture);
+      
     })
     .catch((error) => {
       console.error('Error:', error);
@@ -139,5 +148,9 @@ export class TabProfilePage implements OnInit {
 
   helpCenter() {
     this.router.navigate(['/help-center']);
+  }
+
+  editProfile() {
+    this.router.navigate(['/change-profile']);
   }
 }

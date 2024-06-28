@@ -19,6 +19,7 @@ export class HomePage implements OnInit {
   no_hp: string = '';
   email: string = '';
   count_courses: number = 0;
+  count_student: number = 0;
   average_rating: number = 0; 
   isLoading: boolean = false;
   qrCodeImageUrl: string = '';
@@ -57,15 +58,31 @@ export class HomePage implements OnInit {
 
   setCountCoursesAndRating(response: any = null) { 
     if (response && response.data) { 
-      const courses = response.data;
-      this.count_courses = courses.length;
-      if (this.count_courses > 0) {
-        const validRatings = courses.filter((course: any) => course.course_rating !== null && course.course_rating !== undefined);
-        const totalRating = validRatings.reduce((sum: number, course: any) => sum + course.course_rating, 0);
-        this.average_rating = validRatings.length > 0 ? totalRating / validRatings.length : 0;
-      } else {
-        this.average_rating = 0;
-      }
+        const courses = response.data;
+        this.count_courses = courses.length;
+
+        if (this.count_courses > 0) {
+            const validRatings = courses.filter((course: any) => course.course_rating !== null && course.course_rating > 0);
+            const totalRating = validRatings.reduce((sum: number, course: any) => sum + parseFloat(course.course_rating), 0);
+            this.average_rating = validRatings.length > 0 ? totalRating / validRatings.length : 0;
+        } else {
+            this.average_rating = 0;
+        }
+    }
+}
+
+  
+
+  setCountStudents(response: any = null) { 
+    if (response && response.data) { 
+      const courses = response.data.course;
+      let totalStudents = 0;
+
+      courses.forEach((course: any) => {
+        totalStudents += course.enrollment.length;
+      });
+
+      this.count_student = totalStudents;
     }
   }
 
@@ -81,7 +98,7 @@ export class HomePage implements OnInit {
       const qrText = `Nama: ${this.name}, Email: ${this.email}`;
       const qrImageBase64 = await QRCode.toDataURL(qrText);
       this.qrCodeImageUrl = qrImageBase64;
-      console.log(qrText);
+      // console.log(qrText);
     } catch (error) {
       console.error('Gagal membuat QR Code', error);
     }
@@ -101,7 +118,6 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit() {
-
     this.isLoading = true;
 
     axios.get(`${environment.apiUrl}/info_teacher`, {
@@ -110,6 +126,8 @@ export class HomePage implements OnInit {
       }
     })
     .then((response) => {
+      console.log('Response:', response.data.course.enrollment);
+      this.setCountStudents(response);
       this.setName(response);
       this.setNoHp(response);
       this.setEmail(response);
@@ -121,13 +139,13 @@ export class HomePage implements OnInit {
       console.log('Error:', error);
     });
 
-    axios.post(`${environment.apiUrl}/get_my_courses`, null, {
+    axios.get(`${environment.apiUrl}/teacher/list-my-course`, {
       headers: {
         Authorization: `${localStorage.getItem('authToken')}`
       }
     })
     .then((response) => {
-      console.log('Response:', response);  
+      // console.log('Response:', response);  
       this.setCountCoursesAndRating(response);
     })
     .catch((error) => {

@@ -1,0 +1,47 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-item>
+      <ion-back-button defaultHref="tab/tabs/profile"></ion-back-button>
+      <ion-title>Profile</ion-title>
+      <ion-button slot="end" color="tertiary" (click)="saveProfile()" [disabled]="!isFormValid()">Simpan</ion-button>
+    </ion-item>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="user.data_user">
+  <div class="profile-container">
+    <div class="profile-pic">
+      <ion-avatar>
+        <img [src]="user.data_user.user_profile_picture || 'assets/img/BSA.png'" alt="Profile Picture"/>
+      </ion-avatar>
+      <ion-icon name="create-outline" class="edit-icon" (click)="openGallery()"></ion-icon>
+    </div>
+    
+    <ion-item>
+      <ion-input name="user_name" [(ngModel)]="user.data_user.user_name" label="Nama Lengkap" labelPlacement="floating" placeholder="Masukkan Nama Lengkap"></ion-input>
+    </ion-item>
+    
+    <ion-item>
+      <ion-input name="user_nickname" [(ngModel)]="user.data_user.user_nickname" label="Nick Name" labelPlacement="floating" placeholder="Masukkan Nick Name"></ion-input>
+    </ion-item>
+    
+    <ion-item>
+      <ion-input name="email" [(ngModel)]="user.email" type="email" label="Email" labelPlacement="floating" placeholder="Masukkan Email" disabled></ion-input>
+    </ion-item>
+    
+    <ion-item>
+      <ion-input name="user_phone_number" [(ngModel)]="user.data_user.user_phone_number" type="tel" label="No Handphone" labelPlacement="floating" placeholder="Masukkan No Handphone"></ion-input>
+    </ion-item>
+    
+    <ion-item>
+      <ion-textarea name="user_address" [(ngModel)]="user.data_user.user_address" label="Alamat" labelPlacement="floating" placeholder="Masukkan Alamat"></ion-textarea>
+    </ion-item>
+    
+    <ion-item>
+      <ion-select name="user_gender" [(ngModel)]="user.data_user.user_gender" label="Jenis Kelamin" label-placement="floating">
+        <ion-select-option value="Male">Laki-laki</ion-select-option>
+        <ion-select-option value="Female">Perempuan</ion-select-option>
+      </ion-select>
+    </ion-item>
+  </div>
+</ion-content>

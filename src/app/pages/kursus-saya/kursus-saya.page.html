@@ -25,13 +25,13 @@
 
   <ion-list>
     <ion-item *ngFor="let course of filteredCourses">
-      <ion-label (click)="navigateToDetail(course.id, course.status)">
+      <ion-label (click)="navigateToDetail(course.id, course.status, course.id, course.price)">
        <div class="row">
         <div class="col-4">
           <ion-img style="width: 90%; height: 100px" [src]="course.image"></ion-img>
         </div>
         <div class="col-8">
-          <h2>{{ course.title }}</h2>
+          <h2 style="font-size: 4vw;">{{ course.title }}</h2>
           <p>{{ course.teacher }}</p>
           <span [ngClass]="getStatusClass(course.status)" class="float-end mb-3 p-1 rounded">{{ getStatusText(course.status) }}</span>
           <ion-progress-bar 
@@ -39,8 +39,8 @@
             [value]="course.progress" 
             [color]="course.progress === 1 ? 'success' : undefined">
           </ion-progress-bar>
-          <p>{{ course.progressDetail }}</p>
-          <span class="float-end">{{ course.activePeriod ? course.activePeriod : 'Aktif selamanya' }}</span>
+          <p style="font-size: 3vw;" class="mt-1">{{ course.progressDetail }}</p>
+          <span style="font-size: 3vw;" class="float-end">{{ course.activePeriod ? 'Aktif hingga ' + (course.activePeriod | date:'dd MMM yyyy | HH:mm:ss') : 'Aktif selamanya' }}</span>
         </div>
        </div>
       </ion-label>

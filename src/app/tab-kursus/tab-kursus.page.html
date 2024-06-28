@@ -59,12 +59,11 @@
                 >{{ course.course_price | currencyFormat }} <span style="color:  gray; font-size: 10px; text-decoration: line-through;">{{ course.course_price_discount | currencyFormat }}</span></span
               >
               <span class="mt-1" style="display: block; word-break: break-all">
-                {{ course.user_name }}
+                {{ course.teacher.user_name.length > 15 ? course.teacher.user_name.substring(0, 15) + '...' : course.teacher.user_name }}
               </span>
               <div style="display: flex; align-items: center;">
                 <span>{{ course.course_rating }} &nbsp;</span>
                 <app-star-rating [rating]="course.course_rating || 0"></app-star-rating>
-                <span>&nbsp;(245)</span>
               </div>              
             </div>
           </div>
@@ -73,3 +72,4 @@
     </div>
   </div>
 </ion-content>
+

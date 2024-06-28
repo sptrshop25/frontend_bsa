@@ -1,0 +1,151 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="tab"></ion-back-button>
+    </ion-buttons>
+    <ion-title style="text-align: center; margin-left: -25px;">
+      Detail Pembayaran
+    </ion-title>
+    <ion-buttons id="popover-button" slot="end">
+      <ion-icon name="ellipsis-vertical"></ion-icon>
+    </ion-buttons>
+    <ion-popover trigger="popover-button" [dismissOnSelect]="true">
+      <ng-template>
+        <ion-content>
+          <ion-list>
+            <ion-item [button]="true" [detail]="false">Cetak</ion-item>
+            <ion-popover trigger="nested-trigger" [dismissOnSelect]="true" side="end">
+              <ng-template>
+                <ion-content>
+                  <ion-list>
+                    <ion-item [button]="true" [detail]="false">Nested option</ion-item>
+                  </ion-list>
+                </ion-content>
+              </ng-template>
+            </ion-popover>
+          </ion-list>
+        </ion-content>
+      </ng-template>
+    </ion-popover>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content style="word-break: break-all">
+  <ion-card *ngIf="transaction">
+    <div style="display: flex; justify-content: center;">
+      <img src="../../../assets/img/BSA.png" alt="" style="width: 25%; height: 25%; margin: auto;">
+    </div>
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <h2 style="font-size: 15px;">Nama</h2>
+        </ion-col>
+        <ion-col>
+          <h2 class="float-end" style="font-size: 15px; font-weight: bold;">{{ transaction.user[0].data_user.user_name }}</h2>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <h2 style="font-size: 15px;">No handphone</h2>
+        </ion-col>
+        <ion-col>
+          <h2 class="float-end" style="font-size: 15px; font-weight: bold;">{{ transaction.user[0].data_user.user_phone_number }}</h2>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <h2 style="font-size: 15px;">Email</h2>
+        </ion-col>
+        <ion-col>
+          <h2 class="float-end" style="font-size: 15px; font-weight: bold;">{{ transaction.user[0].email }}</h2>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <br>
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <h2 style="font-size: 15px;">Nama Kursus</h2>
+        </ion-col>
+        <ion-col>
+          <h2 class="float-end" style="font-size: 15px; font-weight: bold;">{{ transaction.course[0].course_title.length > 30 ? transaction.course[0].course_title.substring(0, 30) + '...' : transaction.course[0].course_title }}</h2>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <h2 style="font-size: 15px;">Nama Pengajar</h2>
+        </ion-col>
+        <ion-col>
+          <h2 class="float-end" style="font-size: 15px; font-weight: bold;">{{ transaction.course[0].teacher.user_name.length > 30 ? transaction.course[0].teacher.user_name.substring(0, 30) + '...' : transaction.course[0].teacher.user_name }}</h2>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <h2 style="font-size: 15px;">Bidang</h2>
+        </ion-col>
+        <ion-col>
+          <h2 class="float-end" style="font-size: 15px; font-weight: bold;">{{ transaction.course[0].sub_category.sub_category_name }}</h2>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <br>
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <h2 style="font-size: 15px;">Harga Kursus</h2>
+        </ion-col>
+        <ion-col>
+          <h2 class="float-end" style="font-size: 15px; font-weight: bold;">{{ transaction.course[0].course_price | currencyFormat }}</h2>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <h2 style="font-size: 15px;">Biaya Admin</h2>
+        </ion-col>
+        <ion-col>
+          <h2 class="float-end" style="font-size: 15px; font-weight: bold;">{{ transaction.transaction_fee_customer | currencyFormat }}</h2>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <h2 style="font-size: 15px;">Total Harga</h2>
+        </ion-col>
+        <ion-col>
+          <h2 class="float-end" style="font-size: 15px; font-weight: bold;">{{ transaction.transaction_total_amount | currencyFormat }}</h2>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <h2 style="font-size: 15px;">Metode Pembayaran</h2>
+        </ion-col>
+        <ion-col>
+          <h2 class="float-end" style="font-size: 15px; font-weight: bold;">{{ transaction.transaction_method ? transaction.transaction_method : '-' }}</h2>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <h2 style="font-size: 15px;">Tanggal</h2>
+        </ion-col>
+        <ion-col>
+          <h2 class="float-end" style="font-size: 15px; font-weight: bold;">{{ transaction.created_at | date:'dd MMM yyyy | HH:mm:ss' }}</h2>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <h2 style="font-size: 15px;">ID Transaksi</h2>
+        </ion-col>
+        <ion-col>
+          <h2 class="float-end" style="font-size: 15px; font-weight: bold;"><ion-icon name="copy-outline" (click)="copyToClipboard(transaction.transaction_id)" class="me-2"></ion-icon>{{ transaction.transaction_id }}</h2>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <h2 style="font-size: 15px;">Status</h2>
+        </ion-col>
+        <ion-col>
+          <h2 class="float-end" style="font-size: 15px; font-weight: bold;">Di bayar</h2>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-card>
+</ion-content>

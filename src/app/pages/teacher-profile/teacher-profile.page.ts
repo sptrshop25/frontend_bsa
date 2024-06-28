@@ -62,6 +62,7 @@ interface TeacherEducationHistory {
   teacher_degree_title: string;
   teacher_university: string;
   teacher_major: string;
+  teacher_start_year: string;
   teacher_graduation_year: string;
 }
 

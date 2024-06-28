@@ -144,8 +144,23 @@ const routes: Routes = [
   {
     path: 'teacher-profile',
     loadChildren: () => import('./pages/teacher-profile/teacher-profile.module').then( m => m.TeacherProfilePageModule)
+  },
+  {
+    path: 'receipt',
+    loadChildren: () => import('./pages/receipt/receipt.module').then( m => m.ReceiptPageModule)
+  },
+  {
+    path: 'tarik-saldo',
+    loadChildren: () => import('./pages/tarik-saldo/tarik-saldo.module').then( m => m.TarikSaldoPageModule)
+  },
+  {
+    path: 'notifikasi',
+    loadChildren: () => import('./pages/notifikasi/notifikasi.module').then( m => m.NotifikasiPageModule)
+  },
+  {
+    path: 'change-profile',
+    loadChildren: () => import('./pages/change-profile/change-profile.module').then( m => m.ChangeProfilePageModule)
   }
-  
 ];
 @NgModule({
   schemas: [CUSTOM_ELEMENTS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
