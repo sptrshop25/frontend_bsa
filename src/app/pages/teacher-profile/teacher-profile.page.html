@@ -13,8 +13,8 @@
       <ion-avatar>
         <img [src]="teacherData.data_user.user_profile_picture ? teacherData.data_user.user_profile_picture : 'assets/img/bsa2.png'" alt="" class="image mt-3" />
       </ion-avatar>
-      <p class="teacher-name fw-bold mb-1 mt-4">{{ teacherData.data_user.user_name }}</p>
-      <i style="font-size: 12px;">Menjadi pengajar sejak {{ teacherData.created_at | date : 'dd MMMM yyyy' }}</i>
+      <p class="teacher-name text-light fw-bold mb-1 mt-4">{{ teacherData.data_user.user_name }}</p>
+      <i class="text-light" style="font-size: 12px;">Menjadi pengajar sejak {{ teacherData.created_at | date : 'dd MMMM yyyy' }}</i>
     </div>
   </div>
 

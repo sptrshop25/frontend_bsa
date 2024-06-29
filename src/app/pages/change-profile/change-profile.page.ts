@@ -73,10 +73,17 @@ export class ChangeProfilePage implements OnInit {
         },
       })
       .then((response) => {
-        this.presentToast('Informasi profil berhasil diperbarui');
+        this.presentToast('Informasi profil berhasil diperbarui', 'success');
         this.router.navigate(['/tab/tabs/profile']);
       })
       .catch((error) => {
+        if (error.response.data.message === "Nickname already exists") {
+          this.presentToast('Nickname sudah digunakan', 'danger');
+        } else if (error.response.data.message === "Phone number already exists") {
+          this.presentToast('Nomor telepon sudah digunakan', 'danger');
+        } else {
+          this.presentToast('Terjadi kesalahan, silahkan coba lagi nanti', 'danger');
+        }
         console.error('Error updating profile:', error);
       });
   }
@@ -86,12 +93,12 @@ export class ChangeProfilePage implements OnInit {
     return user_name && user_phone_number && user_nickname && user_gender;
   }
 
-  async presentToast(message: string) {
+  async presentToast(message: string, color: string = 'success') {
     const toast = await this.toastController.create({
       message,
       duration: 2000,
-      color: 'success',
-      position: 'bottom'
+      color: color,
+      position: 'bottom',
     });
     toast.present();
   }

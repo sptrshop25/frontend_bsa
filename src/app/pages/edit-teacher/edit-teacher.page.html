@@ -1,50 +1,236 @@
 <ion-header>
   <ion-toolbar>
     <ion-item>
-    <ion-icon name="arrow-back-outline"></ion-icon>
-    <ion-title>Profile</ion-title>
-    <ion-button slot="end" color="tertiary" >simpan</ion-button>
-  </ion-item>
+      <ion-back-button defaultHref="manage-course"></ion-back-button>
+      <ion-title>Atur Informasi</ion-title>
+      <ion-button [disabled]="!teacherForm.valid" slot="end" color="tertiary" (click)="onSubmit()"
+        >Simpan</ion-button
+      >
+    </ion-item>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <p class="p">informasi pribadi</p>
-  <ion-card class="p-2">
-    <ion-textarea class="formtextarea"label="Tentang Saya" label-placement="floating" fill="outline" placeholder="Enter text" size="big"></ion-textarea><br>
-    <ion-input class="forminput"label="Github (opsional)" label-placement="floating" fill="outline" placeholder="Enter text"></ion-input><br>
-    <ion-input class="forminput"label="Linkedin (opsional)" label-placement="floating" fill="outline" placeholder="Enter text"></ion-input><br>
-    <ion-input class="forminput"label="Youtube (opsional)" label-placement="floating" fill="outline" placeholder="Enter text"></ion-input><br>
-</ion-card>
+<ion-content class="ion-padding">
+  <form [formGroup]="teacherForm" (ngSubmit)="onSubmit()">
+    <p class="p">Informasi Pribadi</p>
+      <ion-card class="p-2" formGroupName="personalData">
+        <ion-textarea
+          class="forminput"
+          label="Tentang Saya"
+          label-placement="floating"
+          fill="outline"
+          placeholder="Enter text"
+          formControlName="description"
+          [counter]="true"
+          maxlength="1000"
+        ></ion-textarea>
+        <br />
+        <ion-input
+          class="forminput"
+          label="Github (opsional)"
+          label-placement="floating"
+          fill="outline"
+          placeholder="Enter text"
+          formControlName="linkGithub"
+        ></ion-input>
+        <br />
+        <ion-input
+          class="forminput"
+          label="Linkedin (opsional)"
+          label-placement="floating"
+          fill="outline"
+          placeholder="Enter text"
+          formControlName="linkLinkedin"
+        ></ion-input>
+        <br />
+        <ion-input
+          class="forminput"
+          label="Youtube (opsional)"
+          label-placement="floating"
+          fill="outline"
+          placeholder="Enter text"
+          formControlName="linkYoutube"
+        ></ion-input>
+        <br />
+      </ion-card>
 
-  <p class="p">Riwayat Pendidikan</p>
-  <ion-card class="p-2">
-    <ion-icon name="trash"></ion-icon>
-    <ion-input class="forminput"label="Gelar Akademis" label-placement="floating" fill="outline" placeholder="Enter text"></ion-input><br>
-    <ion-input class="forminput"label="Sekolah atau Universitas" label-placement="floating" fill="outline" placeholder="Enter text"></ion-input><br>
-    <ion-input class="forminput"label="Jurusan" label-placement="floating" fill="outline" placeholder="Enter text"></ion-input><br>
-    <ion-input class="forminput"label="Tahun Lulus" label-placement="floating" fill="outline" placeholder="Enter text"></ion-input><br>
-</ion-card>
-  <ion-button class="tombol" size="small" color="tertiary">Tambah</ion-button><br><br>
+    <p class="p">Riwayat Pendidikan</p>
+    <div formArrayName="teacherData">
+      <ion-card
+        class="p-2"
+        *ngFor="let data of teacherData.controls; let i = index"
+        [formGroupName]="i"
+      >
+        <ion-icon
+          class="float-end fs-5"
+          name="trash"
+          (click)="removePendidikan(i)"
+        ></ion-icon>
+        <br /><br />
+        <ion-input
+          class="forminput"
+          label="Gelar Akademis"
+          label-placement="floating"
+          fill="outline"
+          placeholder="Enter text"
+          formControlName="gelar"
+        ></ion-input>
+        <br />
+        <ion-input
+          class="forminput"
+          label="Sekolah atau Universitas"
+          label-placement="floating"
+          fill="outline"
+          placeholder="Enter text"
+          formControlName="sekolah"
+        ></ion-input>
+        <br />
+        <ion-input
+          class="forminput"
+          label="Jurusan"
+          label-placement="floating"
+          fill="outline"
+          placeholder="Enter text"
+          formControlName="jurusan"
+        ></ion-input>
+        <br />
+        <ion-input
+          type="date"
+          class="forminput"
+          label="Tahun Mulai"
+          label-placement="floating"
+          fill="outline"
+          placeholder="Enter text"
+          formControlName="tahun_masuk"
+        ></ion-input>
+        <br />
+        <ion-input
+          type="date"
+          class="forminput"
+          label="Tahun Lulus"
+          label-placement="floating"
+          fill="outline"
+          placeholder="Enter text"
+          formControlName="tahun_lulus"
+        ></ion-input>
+        <br />
+      </ion-card>
+      <ion-button
+        class="tombol"
+        size="small"
+        color="tertiary"
+        (click)="addPendidikan()"
+        >Tambah</ion-button
+      >
+    </div>
+    <br /><br />
 
-  <p class="p">Pengalaman</p>
-    <ion-card class="p-2">  
-      <ion-icon name="trash"></ion-icon>
-      <ion-input class="forminput"label="Nama Entitas" label-placement="floating" fill="outline" placeholder="Enter text"></ion-input><br>
-      <ion-input class="forminput"label="Posisi" label-placement="floating" fill="outline" placeholder="Enter text"></ion-input><br>
-      <ion-input type="date" class="forminput"label="mulai" label-placement="floating" fill="outline" placeholder="Enter text"></ion-input><br>
-      <ion-input type="date" class="forminput"label="selesai" label-placement="floating" fill="outline" placeholder="Enter text"></ion-input><br>
-      <ion-checkbox labelPlacement="end">Masih bekerja disini</ion-checkbox>
-      <ion-textarea class="formtextarea"label="Gelar Akademis" label-placement="floating" fill="outline" placeholder="Enter text" size="big"></ion-textarea><br>
-      
+    <p class="p">Pengalaman</p>
+    <div formArrayName="pengalamanData">
+      <ion-card
+        class="p-2"
+        *ngFor="let pengalaman of pengalamanData.controls; let i = index"
+        [formGroupName]="i"
+      >
+        <ion-icon
+          class="float-end fs-5"
+          name="trash"
+          (click)="removePengalaman(i)"
+        ></ion-icon>
+        <br /><br />
+        <ion-input
+          class="forminput"
+          label="Nama Entitas"
+          label-placement="floating"
+          fill="outline"
+          placeholder="Enter text"
+          formControlName="judul"
+        ></ion-input>
+        <br />
+        <ion-input
+          class="forminput"
+          label="Posisi"
+          label-placement="floating"
+          fill="outline"
+          placeholder="Enter text"
+          formControlName="posisi"
+        ></ion-input>
+        <br />
+        <ion-input
+          type="date"
+          class="forminput"
+          label="Mulai"
+          label-placement="floating"
+          fill="outline"
+          placeholder="Enter text"
+          formControlName="mulai"
+        ></ion-input>
+        <br />
+        <ion-input
+          type="date"
+          class="forminput"
+          label="Selesai"
+          label-placement="floating"
+          fill="outline"
+          placeholder="Enter text"
+          formControlName="selesai"
+          [disabled]="pengalaman.get('masihBekerja')?.value"
+        ></ion-input>
+        <br />
+        <ion-checkbox
+          labelPlacement="end"
+          formControlName="masihBekerja"
+          (ionChange)="onCheckboxChange(i)"
+          >Masih bekerja disini</ion-checkbox
+        >
+        <br /><br />
+        <ion-textarea
+          class="forminput"
+          label="Deskripsi Pengalaman"
+          label-placement="floating"
+          fill="outline"
+          placeholder="Enter text"
+          formControlName="deskripsi"
+        ></ion-textarea>
+      </ion-card>
+      <ion-button
+        class="tombol"
+        size="small"
+        color="tertiary"
+        (click)="addPengalaman()"
+        >Tambah</ion-button
+      >
+    </div>
+    <br /><br />
+
+    <p class="p">Keahlian atau Spesialis</p>
+    <ion-card class="p-2" formGroupName="keahlianData">
+      <ion-input
+        class="forminput"
+        label="Bidang yang dikuasai"
+        label-placement="floating"
+        fill="outline"
+        placeholder="Enter text"
+        formControlName="bidangDikuasai"
+      ></ion-input>
+      <br />
+      <ion-input
+        class="forminput"
+        label="Bidang yang ingin diajarkan"
+        label-placement="floating"
+        fill="outline"
+        placeholder="Enter text"
+        formControlName="bidangDiajarkan"
+      ></ion-input>
     </ion-card>
-  <ion-button class="tombol" size="small" color="tertiary" >Tambah</ion-button><br><br><br>
+    <!-- <br /><br /> -->
 
-
-  <p class="p">Keahlian atau spesialis</p>
-  <ion-card class="p-2">
-    <ion-input class="forminput"label="bidang yang dikuasai" label-placement="floating" fill="outline" placeholder="Enter text"></ion-input><br>
-    <ion-input class="forminput"label="bidang yang ingin diajarkan" label-placement="floating" fill="outline" placeholder="Enter text"></ion-input><br>
-</ion-card>
-
+    <!-- <ion-button
+      expand="block"
+      class="save"
+      type="submit"
+      [disabled]="!teacherForm.valid"
+      >Simpan</ion-button
+    > -->
+  </form>
 </ion-content>

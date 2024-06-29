@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import axios from 'axios';
 import { environment } from 'src/environments/environment';
 import { CustomAlertComponent } from './custom-alert/custom-alert.component';
-import { ModalController, AlertController } from '@ionic/angular';
+import { ModalController, AlertController, LoadingController } from '@ionic/angular';
 import { Router } from '@angular/router';
 
 interface Bab {
@@ -57,6 +57,7 @@ interface FormData {
   styleUrls: ['./form-kursus.page.scss'],
 })
 export class FormKursusPage {
+  isLoading = false;
   formData: FormData = {
     judulKursus: '',
     hargaKursus: '',
@@ -81,7 +82,7 @@ export class FormKursusPage {
   constructor(
     private modalController: ModalController,
     private alertController: AlertController,
-    private router: Router
+    private router: Router, private loadingCtrl: LoadingController
   ) {}
 
   async ngOnInit() {
@@ -110,6 +111,10 @@ export class FormKursusPage {
   }
 
   async onSubmit() {
+    const loading = await this.loadingCtrl.create({
+      message: 'Loading...',
+    });
+    await loading.present();
     try {
       const formDataToSend = new FormData();
       formDataToSend.append('judulKursus', this.formData.judulKursus);
@@ -183,9 +188,12 @@ export class FormKursusPage {
           },
         }
       );
+  
+      loading.dismiss();
       this.presentAlert('Akun anda berhasil terdaftar sebagai pengajar');
-    } catch (error) {
-      this.errorAlert('Terjadi kesalahan, coba beberapa saat kedepan');
+    } catch (error: any | undefined) {
+      loading.dismiss();
+      this.errorAlert(error.response.data.message);
       console.error('Error submitting form:', error);
     }
   }
@@ -368,8 +376,8 @@ export class FormKursusPage {
     }
   }
   onCheckmarkClick() {
-    console.log(this.formData);
-    
+    this.isLoading = true;
     this.onSubmit();
+    this.isLoading = false;  
   }
 }

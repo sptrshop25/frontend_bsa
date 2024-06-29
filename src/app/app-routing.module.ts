@@ -160,6 +160,10 @@ const routes: Routes = [
   {
     path: 'change-profile',
     loadChildren: () => import('./pages/change-profile/change-profile.module').then( m => m.ChangeProfilePageModule)
+  },
+  {
+    path: 'edit-teacher-profile',
+    loadChildren: () => import('./pages/edit-teacher/edit-teacher.module').then( m => m.EditTeacherPageModule)
   }
 ];
 @NgModule({

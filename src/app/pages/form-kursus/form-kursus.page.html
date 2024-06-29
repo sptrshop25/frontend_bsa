@@ -193,6 +193,7 @@
                     type="file"
                     (change)="handleFileInput($event, 'materi', i, j)"
                     placeholder="Masukkan Materi Sub Bab"
+                    accept="video/mp4"
                   />
                 </ion-item>
                 <ion-item>
@@ -281,5 +282,10 @@
       </div>
     </div>
   </ion-list>
-  
+  <ion-loading
+    *ngIf="isLoading"
+    message="Loading..."
+    spinner="crescent"
+    duration="0"
+  ></ion-loading>
 </ion-content>

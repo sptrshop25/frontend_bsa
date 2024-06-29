@@ -159,4 +159,8 @@ export class HomePage implements OnInit {
   goToManageCourse() {
     this.route.navigate(['/management-course']);
   }
+
+  editTeacherProfile() {
+    this.route.navigate(['/edit-teacher-profile']);
+  }
 }

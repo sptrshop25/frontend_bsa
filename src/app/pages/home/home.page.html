@@ -2,7 +2,7 @@
   <div class="navbar">
     <ion-back-button [style]="{color: 'purple'}" defaultHref="tab/tabs/profile"></ion-back-button>
     <div class="title">Kelola Kursus Saya</div>
-    <div class="icon"><ion-icon slot="icon-only" name="settings-outline"></ion-icon></div>
+    <div (click)="editTeacherProfile()" class="icon"><ion-icon slot="icon-only" name="settings-outline"></ion-icon></div>
     <!-- <div class="icon"><ion-icon slot="icon-only" name="notifications-outline"></ion-icon></div>
     <div class="icon"><ion-icon slot="icon-only" name="chatbubbles-outline"></ion-icon></div> -->
   </div>
@@ -12,9 +12,9 @@
   <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-  <button (click)="captureCard()" style="background-color: rgb(165, 13, 221); color: white; height: 40px; width: 80px; border-radius: 10px; align-items: center;">
+  <!-- <button (click)="captureCard()" style="background-color: rgb(165, 13, 221); color: white; height: 40px; width: 80px; border-radius: 10px; align-items: center;">
     <ion-icon name="print-outline" style="text-align: center;"></ion-icon>cetak
-  </button>
+  </button> -->
   <ion-card [style]="{'border-radius': '10%'}">
     <ion-grid>
       <ion-row id="cardToCapture" class="name-card">

@@ -1,17 +1,258 @@
-ion-content{
-
+ion-toolbar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+  
+  ion-buttons[slot="start"] {
+    color: #6000C1;
+    font-size: 2rem;
+    position: absolute;
+    left: 10px;
+  }
+  
+  .custom-title {
+    font-size: 1.2em;
+    text-align: center;
+    width: 100%;
+    // font-family: "Times New Roman", Times, serif;
+  }
+  
+  @media (min-width: 768px) {
+    .custom-title {
+      font-size: 1.5em;
+    }
+  }
+  
+  ion-content{
+    .riwayatpendidikan{
+      font-size: 1.1em;
+      // font-family: "Times New Roman", Times, serif;
+      margin-top: 20px;
+      margin-left: 20px;
+    }
+  
+    .formgelarakademis{
+      /* Mengubah warna outline dan label */
+    --border-color: #6000C1; /* Warna outline ungu */
+    --highlight-color-focused: #6000C1; /* Warna label ketika input fokus */
+    --highlight-color-invalid: #6000C1; /* Warna label ketika input tidak valid */
+    --color-focused: #6000C1; /* Warna label ketika input fokus */
+    --placeholder-color: #6000C1; /* Warna placeholder */
+  
+      display: flex !important;
+      align-items: center !important; 
+      justify-content: center !important;
+      margin: 0 auto !important;
+      width: 90% !important;
+      height: 50px !important;
+      padding-left: 10px !important;
+      padding-right: 10px !important;
+      // border: 1px solid rgb(248, 248, 248);
+      border-radius: 10px;
+      // color: gray;
+      -webkit-border-radius: 10px !important;
+      -moz-border-radius: 10px !important;
+      -ms-border-radius: 10px !important;
+      -o-border-radius: 10px !important;
+  
+    }
+    .tombol{
+      --ion-color-primary: #642DF4; 
+      margin-left: 30px;
+      // font-family: "Times New Roman", Times, serif;
+    }
+    .pengalaman{
+      font-size: 1.1em;
+      font-family: "Times New Roman", Times, serif;
+      margin-left: 20px;
+  }
+    .formpengalaman{
+      --border-color: #6000C1; /* Warna outline ungu */
+      --highlight-color-focused: #6000C1; /* Warna label ketika input fokus */
+      --highlight-color-invalid: #6000C1; /* Warna label ketika input tidak valid */
+      --color-focused: #6000C1; /* Warna label ketika input fokus */
+      --placeholder-color: #6000C1; /* Warna placeholder */
+      // display: flex !important;
+      // align-items: center !important; 
+      // justify-content: center !important;
+      margin: 0 auto !important;
+      width: 90% !important;
+      height: 100px !important;
+      padding-left: 10px !important;
+      padding-right: 10px !important;
+      // border: 1px solid rgb(248, 248, 248);
+      border-radius: 10px;
+      // color: gray;
+      -webkit-border-radius: 10px !important;
+      -moz-border-radius: 10px !important;
+      -ms-border-radius: 10px !important;
+      -o-border-radius: 10px !important;
+    }
+  
+    .footer-toolbar {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+    }
+  
+    .swiper-container {
+      width: 100%;
+      height: 100%;
+    }
     
-
-    .p{
-        margin-left: 10px;
-        margin-top: 10px;
+    // .swiper-slide {
+    //   display: flex;
+    //   flex-direction: column;
+    //   align-items: center;
+    //   justify-content: center;
+    // }
+    
+    .formkeahlianatauspesialis{
+      /* Mengubah warna outline dan label */
+    --border-color: #6000C1; /* Warna outline ungu */
+    --highlight-color-focused: #6000C1; /* Warna label ketika input fokus */
+    --highlight-color-invalid: #6000C1; /* Warna label ketika input tidak valid */
+    --color-focused: #6000C1; /* Warna label ketika input fokus */
+    --placeholder-color: #6000C1; /* Warna placeholder */
+  
+      display: flex !important;
+      align-items: center !important; 
+      justify-content: center !important;
+      margin: 0 auto !important;
+      width: 90% !important;
+      height: 50px !important;
+      padding-left: 10px !important;
+      padding-right: 10px !important;
+      // border: 1px solid rgb(248, 248, 248);
+      border-radius: 10px;
+      // color: gray;
+      -webkit-border-radius: 10px !important;
+      -moz-border-radius: 10px !important;
+      -ms-border-radius: 10px !important;
+      -o-border-radius: 10px !important;
+  
     }
-
-    ion-icon{
-        margin: 10px;
+  
+    .forminformasitambahan{
+        --highlight-height: 2px;
+        --highlight-color-focused: var(--ion-color-primary);
+        --background: var(--ion-item-background, var(--ion-background-color, #fff));
+        --border-radius: var(--ion-item-border-radius, 4px);
+        --padding-start: 12px;
+        --padding-end: 12px;
+        --padding-top: 18px;
+        --padding-bottom: 18px;
+        position: relative;
+        background: var(--background);
+        border: 1px solid var(--ion-color-light, #ccc);
+        border-radius: var(--border-radius);
+        padding: var(--padding-top) var(--padding-end) var(--padding-bottom) var(--padding-start);
+  
+        display: flex;
+        align-items: center;
     }
-
-    ion-button{
-        margin: 10px;
+    .forminformasitambahan ion-label {
+        position: absolute;
+        top: 12px;
+        left: 16px;
+        font-size: 16px;
+        transition: 0.2s ease all;
+        pointer-events: none;
+        color: var(--ion-color-medium);
+      }
+      
+      .forminformasitambahan input[type="file"] {
+        border: none;
+        outline: none;
+        background: transparent;
+        color: var(--ion-text-color, #000);
+        font-size: 16px;
+        padding: 16px 12px 0;
+        width: 100%;
+        z-index: 1;
+      }
+      
+      .forminformasitambahan .upload-icon {
+        width: 24px; /* Adjust the size as needed */
+        height: 24px; /* Adjust the size as needed */
+        margin-left: 10px; /* Adjust the spacing as needed */
+        cursor: pointer;
+      }
+      
+      .forminformasitambahan input[type="file"]:focus ~ ion-label,
+      .forminformasitambahan input[type="file"]:valid ~ ion-label {
+        top: -10px;
+        left: 12px;
+        font-size: 12px;
+        color: var(--highlight-color-focused);
+        background: var(--background);
+        padding: 0 4px;
+      }
+  
+  
+    .tombol{
+      --ion-color-primary: #642DF4; 
+      margin-left: 30px;
+      font-family: "Times New Roman", Times, serif;
     }
-}
+    .pengalaman{
+      font-size: 1.1em;
+      font-family: "Times New Roman", Times, serif;
+      margin-left: 20px;
+  }
+  .InformasiTambahan {
+    --highlight-height: 2px;
+    --highlight-color-focused: var(--ion-color-primary);
+    --background: var(--ion-item-background, var(--ion-background-color, #fff));
+    --border-radius: var(--ion-item-border-radius, 4px);
+    --padding-start: 8px;
+    --padding-end: 8px;
+    --padding-top: 0;
+    --padding-bottom: 0;
+    --inner-padding-end: 8px;
+    --inner-padding-start: 8px;
+    --inner-padding-top: 8px;
+    --inner-padding-bottom: 8px;
+    --transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out, background 0.2s ease-in-out;
+  
+    display: flex;
+    align-items: center;
+    position: relative;
+    background: var(--background);
+    border-radius: var(--border-radius);
+    padding: var(--padding-top) var(--padding-end) var(--padding-bottom) var(--padding-start);
+  
+    ion-label {
+      position: absolute;
+      top: 8px;
+      left: 12px;
+      font-size: 16px;
+      transition: 0.2s ease all;
+      pointer-events: none;
+      color: var(--ion-color-medium);
+    }
+  
+    input[type="file"] {
+      border: none;
+      outline: none;
+      background: transparent;
+      color: var(--ion-text-color, #000);
+      font-size: 16px;
+      padding: 8px 12px 8px 0;
+      flex: 1;
+  
+      &:focus + ion-label,
+      &:valid + ion-label {
+        top: -10px;
+        left: 8px;
+        font-size: 12px;
+        color: var(--highlight-color-focused);
+      }
+    }
+  }
+  .save {
+    --ion-color-primary: #642DF4; 
+  }
+  }
