@@ -39,14 +39,14 @@ export class HomePage implements OnInit {
   }
 
   setBalance(response: any = null) { 
-    if (response && response.data.balance) { 
-      this.balance = response.data.balance; 
+    if (response && response.data.teacher_balance && response.data.teacher_balance.length > 0) { 
+      this.balance = response.data.teacher_balance[0].balance; 
     }
   }
 
   setPendingBalance(response: any = null) { 
-    if (response && response.data.pb_balance) { 
-      this.pending_balance = response.data.pb_balance; 
+    if (response && response.data.pending_balance && response.data.pending_balance.length > 0) { 
+      this.pending_balance = response.data.pending_balance[0].balance; 
     }
   }
 
@@ -162,5 +162,13 @@ export class HomePage implements OnInit {
 
   editTeacherProfile() {
     this.route.navigate(['/edit-teacher-profile']);
+  }
+
+  withdraw() {
+    this.route.navigate(['/tarik-saldo']);
+  } 
+
+  studentManagement() {
+    this.route.navigate(['/student-manajement']);
   }
 }

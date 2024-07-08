@@ -1,0 +1,49 @@
+ion-content {
+    .transaction-item {
+      display: flex;
+      align-items: center;
+      margin-left: 10px;
+      margin-top: 10px;
+      border-bottom: 1px solid #ccc;
+      
+      .profile-photo {
+        width: 50px;
+        height: 50px;
+        border-radius: 20%;
+        margin-right: 10px;
+      }
+  
+      .transaction-details {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+  
+        .description {
+          font-size: 16px;
+          color: #333;
+          margin-bottom: 5px;
+        }
+  
+        .amount {
+          font-size: 18px;
+          color: #333;
+          font-weight: bold;
+          margin-bottom: 5px;
+          ion-badge{
+            float: right;
+            margin-right: 15px;
+            margin-top: 5px;
+            color: rgb(255, 255, 255);
+          }
+        }
+  
+  
+        .date {
+          font-size: 14px;
+          color: #999;
+          margin-bottom: 10px;
+        }
+      }
+    }
+  }
+  

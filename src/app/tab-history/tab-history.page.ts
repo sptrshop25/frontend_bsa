@@ -3,8 +3,12 @@ import axios from 'axios';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { CustomAlertComponent } from './custom-alert/custom-alert.component';
-import { ModalController } from '@ionic/angular';
-import { AlertController } from '@ionic/angular';
+import {
+  ModalController,
+  AlertController,
+  ToastController,
+  NavController,
+} from '@ionic/angular';
 
 @Component({
   selector: 'app-tab-history',
@@ -12,7 +16,6 @@ import { AlertController } from '@ionic/angular';
   styleUrls: ['./tab-history.page.scss'],
 })
 export class TabHistoryPage implements OnInit {
-
   segmentValue: string = 'proses';
   isModalOpen: boolean = false;
   transactions: any[] = [];
@@ -20,10 +23,58 @@ export class TabHistoryPage implements OnInit {
   comment: string = '';
   selectedCourseId: string = '';
 
-  constructor(private router: Router, private modalController: ModalController, private alertController: AlertController) { }
+  constructor(
+    private router: Router,
+    private modalController: ModalController,
+    private alertController: AlertController,
+    private toastController: ToastController,
+    private navCtrl: NavController
+  ) {}
 
   async ngOnInit() {
-    await this.fetchTransactions();
+    if (localStorage.getItem('authToken')) {
+      await this.fetchTransactions();
+    } else {
+      this.alertToLogin();
+    }
+  }
+
+  async presentToast(message: string, color: string) {
+    const toast = await this.toastController.create({
+      message: message,
+      duration: 2000,
+      color: color,
+    });
+    toast.present();
+  }
+
+  isLoggedIn() {
+    if (localStorage.getItem('authToken')) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  redirectToLogin() {
+    this.router.navigate(['/login']);
+  }
+
+  async alertToLogin() {
+    const alert = await this.alertController.create({
+      header: 'Gagal',
+      message:
+        'Untuk melihat riwayat transaksi, silahkan login terlebih dahulu',
+      buttons: [
+        {
+          text: 'Login Sekarang',
+          handler: () => {
+            this.navCtrl.navigateForward('/login');
+          },
+        },
+      ],
+    });
+    await alert.present();
   }
 
   async fetchTransactions() {
@@ -46,15 +97,27 @@ export class TabHistoryPage implements OnInit {
     }
   }
 
-  setOpen(isOpen: boolean, courseId?: string, transactionId?: string, status?: string, url?: string) {
+  setOpen(
+    isOpen: boolean,
+    courseId?: string,
+    transactionId?: string,
+    status?: string,
+    url?: string
+  ) {
     if (isOpen && courseId) {
-      const transaction = this.transactions.find(t => t.course[0]?.course_id === courseId);
+      const transaction = this.transactions.find(
+        (t) => t.course[0]?.course_id === courseId
+      );
       if (transaction && transaction.course[0]?.rating?.length > 0) {
-       if (status === 'PAID') {
-        this.router.navigate(['/receipt'], { queryParams: { transaction_id: transactionId } });
-       } else {
-        this.router.navigate(['/pay-checkout'], { queryParams: { url: url } });
-       }
+        if (status === 'PAID') {
+          this.router.navigate(['/receipt'], {
+            queryParams: { transaction_id: transactionId },
+          });
+        } else {
+          this.router.navigate(['/pay-checkout'], {
+            queryParams: { url: url },
+          });
+        }
         return;
       }
     }
@@ -69,8 +132,10 @@ export class TabHistoryPage implements OnInit {
     if (status === 'semua') {
       return this.transactions;
     }
-    return this.transactions.filter(transaction => 
-      status === 'proses' ? transaction.transaction_status !== 'PAID' : transaction.transaction_status === 'PAID'
+    return this.transactions.filter((transaction) =>
+      status === 'proses'
+        ? transaction.transaction_status !== 'PAID'
+        : transaction.transaction_status === 'PAID'
     );
   }
 
@@ -83,24 +148,28 @@ export class TabHistoryPage implements OnInit {
 
   canSubmitReview(): boolean {
     return this.rating > 0 && this.comment.trim().length > 0;
-  }  
-  
+  }
+
   async submitReview() {
     try {
-      const response = await axios.post(`${environment.apiUrl}/rating_course `, {
-        course_id: this.selectedCourseId,
-        rating: this.rating,
-        comment: this.comment
-      }, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+      const response = await axios.post(
+        `${environment.apiUrl}/rating_course `,
+        {
+          course_id: this.selectedCourseId,
+          rating: this.rating,
+          comment: this.comment,
         },
-      });
-      this.presentAlert("Ulasan Anda Berhasil");
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+          },
+        }
+      );
+      this.presentAlert('Ulasan Anda Berhasil');
       await this.fetchTransactions();
       this.setOpen(false);
     } catch (error) {
-      this.errorAlert("Terjadi kesalahan");
+      this.errorAlert('Terjadi kesalahan');
       console.error('Error submitting review:', error);
     }
   }
@@ -109,9 +178,9 @@ export class TabHistoryPage implements OnInit {
     const modal = await this.modalController.create({
       component: CustomAlertComponent,
       componentProps: {
-        message: message
+        message: message,
       },
-      backdropDismiss: false
+      backdropDismiss: false,
     });
 
     modal.onDidDismiss().then((result) => {

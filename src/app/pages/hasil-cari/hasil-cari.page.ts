@@ -30,10 +30,9 @@ export class HasilCariPage implements OnInit {
         search_query: query
       }, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+          Authorization: `${localStorage.getItem('authToken')}`,
         },
       });
-      // console.log('Response:', response.data);
       
       this.searchResults = response.data;
       

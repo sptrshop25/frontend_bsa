@@ -1,9 +1,9 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="home" style="color: purple ;"></ion-back-button>
+      <ion-back-button defaultHref="manage-course" style="color: purple;"></ion-back-button>
     </ion-buttons>
-    <ion-title>Tarik saldo</ion-title>
+    <ion-title>Tarik Saldo</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -12,18 +12,18 @@
     <ion-grid>
       <ion-row>
         <ion-col size="2">
-          <img src="../../../assets/img/bsa2.png" alt="">
+          <img class="rounded-1" src="../../../assets/img/bsa2.png" alt="">
         </ion-col>
-        <ion-col size="6" style="color: black;">
+        <ion-col size="6">
           <h1 style="font-size: 20px;">Tarik Saldo</h1>
-          <h2 style="font-size: 15px;">Rp. 50.000</h2>
+          <h2 style="font-size: 15px;">{{balance | currencyFormat}}</h2>
         </ion-col>
       </ion-row>
     </ion-grid>
-    <ion-card-content>
+    <ion-card-content style="margin-top: -40px;">
       <ion-item>
         <ion-label position="stacked" style="margin-bottom: 10px; font-size: 20px;">Nominal Penarikan</ion-label>
-        <ion-input type="tell" placeholder="Input Nominal" style="font-size: 15px;"></ion-input>
+        <ion-input type="number" placeholder="Input Nominal" [(ngModel)]="withdrawAmount" style="font-size: 15px;"></ion-input>
       </ion-item>
     </ion-card-content>
   </ion-card>
@@ -31,21 +31,32 @@
   <ion-card>
     <ion-item>
       <ion-label position="stacked" style="margin-bottom: 10px; font-size: 20px;">E-wallet</ion-label>
-      <ion-select placeholder="E-wallet" style="font-size: 15px;">
-        <ion-select-option value="bank1">Dana</ion-select-option>
-        <ion-select-option value="bank2">Go Pay</ion-select-option>
-        <ion-select-option value="ewallet1">Shopee Pay</ion-select-option>
+      <ion-select placeholder="E-wallet" [(ngModel)]="selectedWallet" style="font-size: 15px;">
+        <ion-select-option value="dana">Dana</ion-select-option>
+        <ion-select-option value="gopay">Go Pay</ion-select-option>
+        <ion-select-option value="shopeepay">Shopee Pay</ion-select-option>
+        <ion-select-option value="ovo">OVO</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked" style="margin-bottom: 10px; font-size: 20px;">Bank</ion-label>
+      <ion-select placeholder="Transfer Bank" [(ngModel)]="selectedBank" style="font-size: 15px;">
+        <ion-select-option value="bca">BCA</ion-select-option>
+        <ion-select-option value="bri">BRI</ion-select-option>
+        <ion-select-option value="mandiri">Mandiri</ion-select-option>
+        <ion-select-option value="bni">BNI</ion-select-option>
       </ion-select>
     </ion-item>
     <ion-item>
       <ion-label position="stacked" style="margin-bottom: 10px; font-size: 20px;">Nomor Rekening / Hp</ion-label>
-      <ion-input type="text" placeholder="Masukkan nomor rekening atau hp" style="font-size: 15px;"></ion-input>
+      <ion-input type="text" placeholder="Masukkan nomor rekening atau hp" [(ngModel)]="accountNumber" style="font-size: 15px;"></ion-input>
     </ion-item>
   </ion-card>
 
-  <ion-card style="background-color: rgb(255, 226, 253); color: black;">
-    <h1 style="font-size: 20px; margin: 10px;">Informasi Biaya Penarikan</h1>
-    <h2 style="font-size: 15px; margin: 10px;">EWallet = 6.500</h2>
+  <ion-card style="background-color: rgb(255, 226, 253);">
+    <h6 style="margin: 10px;">Informasi Biaya Penarikan</h6>
+    <h6 style="font-size: 12px; margin: 10px;">EWallet = 2.500</h6>
+    <h6 style="font-size: 12px; margin: 10px;">Bank Transfer = 6.500</h6>
   </ion-card>
 
   <ion-card style="background-color: rgb(255, 241, 202);">
@@ -53,9 +64,9 @@
       <ion-row>
         <ion-col size="2">
           <ion-icon name="information-outline"
-            style="background-color: rgb(255, 123, 0); color: white; width: 35px; height: 35px; border-radius: 100%;"></ion-icon>
+            style="background-color: rgb(255, 123, 0); color: white; width: 25px; height: 25px; border-radius: 100%;"></ion-icon>
         </ion-col>
-        <ion-col size="10" style="text-align: justify; font-size: 15px;">
+        <ion-col size="10" style="text-align: justify; font-size: 12px;">
           <p>Proses penarikan saldo akan dilakukan secara
             manual oleh admin pada rentang waktu antara H+3
             hingga maksimal H+7, pada hari dan jam kerja, dari
@@ -65,7 +76,82 @@
       </ion-row>
     </ion-grid>
   </ion-card>
-  <div class="d-flex justify-content-center">
-    <button class="btn" style="width: 90%; background-color: #4F00F8; color: white;">Tarik Saldo</button>
-  </div>
+
+  <!-- Modal -->
+  <ion-modal #modal>
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Konfirmasi Tarik Saldo</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="dismissModal()">Tutup</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content>
+        <h2 style="margin: 2%; font-weight: bold">Penerima</h2>
+        <h3 style="margin: 2%;">Nama Penerima</h3>
+        <h3 style="margin: 5%;">{{ selectedWallet.toUpperCase() }} - {{ accountNumber }}</h3>
+        <ion-grid>
+          <p style="font-weight: bold; margin: 3%;">Detail</p>
+          <ion-row>
+            <ion-col>
+              <h2>Nominal Penarikan</h2>
+            </ion-col>
+            <ion-col>
+              <h2 class="float-end">Rp. {{ withdrawAmount }}</h2>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              <h2>Biaya Penarikan</h2>
+            </ion-col>
+            <ion-col>
+              <h2 class="float-end">Rp. {{ withdrawalFee }}</h2>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+        <hr style="width: 90%; margin: auto;">
+        <ion-grid>
+          <ion-row style="margin: 2px;">
+            <ion-col>
+              <h2 style="font-weight: bold;">Total</h2>
+            </ion-col>
+            <ion-col>
+              <h2 style="font-weight: bold;" class="float-end">Rp. {{ totalWithdrawal }}</h2>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+        <ion-card style="background-color: rgb(255, 241, 202);">
+          <ion-grid>
+            <ion-row>
+              <ion-col size="2">
+                <ion-icon name="information-outline"
+                  style="background-color: rgb(255, 123, 0); color: white; width: 25px; height: 25px; border-radius: 100%;"></ion-icon>
+              </ion-col>
+              <ion-col size="10" style="text-align: justify; font-size: 12px;">
+                <p>Pastikan nomor tujuan benar & terpercaya,
+                  saldomu nantinya gak bisa dikembalikan.</p>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-card>
+        <div class="d-grid gap-2 col-8 mx-auto">
+          <button class="btn btn-primary" type="button" (click)="confirmWithdrawal()">Lanjutkan Tarik Saldo</button>
+        </div>
+        <br> 
+        <div (click)="dismissModal()" class="d-grid gap-2 col-8 mx-auto">
+          <h1 style="color: red; text-align: center; font-size: 20px; font-weight: bold;">Batalkan</h1>
+        </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
 </ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-button id="open-modal" expand="block" (click)="openModal()">Tarik Saldo</ion-button>
+  </ion-toolbar>
+</ion-footer>

@@ -1,0 +1,72 @@
+ion-header{
+    --background:#8000FF;
+    ion-toolbar{
+        // font-family: "Times New Roman", Times, serif;
+    }
+}
+
+ion-content{
+    ion-list{
+        
+        .langganan{
+            .unlimited{
+                margin-left: 16px;
+                --color-checked: #8000FF;
+            }  
+            .limited{
+                margin-left: 16px;
+                --color-checked: #8000FF;
+            }  
+        }
+        // font-family: "Times New Roman", Times, serif;
+        --ion-color-base: #8000FF;
+        --ion-color: #8000FF;
+        ion-item{
+            --ion-color-base: #8000FF;
+            --ion-color: #8000FF;
+            margin-left: 16px;
+            margin-right: 16px;
+            margin-bottom: 10px;
+    
+        }
+        .syarat{
+            margin-left: 16px;
+            margin-right: 16px;
+        }
+        p{
+            margin-left: 16px;
+            margin-right: 16px;
+            margin-top: 20px;
+        }
+        ion-button{
+            margin-left: 20px;
+            --ion-color-primary: #8000FF !important; /* Ubah warna latar belakang */
+            --ion-color-primary-contrast: #fff !important; /* Ubah warna teks */
+        }
+    }
+    ion-card{
+        ion-button{
+            --ion-color-primary: #8000FF !important; /* Ubah warna latar belakang */
+            --ion-color-primary-contrast: #fff !important; /* Ubah warna teks */
+        }
+    }
+    div{
+        .tambah {
+            bottom: 0;
+            margin-left: 20px;
+            --ion-color-primary: #642DF4;
+            // font-family: "Times New Roman", Times, serif;
+            margin-bottom: 20px;
+          }
+          
+        .hapus {
+            // float: right;
+            bottom: 0;
+            // margin-right: 20px;
+            --ion-color-primary: #642DF4;
+            // font-family: "Times New Roman", Times, serif;
+            margin-bottom: 20px;
+          }
+          
+    }
+}

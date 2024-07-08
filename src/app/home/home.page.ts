@@ -38,6 +38,7 @@ export class HomePage implements OnInit, AfterViewInit {
   isLoading = true;
   salam: string = '';
   name: string = '';
+  profile_picture: string = '';
   topTeachers: Teacher[] = [];
   private autoScrollTimeout: any;
   private userScrolling = false;
@@ -45,6 +46,7 @@ export class HomePage implements OnInit, AfterViewInit {
   constructor(private router: Router) {
     this.setSalam();
     this.setName();
+    this.setProfilePicture();
   }
 
   ngAfterViewInit() {
@@ -105,6 +107,14 @@ export class HomePage implements OnInit, AfterViewInit {
     if (response && response.data.data_user.user_name) { 
       this.name = response.data.data_user.user_name; 
     }
+    console.log(this.name);
+    
+  }
+
+  setProfilePicture(response: any = null) {
+    if (response && response.data.data_user.user_profile_picture) { 
+      this.profile_picture = response.data.data_user.user_profile_picture; 
+    }
   }
 
   handleRefresh(event: any) {
@@ -138,6 +148,7 @@ export class HomePage implements OnInit, AfterViewInit {
     .then((response) => {
       // console.log('Response:', response);
       this.setName(response);
+      this.setProfilePicture(response);
     })
     .catch((error) => {
       console.log('Error:', error);
@@ -152,7 +163,7 @@ export class HomePage implements OnInit, AfterViewInit {
     }) 
     .then((response) => {
       this.topTeachers = response.data;
-      console.log('Top Teachers:', this.topTeachers);
+      // console.log('Top Teachers:', this.topTeachers);
       
     })
     .catch((error) => {

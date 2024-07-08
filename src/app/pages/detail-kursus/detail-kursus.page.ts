@@ -207,7 +207,7 @@ export class DetailKursusPage implements OnInit {
       }
     })
     .then((response) => {
-      this.router.navigate(['/detail-kursus'], {
+      this.router.navigate(['/payment'], {
         queryParams: { course_id: courseId },
       });
     })

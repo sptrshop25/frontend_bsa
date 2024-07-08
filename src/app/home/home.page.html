@@ -13,23 +13,26 @@
             <ion-row>
               <ion-col class="empat">
                 <!-- <ion-icon class="chat" name="chatbubble-ellipses-outline"></ion-icon> -->
-                <ion-icon class="notif" name="notifications-outline"></ion-icon>
-                <img class="image" src="../../../assets/img/bsa2.png" alt="">
+                <!-- <ion-icon class="notif" name="notifications-outline"></ion-icon> -->
+                <!-- <ion-avatar> -->
+                  <img class="image" [src]="profile_picture ? profile_picture : '../../../assets/img/bsa2.png'" alt="">
+                <!-- </ion-avatar> -->
               </ion-col>
             </ion-row>
           </ion-col>
         </ion-row>
       </ion-grid>
-      <p class="halo">Hai <b>{{name}},</b></p>
+      <p class="halo">Hai <b>{{name.length > 12 ? name.substring(0, 12) + '...' : name ? name : 'tamu'}},</b></p>
       <h1>{{ salam }}</h1>
       <div class="container-scroll">
         <div
           class="row carousel-row text-center fw-bold"
           style="font-size: 12px; margin-top: -10%; margin-left: -30px;"
         >
-              <img src="https://via.placeholder.com/500" class="img-fluid ms-2" alt="..." style="width: 80%; height: 130px;">
-              <img src="https://via.placeholder.com/500" class="img-fluid" alt="..." style="width: 80%; height: 130px;">
-              <img src="https://via.placeholder.com/500" class="img-fluid" alt="..." style="width: 80%; height: 130px;">
+              <img src="../../assets/img/Mari.png" class="img-fluid ms-2" alt="..." style="width: 80%; height: 130px;">
+              <img src="../../assets/img/Mari.png" class="img-fluid ms-2" alt="..." style="width: 80%; height: 130px;">
+              <!-- <img src="https://via.placeholder.com/500" class="img-fluid" alt="..." style="width: 80%; height: 130px;">
+              <img src="https://via.placeholder.com/500" class="img-fluid" alt="..." style="width: 80%; height: 130px;"> -->
       </div>
       </div>
     </div>
@@ -117,7 +120,6 @@
               <div style="display: flex; align-items: center;">
                 <span>{{ course.course_rating }} &nbsp;</span>
                 <app-star-rating [rating]="course.course_rating || 0"></app-star-rating>
-                <span>&nbsp;(245)</span>
               </div>              
             </div>
           </div>

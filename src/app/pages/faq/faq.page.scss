@@ -1,0 +1,16 @@
+ion-header {
+    --background: rgb(166, 11, 166);
+  }
+  
+  ion-toolbar {
+    --background: rgb(166, 11, 166);
+  }
+  
+
+ion-toolbar {
+    display: flex;
+    justify-content: flex-start; 
+    align-items: center;
+    position: relative;
+  }
+  

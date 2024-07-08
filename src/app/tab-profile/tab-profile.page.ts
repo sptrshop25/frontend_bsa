@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import axios from 'axios';
 import { environment } from 'src/environments/environment';
-import { AlertController } from '@ionic/angular';
+import { AlertController, ModalController, NavController } from '@ionic/angular';
 import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
@@ -12,7 +12,7 @@ import { ChangeDetectorRef } from '@angular/core';
 })
 export class TabProfilePage implements OnInit {
 
-  constructor(private router: Router, private alertController: AlertController) {
+  constructor(private router: Router, private alertController: AlertController, private modalController: ModalController, private navCtrl: NavController, private ref: ChangeDetectorRef) {
     this.setName();
     this.setPhone();
     this.setEmail();
@@ -31,6 +31,9 @@ export class TabProfilePage implements OnInit {
 
   isLoading: boolean = false;
   
+  redirectToLogin() {
+    this.router.navigate(['/login']);
+  }
   async presentLogoutConfirm() {
     const alert = await this.alertController.create({
       header: 'Konfirmasi',
@@ -58,6 +61,23 @@ export class TabProfilePage implements OnInit {
   logout(): void {
     localStorage.clear(); 
     this.router.navigate(['/login']); 
+  }
+
+  async alertToLogin() {
+    const alert = await this.alertController.create({
+      header: 'Gagal',
+      message:
+        'Untuk melihat halaman profil, silahkan login terlebih dahulu',
+      buttons: [
+        {
+          text: 'Login Sekarang',
+          handler: () => {
+            this.navCtrl.navigateForward('/login');
+          },
+        },
+      ],
+    });
+    await alert.present();
   }
   
   handleRefresh(event: any) {
@@ -122,28 +142,40 @@ export class TabProfilePage implements OnInit {
   }
   
   ngOnInit() {
-    axios.get(`${environment.apiUrl}/info_user`, {
-      headers: {
-        Authorization: `${localStorage.getItem('authToken')}`
-      }
-    })
-    .then((response) => {
-      this.setNickname(response); 
-      this.setPhone(response);
-      this.setName(response);
-      this.setUserActive(response);
-      this.statusTeacher(response);
-      this.setEmail(response);
-      this.setImageProfile(response);
-      // console.log(response.data.data_user.user_profile_picture);
-      
-    })
-    .catch((error) => {
-      console.error('Error:', error);
-    })
-    .finally(() => {
-      this.isLoading = false;
-    });    
+    if (localStorage.getItem('authToken')) {
+      axios.get(`${environment.apiUrl}/info_user`, {
+        headers: {
+          Authorization: `${localStorage.getItem('authToken')}`
+        }
+      })
+      .then((response) => {
+        this.setNickname(response); 
+        this.setPhone(response);
+        this.setName(response);
+        this.setUserActive(response);
+        this.statusTeacher(response);
+        this.setEmail(response);
+        this.setImageProfile(response);
+        // console.log(response.data.data_user.user_profile_picture);
+        
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      })
+      .finally(() => {
+        this.isLoading = false;
+      });    
+    } else {
+      this.alertToLogin();
+    }
+  }
+
+  isLoggedIn() {
+    if (localStorage.getItem('authToken')) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   helpCenter() {
@@ -152,5 +184,9 @@ export class TabProfilePage implements OnInit {
 
   editProfile() {
     this.router.navigate(['/change-profile']);
+  }
+
+  faq() {
+    this.router.navigate(['/faq']);
   }
 }

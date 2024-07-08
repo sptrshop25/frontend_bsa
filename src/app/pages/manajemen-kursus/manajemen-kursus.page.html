@@ -28,12 +28,12 @@
       <ion-row>
         <ion-col size="12" *ngFor="let course of courses">
           <ion-card>
-            <div class="card m-1">
+            <div class="card m-1" (click)="editCourse(course.course_id)">
               <img
                 [src]="course.course_image"
                 class="img-fluid"
                 alt="Course Image"
-                style="width: 100%; height: auto"
+                style="width: 100%; height: 200px; object-fit: cover;"
               />
               <div class="card-body">
                 <div>
@@ -43,7 +43,7 @@
                   <br />
                   <span style="font-size: 12px !important"
                     >{{ course.course_rating ? course.course_rating + ' ★' :
-                    'belum diulas' }} - 10 &nbsp;👤</span
+                    'belum diulas' }} - {{ course.enrollment.length }} &nbsp;👤</span
                   >
                 </div>
               </div>

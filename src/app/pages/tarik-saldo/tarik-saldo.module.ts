@@ -8,6 +8,9 @@ import { TarikSaldoPageRoutingModule } from './tarik-saldo-routing.module';
 
 import { TarikSaldoPage } from './tarik-saldo.page';
 
+import { CurrencyFormatPipe } from './currency-format.pipe';
+import { ConfirmationModalComponent } from '../../confirmation-modal/confirmation-modal.component';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -15,6 +18,6 @@ import { TarikSaldoPage } from './tarik-saldo.page';
     IonicModule,
     TarikSaldoPageRoutingModule
   ],
-  declarations: [TarikSaldoPage]
+  declarations: [TarikSaldoPage, CurrencyFormatPipe, ConfirmationModalComponent]
 })
 export class TarikSaldoPageModule {}

@@ -22,7 +22,7 @@
 
 <ion-content *ngIf="course_details">
   <div class="banner">
-    <img [src]="course_details.course.course_image" alt="Banner Image" />
+    <img [src]="course_details.course.course_image" alt="Banner Image" style="object-fit: cover; width: 100%; height: 215px"/>
   </div>
   <div class="detailkursus">
     <h2>{{ course_details.course.course_title }}</h2>

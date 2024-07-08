@@ -43,7 +43,7 @@
           <div class="ms-3 mt-1" style="background-color: #fff; width: 2px;
           height: 50px; align-items: center;"></div>
         </div>
-        <div class="col-5" style="text-align: center;">
+        <div (click)="withdraw()" class="col-5" style="text-align: center;">
           <h2 class="text-light mt-2 ms-4" style="font-size: 15px;">{{balance | currencyFormat}}</h2>
           <p class="text-light ms-4">Dapat ditarik</p>
         </div>
@@ -66,10 +66,10 @@
           <div class="stat-number">{{average_rating}}</div>
           <div class="stat-label">Rating</div>
         </div>
-        <div class="grid-item">
+        <!-- <div class="grid-item">
           <div class="stat-number">0</div>
           <div class="stat-label">Peringkat</div>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
@@ -86,7 +86,7 @@
           </div>
         </ion-card-content>
       </ion-col>
-      <ion-col size="3" size-md="2">
+      <!-- <ion-col size="3" size-md="2">
         <ion-card-content>
           <div class="icon-container">
             <div
@@ -96,10 +96,10 @@
             </div>
           </div>
         </ion-card-content>
-      </ion-col>
+      </ion-col> -->
       <ion-col size="3" size-md="2">
         <ion-card-content>
-          <div class="icon-container">
+          <div class="icon-container" (click)="studentManagement()">
             <div
               style="align-items: center;display: flex; flex-direction: column; text-align: center; width: 50px; height: 50px;">
               <img src="../../../../assets/img/course-student.png" alt="" style="width: 50px; height: 50px;">
@@ -110,13 +110,13 @@
       </ion-col>
       <ion-col size="3" size-md="2">
         <ion-card-content>
-          <div class="icon-container">
+          <!-- <div class="icon-container">
             <div
               style="align-items: center; display: flex; flex-direction: column; text-align: center; width: 50px; height: 50px;">
               <img src="../../../../assets/img/course-information.png" alt="" style="width: 50px; height: 50px;">
               <p style="font-size: 11px;">Informasi Kursus</p>
             </div>
-          </div>
+          </div> -->
         </ion-card-content>
       </ion-col>
     </ion-row>

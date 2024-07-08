@@ -10,6 +10,7 @@ interface Course {
   course_price: number;
   course_image: string;
   course_rating: string;
+  enrollment: any[]; // Updated to any[] for enrollment data
 }
 
 @Component({
@@ -19,6 +20,7 @@ interface Course {
 })
 export class ManajemenKursusPage implements OnInit {
   courses: Course[] = [];
+  countStudent: number = 0;
   noCoursesMessage = '';
 
   constructor(private route: Router) { }
@@ -36,6 +38,10 @@ export class ManajemenKursusPage implements OnInit {
     })
       .then(response => {
         this.courses = response.data;
+
+        // Calculate total enrollment count
+        this.countStudent = this.courses.reduce((total, course) => total + course.enrollment.length, 0);
+
         if (this.courses.length === 0) {
           this.noCoursesMessage = 'Belum ada kursus yang dibuat, yuk mulai buat kursusmu!';
         } else {
@@ -49,5 +55,9 @@ export class ManajemenKursusPage implements OnInit {
 
   addCourse() {
     this.route.navigate(['/form-course']);
+  }
+
+  editCourse(courseId: string) {
+    this.route.navigate(['/edit-course', { course_id: courseId }]);
   }
 }

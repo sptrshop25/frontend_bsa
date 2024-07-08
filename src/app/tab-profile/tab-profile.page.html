@@ -5,35 +5,73 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
-    <ion-refresher-content></ion-refresher-content>
-  </ion-refresher>
-  <div style="background-color: #F4F3F3;">
-  <div style="display: flex; align-items: center; justify-content: flex-start;" class="ms-4">
-    <ion-avatar>
-      <img [src]="image_profile ? image_profile : 'assets/img/BSA.png'" style="width: 80px; margin-top: 3px; margin-left: -10px;" class="mt-3 w-100">
-    </ion-avatar>
-    <div style="margin-left: 2rem; text-align: left; font-size: 16px; color: black;" class="mt-3">
-      <span style="display: block;">{{name}}</span>
-      <span style="display: block;">{{nickname}}</span>
-      <span [ngClass]="{ 'bg-success text-light': user_active === 'active', 'bg-danger text-light': user_active === 'inactive' }" class="p-1 rounded-2">
-        {{ user_active === 'active' ? 'Aktif' : 'Tidak Aktif' }}
-      </span> 
-    </div>
-  </div>  
-  <button class="btn float-end" style="margin-top: -35px; color: #2703FF;" (click)="editProfile()">Ubah Profil <ion-icon style="font-size: 20px;" name="create-outline"></ion-icon></button>
-  <br>
-  <div class="d-flex justify-content-center m-3">
-    <div class="card p-2 box-data-user">
-      <p>Email</p>
-      <p>{{email}}</p>
-    </div>
-    <div class="card p-2 box-data-user" style="border-right: none;">
-      <p>Nomor Hp</p>
-      <p>{{phone}}</p>
+  <div *ngIf="!isLoggedIn()">
+    <h5 class="text-center mt-5">Silahkan Login Terlebih Dahulu</h5>
+    <div class="d-flex justify-content-center">
+      <ion-button
+        color="primary"
+        shape="round"
+        (click)="redirectToLogin()"
+        class="mt-3"
+        >Klik Disini</ion-button
+      >
     </div>
   </div>
-  <!-- <div class="d-flex justify-content-center p-4">
+  <div *ngIf="isLoggedIn()">
+    <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+      <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+    <div style="background-color: #f4f3f3">
+      <div
+        style="display: flex; align-items: center; justify-content: flex-start"
+        class="ms-4"
+      >
+        <ion-avatar>
+          <img
+            [src]="image_profile ? image_profile : 'assets/img/BSA.png'"
+            style="width: 80px; margin-top: 3px; margin-left: -10px"
+            class="mt-3 w-100"
+          />
+        </ion-avatar>
+        <div
+          style="
+            margin-left: 2rem;
+            text-align: left;
+            font-size: 16px;
+            color: black;
+          "
+          class="mt-3"
+        >
+          <span style="display: block">{{name}}</span>
+          <span style="display: block">{{nickname}}</span>
+          <span
+            [ngClass]="{ 'bg-success text-light': user_active === 'active', 'bg-danger text-light': user_active === 'inactive' }"
+            class="p-1 rounded-2"
+          >
+            {{ user_active === 'active' ? 'Aktif' : 'Tidak Aktif' }}
+          </span>
+        </div>
+      </div>
+      <button
+        class="btn float-end"
+        style="margin-top: -35px; color: #2703ff"
+        (click)="editProfile()"
+      >
+        Ubah Profil
+        <ion-icon style="font-size: 20px" name="create-outline"></ion-icon>
+      </button>
+      <br />
+      <div class="d-flex justify-content-center m-3">
+        <div class="card p-2 box-data-user">
+          <p>Email</p>
+          <p>{{email}}</p>
+        </div>
+        <div class="card p-2 box-data-user" style="border-right: none">
+          <p>Nomor Hp</p>
+          <p>{{phone}}</p>
+        </div>
+      </div>
+      <!-- <div class="d-flex justify-content-center p-4">
     <div class="card p-1 text-center w-100 rounded-4" style="background-color: #750288; border-radius: none; font-size: 12px;">
       <div class="row">
         <div class="col-5">
@@ -51,34 +89,67 @@
       </div>
     </div>
   </div> -->
-</div>
-<div class="card-body mt-3" style="border-radius: 0; background-color: #ECE0FC;">
-  <div class="row" style="margin-left: 1px;">
-    <div class="col-2">
-      <img src="../../../assets/img/kelola_kursus.png" alt="" style="width: 60%; margin-top: 13.5px;">
     </div>
-    <div class="col-6" (click)="is_teacher === 'yes' ? manageCourse() : registerTeacher()">
-      <p class="mt-3" style="color: #5200FF; font-size: 14px; margin-left: -1.3rem;" *ngIf="is_teacher === 'yes'">Kelola Kursus</p>
-      <p class="mt-3" style="color: #5200FF; font-size: 14px; margin-left: -1.3rem;" *ngIf="is_teacher !== 'yes'">Mulai Menjadi Pengajar</p>
-    </div>  
-    <div class="col-4" [ngStyle]="{ 'display': is_teacher === 'yes' ? 'none' : 'block' }">
-      <p class="float-end mt-3 me-2" style="color: #000000; font-size: 14px;">Daftar Gratis</p>
-  </div>
-  
-  </div>
-</div>
+    <div
+      class="card-body mt-3"
+      style="border-radius: 0; background-color: #ece0fc"
+    >
+      <div class="row" style="margin-left: 1px">
+        <div class="col-2">
+          <img
+            src="../../../assets/img/kelola_kursus.png"
+            alt=""
+            style="width: 60%; margin-top: 13.5px"
+          />
+        </div>
+        <div
+          class="col-6"
+          (click)="is_teacher === 'yes' ? manageCourse() : registerTeacher()"
+        >
+          <p
+            class="mt-3"
+            style="color: #5200ff; font-size: 14px; margin-left: -1.3rem"
+            *ngIf="is_teacher === 'yes'"
+          >
+            Kelola Kursus
+          </p>
+          <p
+            class="mt-3"
+            style="color: #5200ff; font-size: 14px; margin-left: -1.3rem"
+            *ngIf="is_teacher !== 'yes'"
+          >
+            Mulai Menjadi Pengajar
+          </p>
+        </div>
+        <div
+          class="col-4"
+          [ngStyle]="{ 'display': is_teacher === 'yes' ? 'none' : 'block' }"
+        >
+          <p
+            class="float-end mt-3 me-2"
+            style="color: #000000; font-size: 14px"
+          >
+            Daftar Gratis
+          </p>
+        </div>
+      </div>
+    </div>
 
-<div class="card-body mt-3 list-menu" (click)="wishlist()">
-  <div class="row" style="margin-left: 1px;">
-    <div class="col-4">
-      <img src="../../../assets/img/favorit.png" alt="" style="width: 25%; margin-top: 13.5px;">
+    <div class="card-body mt-3 list-menu" (click)="wishlist()">
+      <div class="row" style="margin-left: 1px">
+        <div class="col-4">
+          <img
+            src="../../../assets/img/favorit.png"
+            alt=""
+            style="width: 25%; margin-top: 13.5px"
+          />
+        </div>
+        <div class="col-8">
+          <p class="mt-3" style="margin-left: -5rem">Favorit Saya</p>
+        </div>
+      </div>
     </div>
-    <div class="col-8">
-      <p class="mt-3" style="margin-left: -5rem;">Favorit Saya</p>
-    </div>
-  </div>
-</div>
-<!-- <div class="card-body list-menu">
+    <!-- <div class="card-body list-menu">
   <div class="row" style="margin-left: 1px;">
     <div class="col-4">
       <img src="../../../assets/img/terakhir_dilihat.png" alt="" style="width: 25%; margin-top: 13.5px;">
@@ -88,7 +159,7 @@
     </div>
   </div>
 </div> -->
-<div class="card-body list-menu">
+    <!-- <div class="card-body list-menu">
   <div class="row" style="margin-left: 1px;">
     <div class="col-4">
       <img src="../../../assets/img/voucher.png" alt="" style="width: 25%; margin-top: 13.5px;">
@@ -97,29 +168,46 @@
       <p class="mt-3" style="margin-left: -5rem;">Voucher Saya</p>
     </div>
   </div>
-</div>
-<div class="card-body list-menu">
-  <div class="row" style="margin-left: 1px;">
-    <div class="col-4">
-      <img src="../../../assets/img/faq.png" alt="" style="width: 25%; margin-top: 13.5px;">
+</div> -->
+    <div (click)="faq()" class="card-body list-menu">
+      <div class="row" style="margin-left: 1px">
+        <div class="col-4">
+          <img
+            src="../../../assets/img/faq.png"
+            alt=""
+            style="width: 25%; margin-top: 13.5px"
+          />
+        </div>
+        <div class="col-8">
+          <p class="mt-3" style="margin-left: -5rem">FAQ</p>
+        </div>
+      </div>
     </div>
-    <div class="col-8">
-      <p class="mt-3" style="margin-left: -5rem;">FAQ</p>
+    <div class="card-body list-menu" (click)="helpCenter()">
+      <div class="row" style="margin-left: 1px">
+        <div class="col-4">
+          <img
+            src="../../../assets/img/pusat_bantuan.png"
+            alt=""
+            style="width: 25%; margin-top: 13.5px"
+          />
+        </div>
+        <div class="col-8">
+          <p class="mt-3" style="margin-left: -5rem">Pusat Bantuan</p>
+        </div>
+      </div>
     </div>
+    <button
+      class="btn d-flex mx-auto mt-2 mb-2"
+      style="color: #ff0000; background-color: #fff3f3"
+      (click)="presentLogoutConfirm()"
+    >
+      Keluar
+      <ion-icon
+        class="ms-2"
+        style="font-size: 20px"
+        name="log-out-outline"
+      ></ion-icon>
+    </button>
   </div>
-</div>
-<div class="card-body list-menu" (click)="helpCenter()">
-  <div class="row" style="margin-left: 1px;">
-    <div class="col-4">
-      <img src="../../../assets/img/pusat_bantuan.png" alt="" style="width: 25%; margin-top: 13.5px;">
-    </div>
-    <div class="col-8">
-      <p class="mt-3" style="margin-left: -5rem;">Pusat Bantuan</p>
-    </div>
-  </div>
-</div>
-<button class="btn d-flex mx-auto mt-2 mb-2" style="color: #FF0000; background-color: #FFF3F3;" (click)="presentLogoutConfirm()">
-  Keluar 
-  <ion-icon class="ms-2" style="font-size: 20px;" name="log-out-outline"></ion-icon>
-</button>
 </ion-content>

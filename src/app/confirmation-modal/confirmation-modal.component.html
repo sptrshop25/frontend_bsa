@@ -1,0 +1,69 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Konfirmasi Tarik Saldo</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismissModal()">Tutup</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <h2 style="margin: 2%; font-weight: bold">Penerima</h2>
+  <h3 style="margin: 2%;">Nama Penerima</h3>
+  <h3 style="margin: 5%;">{{ selectedWallet.toUpperCase() }} - {{ accountNumber }}</h3>
+  
+  <ion-grid>
+    <p style="font-weight: bold; margin: 3%;">Detail</p>
+    <ion-row>
+      <ion-col>
+        <h2>Nominal Penarikan</h2>
+      </ion-col>
+      <ion-col>
+        <h2 class="float-end">Rp. {{ withdrawAmount }}</h2>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <h2>Metode Pembayaran</h2>
+      </ion-col>
+      <ion-col>
+        <h2 class="float-end">{{ selectedWallet ? selectedWallet.toUpperCase() : selectedBank }}</h2>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <h2>Nomor Rekening / Hp</h2>
+      </ion-col>
+      <ion-col>
+        <h2 class="float-end">{{ accountNumber }}</h2>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-card style="background-color: rgb(255, 241, 202);">
+    <ion-grid>
+      <ion-row>
+        <ion-col size="2">
+          <ion-icon name="information-outline"
+            style="background-color: rgb(255, 123, 0); color: white; width: 25px; height: 25px; border-radius: 100%;"></ion-icon>
+        </ion-col>
+        <ion-col size="10" style="text-align: justify; font-size: 12px;">
+          <p>Pastikan nomor tujuan benar & terpercaya,
+            saldomu nantinya gak bisa dikembalikan.</p>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-card>
+  
+  <div class="d-grid gap-2 col-8 mx-auto">
+    <button class="btn btn-primary" type="button" (click)="confirmWithdrawal()">Lanjutkan Tarik Saldo</button>
+  </div>
+  <br> 
+  <!-- <div (click)="dismissModal()" class="d-grid gap-2 col-8 mx-auto">
+    <h1 style="color: red; text-align: center; font-size: 20px; font-weight: bold;">Batalkan</h1>
+  </div> -->
+</ion-content>

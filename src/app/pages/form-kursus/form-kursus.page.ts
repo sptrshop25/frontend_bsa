@@ -188,12 +188,15 @@ export class FormKursusPage {
           },
         }
       );
-  
       loading.dismiss();
       this.presentAlert('Akun anda berhasil terdaftar sebagai pengajar');
     } catch (error: any | undefined) {
       loading.dismiss();
-      this.errorAlert(error.response.data.message);
+      if (error.response.data.message !== '') { 
+        this.errorAlert("Terjadi kesalahan, silahkan coba lagi nanti");
+      } else {
+        this.errorAlert("Maksimal size video 128 MB");
+      }
       console.error('Error submitting form:', error);
     }
   }

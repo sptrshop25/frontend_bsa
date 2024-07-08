@@ -4,14 +4,17 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
+  // path: '',
+  //   loadChildren: () => {
+  //     if (localStorage.getItem('authToken')) {
+  //       return import('./tabs/tabs.module').then(m => m.TabsPageModule);
+  //     } else {
+  //       return import('./authentication/sign-in/sign-in.module').then(m => m.SignInPageModule);
+  //     }
+  //   }
+  // },
   path: '',
-    loadChildren: () => {
-      if (localStorage.getItem('authToken')) {
-        return import('./tabs/tabs.module').then(m => m.TabsPageModule);
-      } else {
-        return import('./authentication/sign-in/sign-in.module').then(m => m.SignInPageModule);
-      }
-    }
+    loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
   },
   {
     path: 'tab',
@@ -164,6 +167,26 @@ const routes: Routes = [
   {
     path: 'edit-teacher-profile',
     loadChildren: () => import('./pages/edit-teacher/edit-teacher.module').then( m => m.EditTeacherPageModule)
+  },
+  {
+    path: 'edit-course',
+    loadChildren: () => import('./pages/edit-course/edit-course.module').then( m => m.EditCoursePageModule)
+  },
+  {
+    path: 'edit-course',
+    loadChildren: () => import('./pages/edit-course/edit-course.module').then( m => m.EditCoursePageModule)
+  },
+  {
+    path: 'faq',
+    loadChildren: () => import('./pages/faq/faq.module').then( m => m.FAQPageModule)
+  },
+  {
+    path: 'student-manajement',
+    loadChildren: () => import('./pages/student-manajement/student-manajement.module').then( m => m.StudentManajementPageModule)
+  },
+  {
+    path: 'financial',
+    loadChildren: () => import('./pages/financial/financial.module').then( m => m.FinancialPageModule)
   }
 ];
 @NgModule({
