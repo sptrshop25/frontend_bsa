@@ -120,7 +120,8 @@ export class TeacherRegisterPage implements OnInit {
       
       axios.post(`${environment.apiUrl}/register/teacher`, formData, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+          Authorization: `${localStorage.getItem('authToken')}`,
+          'X-API-KEY': environment.bsaApiKey,
         },
       })
         .then((response) => {

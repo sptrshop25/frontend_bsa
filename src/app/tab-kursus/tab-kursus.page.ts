@@ -56,7 +56,8 @@ export class TabKursusPage implements OnInit {
   ngOnInit() {
     axios.get(`${environment.apiUrl}/get_courses`, {
       headers: {
-        Authorization: `${localStorage.getItem('authToken')}`
+        Authorization: `${localStorage.getItem('authToken')}`,
+        'X-API-KEY': environment.bsaApiKey,
       }
     })
     .then((response) => {

@@ -20,14 +20,16 @@
   <ng-container *ngIf="segmentValue === 'custom'">
     <ion-list *ngIf="courses && courses.length > 0">
       <ion-accordion-group [multiple]="true">
-        <ion-accordion *ngFor="let bab of courses" [value]="bab.title">
+        <ion-accordion *ngFor="let bab of courses; let i = index" [value]="bab.title">
           <ion-item slot="header">
             <ion-label>{{ bab.title }}</ion-label>
             <p slot="end">{{ bab.course_materials.length }} pelajaran</p>
           </ion-item>
           <div slot="content">
             <ion-list>
-              <ion-item *ngFor="let material of bab.course_materials" (click)="detailMaterial(material.material_id)">
+              <ion-item *ngFor="let material of bab.course_materials; let j = index" 
+                        (click)="detailMaterial(material.material_id)" 
+                        [disabled]="!isPreviousMaterialCompleted(i, j)">
                 <ion-icon name="play-outline" slot="start"></ion-icon>
                 <ion-label>{{ material.material_sub_title }}</ion-label>
                 <ion-icon *ngIf="isMaterialSuccessNotEmpty(material)" class="check-icon text-success" name="checkmark-circle" slot="end"></ion-icon>
@@ -38,6 +40,8 @@
       </ion-accordion-group>
     </ion-list>
   </ng-container>
+  
+  
 
   <ng-container *ngIf="segmentValue === 'segment'">
     <ion-button color="tertiary">

@@ -31,7 +31,8 @@ export class TarikSaldoPage implements OnInit {
   fetchTeacherBalance() {
     axios.get(`${environment.apiUrl}/info_teacher`, {
       headers: {
-        Authorization: `${localStorage.getItem('authToken')}`
+        Authorization: `${localStorage.getItem('authToken')}`,
+        'X-API-KEY': environment.bsaApiKey,
       }
     })
     .then((response) => {

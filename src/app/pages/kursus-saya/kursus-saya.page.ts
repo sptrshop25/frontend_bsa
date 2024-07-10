@@ -4,7 +4,7 @@ import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
 import { CustomAlertComponent } from './custom-alert/custom-alert.component';
-import { ModalController, AlertController } from '@ionic/angular';
+import { ModalController, AlertController, NavController } from '@ionic/angular';
 
 interface Course {
   id: string;
@@ -15,7 +15,7 @@ interface Course {
   progressDetail: string;
   completedCount: number;
   courseMaterials: CourseMaterial[];
-  activePeriod: any;
+  activePeriod: any; // Sesuaikan dengan tipe yang sesuai dari server Laravel
   status: string;
   price: number;
 }
@@ -36,27 +36,65 @@ export class KursusSayaPage implements OnInit {
 
   constructor(
     private router: Router,
-    private toastController: ToastController, private modalController: ModalController, private alertController: AlertController
+    private toastController: ToastController,
+    private modalController: ModalController,
+    private alertController: AlertController,
+    private navCtrl: NavController
   ) {}
 
   ngOnInit() {
-    this.fetchCourseData();
+    if (localStorage.getItem('authToken')) {
+      this.fetchCourseData();
+    } else {
+      this.alertToLogin();
+    }
   }
 
   fetchCourseData() {
     axios.get(`${environment.apiUrl}/my-course`, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('authToken')}`
+        Authorization: `${localStorage.getItem('authToken')}`,
+        'X-API-KEY': environment.bsaApiKey
       }
     })
       .then(response => {
         const data = response.data; 
         this.courses = data.map((courseData: any) => this.mapCourseData(courseData));
         this.filterCourses();
+        this.loadActivePeriods(); // Panggil fungsi untuk memuat tanggal aktif kursus
       })
       .catch(error => {
         console.error('Error fetching course data:', error);
       });
+  }
+
+  async loadActivePeriods() {
+    // Ambil setiap detail kursus yang belum memiliki data aktif periode
+    const requests = this.courses
+      .filter(course => !course.activePeriod)
+      .map(course => this.fetchActivePeriod(course.id));
+
+    // Tunggu semua permintaan selesai
+    await Promise.all(requests);
+  }
+
+  async fetchActivePeriod(courseId: string) {
+    try {
+      const response = await axios.get(`${environment.apiUrl}/get-active-period/${courseId}`, {
+        headers: {
+          Authorization: `${localStorage.getItem('authToken')}`,
+          'X-API-KEY': environment.bsaApiKey
+        }
+      });
+      const activePeriodDate = response.data.active_period;
+      // Update course dengan active_period yang diperoleh
+      const courseToUpdate = this.courses.find(course => course.id === courseId);
+      if (courseToUpdate) {
+        courseToUpdate.activePeriod = activePeriodDate;
+      }
+    } catch (error) {
+      console.error(`Error fetching active period for course ${courseId}:`, error);
+    }
   }
 
   mapCourseData(courseData: any): Course {
@@ -99,52 +137,39 @@ export class KursusSayaPage implements OnInit {
     }
   }
 
-  async navigateToDetail(materialId: string, status: string, course_id: string, price: number) {
+  async navigateToDetail(materialId: string, status: string, courseId: string, price: number) {
     if (status === 'inactive') {
       if (price === 0) {
         axios.post(`${environment.apiUrl}/extend-course`, {
-          'course_id': course_id,
+          'course_id': courseId,
         }, {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem('authToken')}`
+            Authorization: `${localStorage.getItem('authToken')}`,
+            'X-API-KEY': environment.bsaApiKey
           }
         })
           .then(response => {
             this.presentAlert(response.data.message);
             this.fetchCourseData();
-            // console.log(response.data);
-            
           })
           .catch(error => {
-            console.error('Error fetching course data:', error);
+            console.error('Error extending course:', error);
             this.presentAlert("Terjadi kesalahan, silahkan coba lagi");
           });
       } else {
-        this.router.navigate(['payment'], { queryParams: { course_id: course_id } });
+        this.router.navigate(['payment'], { queryParams: { course_id: courseId } });
       }
     } else {
-      const currentDateTime = new Date();
-      const activePeriodDateTime = new Date(this.getActivePeriodDate(status));
-
-      // if (activePeriodDateTime <= currentDateTime) {
-      //   const toast = await this.toastController.create({
-      //     message: 'Kursus sudah tidak aktif, tidak dapat membuka detail.',
-      //     duration: 2000,
-      //     position: 'bottom'
-      //   });
-      //   toast.present();
-      // } else {
-        this.router.navigate(['/detail-my-course'], { queryParams: { material_id: materialId } });
-      // }
+      this.router.navigate(['/detail-my-course'], { queryParams: { material_id: materialId } });
     }
   }
 
   getActivePeriodDate(status: string): string {
     switch (status) {
       case 'active':
-        return 'Aktif selamanya'; // Misalnya, untuk status 'active', kembalikan nilai tanggal yang sesuai
+        return 'Aktif selamanya'; 
       default:
-        return ''; // Pastikan untuk menangani semua kasus yang mungkin
+        return ''; 
     }
   }
 
@@ -200,5 +225,34 @@ export class KursusSayaPage implements OnInit {
     });
 
     await alert.present();
+  }
+
+  async alertToLogin() {
+    const alert = await this.alertController.create({
+      header: 'Gagal',
+      message:
+        'Untuk melihat halaman kursus, silahkan login terlebih dahulu',
+      buttons: [
+        {
+          text: 'Login Sekarang',
+          handler: () => {
+            this.navCtrl.navigateForward('/login');
+          },
+        },
+      ],
+    });
+    await alert.present();
+  }
+
+  isLoggedIn(): boolean {
+    if (localStorage.getItem('authToken')) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  redirectToLogin() {
+    this.router.navigate(['/login']);
   }
 }

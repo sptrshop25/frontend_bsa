@@ -10,6 +10,10 @@ export class CourseService {
   constructor(private http: HttpClient) { }
 
   getCourseDetails(courseId: string) {
-    return this.http.get(`${environment.apiUrl}/detail-course/${courseId}`);
+    return this.http.get(`${environment.apiUrl}/detail-course/${courseId}`, {
+      headers: {
+        'X-API-KEY': environment.bsaApiKey,
+      },
+    });
   }
 }

@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import axios from 'axios';
 import { environment } from 'src/environments/environment';
 import { CustomAlertComponent } from './custom-alert/custom-alert.component';
-import { ModalController, AlertController } from '@ionic/angular';
+import { ModalController, AlertController, NavController } from '@ionic/angular';
 import { Router } from '@angular/router';
 
 interface Material {
@@ -69,7 +69,7 @@ export class DetailKursusPage implements OnInit {
   ratingDistribution: RatingDistribution[] = [];
   isWishlisted = false;
 
-  constructor(private route: ActivatedRoute, private router: Router, private modalController: ModalController, private alertController: AlertController) {}
+  constructor(private route: ActivatedRoute, private router: Router, private modalController: ModalController, private alertController: AlertController, private navCtrl: NavController) {}
 
   ngOnInit() {
     this.route.queryParams.subscribe((params) => {
@@ -87,7 +87,8 @@ export class DetailKursusPage implements OnInit {
         `${environment.apiUrl}/detail-course/${courseId}`,
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+            Authorization: `${localStorage.getItem('authToken')}`,
+            'X-API-KEY': environment.bsaApiKey,
           },
         }
       );
@@ -203,7 +204,8 @@ export class DetailKursusPage implements OnInit {
   navigateToDetail(courseId: string) {
     axios.get(`${environment.apiUrl}/check_course/${courseId}`, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+        Authorization: `${localStorage.getItem('authToken')}`,
+        'X-API-KEY': environment.bsaApiKey,
       }
     })
     .then((response) => {
@@ -234,7 +236,8 @@ export class DetailKursusPage implements OnInit {
         },
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+            Authorization: `${localStorage.getItem('authToken')}`,
+            'X-API-KEY': environment.bsaApiKey,
           },
         }
       )
@@ -250,7 +253,8 @@ export class DetailKursusPage implements OnInit {
     axios
       .delete(`${environment.apiUrl}/remove-wishlist/${courseId}`, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+          Authorization: `${localStorage.getItem('authToken')}`,
+          'X-API-KEY': environment.bsaApiKey,
         },
       })
       .then((response) => {
@@ -297,7 +301,8 @@ export class DetailKursusPage implements OnInit {
       },
       {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+          Authorization: `${localStorage.getItem('authToken')}`,
+          'X-API-KEY': environment.bsaApiKey,
         },
       })
       .then((response) => {
@@ -306,9 +311,10 @@ export class DetailKursusPage implements OnInit {
         this.presentAlert("Transaksi Berhasil");
       })
       .catch((error) => {
-        console.error('Transaction failed:', error);
         if (error.response.data.message === "Course already purchased") {
           this.errorAlert("Kursus ini sudah berada di daftar kursus kamu"); 
+        } else if (error.response.data.message === "not logged in") {
+          this.alertToLogin();
         } else {
           this.errorAlert("Terjadi kesalahan, silahkan coba lagi nanti");
         }
@@ -319,5 +325,22 @@ export class DetailKursusPage implements OnInit {
       this.router.navigate(['/teacher-profile'], {
         queryParams: { teacher_id: this.course_details?.course.teacher_id },
       });
+    }
+    
+    async alertToLogin() {
+      const alert = await this.alertController.create({
+        header: 'Gagal',
+        message:
+          'Untuk membeli kursus ini, silahkan login terlebih dahulu',
+        buttons: [
+          {
+            text: 'Login Sekarang',
+            handler: () => {
+              this.navCtrl.navigateForward('/login');
+            },
+          },
+        ],
+      });
+      await alert.present();
     }
 }

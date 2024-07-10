@@ -1,5 +1,3 @@
-// detail-kursus-saya.page.ts
-
 import { Component, OnInit } from '@angular/core';
 import axios from 'axios';
 import { environment } from 'src/environments/environment';
@@ -21,8 +19,6 @@ export class DetailKursusSayaPage implements OnInit {
 
   ngOnInit() {
     const materialId = this.route.snapshot.queryParamMap.get('material_id');
-    // console.log('materialId:', materialId);
-    
     this.fetchCourses(materialId);
   }
 
@@ -37,7 +33,8 @@ export class DetailKursusSayaPage implements OnInit {
   fetchCourses(materialId : string | null) {
     axios.get(`${environment.apiUrl}/detail-course/${materialId}`, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('authToken')}`
+        Authorization: `${localStorage.getItem('authToken')}`,
+        'X-API-KEY': environment.bsaApiKey,
       }
     })
     .then((response) => {
@@ -65,5 +62,27 @@ export class DetailKursusSayaPage implements OnInit {
 
   isSegmentDisabled(): boolean {
     return this.isMaterialSuccessEmpty;
+  }
+
+  isPreviousMaterialCompleted(courseIndex: number, materialIndex: number): boolean {
+    // Jika materi pertama dari bab pertama, tidak perlu mengecek materi sebelumnya
+    if (courseIndex === 0 && materialIndex === 0) {
+      return true;
+    }
+
+    // Cek materi sebelumnya dalam bab yang sama
+    if (materialIndex > 0) {
+      const previousMaterial = this.courses[courseIndex].course_materials[materialIndex - 1];
+      return this.isMaterialSuccessNotEmpty(previousMaterial);
+    }
+
+    // Cek materi terakhir dari bab sebelumnya
+    if (courseIndex > 0) {
+      const previousCourse = this.courses[courseIndex - 1];
+      const lastMaterialInPreviousCourse = previousCourse.course_materials[previousCourse.course_materials.length - 1];
+      return this.isMaterialSuccessNotEmpty(lastMaterialInPreviousCourse);
+    }
+
+    return false;
   }
 }

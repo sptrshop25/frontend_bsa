@@ -42,7 +42,8 @@ export class EditTeacherPage implements OnInit {
     try {
       const response = await axios.get(`${environment.apiUrl}/detail-teacher`, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+          Authorization: `${localStorage.getItem('authToken')}`,
+          'X-API-KEY': environment.bsaApiKey,
         },
       });
       console.log('Response:', response.data);
@@ -152,7 +153,8 @@ export class EditTeacherPage implements OnInit {
     try {
       const response = await axios.post(`${environment.apiUrl}/edit-teacher`, formData, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+          Authorization: `${localStorage.getItem('authToken')}`,
+          'X-API-KEY': environment.bsaApiKey,
         },
       });
       this.presentToast('Informasi guru berhasil diperbarui', 'success');

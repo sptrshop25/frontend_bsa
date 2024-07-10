@@ -126,7 +126,8 @@ export class HomePage implements OnInit, AfterViewInit {
   ngOnInit() {
     axios.get(`${environment.apiUrl}/get_courses`, {
       headers: {
-        Authorization: `${localStorage.getItem('authToken')}`
+        Authorization: `${localStorage.getItem('authToken')}`,
+        'X-API-KEY': environment.bsaApiKey
       }
     })
     .then((response) => {
@@ -142,7 +143,8 @@ export class HomePage implements OnInit, AfterViewInit {
 
     axios.get(`${environment.apiUrl}/info_user`, {
       headers: {
-        Authorization: `${localStorage.getItem('authToken')}`
+        Authorization: `${localStorage.getItem('authToken')}`,
+        'X-API-KEY': environment.bsaApiKey
       }
     })
     .then((response) => {
@@ -158,7 +160,8 @@ export class HomePage implements OnInit, AfterViewInit {
     });
     axios.get(`${environment.apiUrl}/list-teacher-top`, {
       headers: {
-        Authorization: `${localStorage.getItem('authToken')}`
+        Authorization: `${localStorage.getItem('authToken')}`,
+        'X-API-KEY': environment.bsaApiKey
       }
     }) 
     .then((response) => {

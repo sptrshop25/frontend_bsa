@@ -26,6 +26,7 @@ export class SearchCoursePage implements OnInit {
       const response = await axios.get(`${environment.apiUrl}/search_history`, {
         headers: {
           Authorization: `${localStorage.getItem('authToken')}`,
+          'X-API-KEY': environment.bsaApiKey,
         },
       });
       this.searchHistory = response.data;
@@ -40,6 +41,7 @@ export class SearchCoursePage implements OnInit {
       await axios.delete(`${environment.apiUrl}/search_history/${id}`, {
         headers: {
           Authorization: `${localStorage.getItem('authToken')}`,
+          'X-API-KEY': environment.bsaApiKey,
         },
       });
       this.searchHistory = this.searchHistory.filter(item => item.id !== id);
@@ -54,6 +56,7 @@ export class SearchCoursePage implements OnInit {
       await axios.delete(`${environment.apiUrl}/search_history`, {
         headers: {
           Authorization: `${localStorage.getItem('authToken')}`,
+          'X-API-KEY': environment.bsaApiKey,
         },
       });
       this.searchHistory = [];

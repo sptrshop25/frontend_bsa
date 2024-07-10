@@ -154,7 +154,8 @@ export class TeacherProfilePage implements OnInit {
     
     axios.get<TeacherData>(`${environment.apiUrl}/teacher-profile/${teacherId}`, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+        Authorization: `${localStorage.getItem('authToken')}`,
+        'X-API-KEY': environment.bsaApiKey,
       },
     })
       .then(response => {

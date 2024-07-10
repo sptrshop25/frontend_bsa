@@ -145,7 +145,8 @@ export class TabProfilePage implements OnInit {
     if (localStorage.getItem('authToken')) {
       axios.get(`${environment.apiUrl}/info_user`, {
         headers: {
-          Authorization: `${localStorage.getItem('authToken')}`
+          Authorization: `${localStorage.getItem('authToken')}`,
+          'X-API-KEY': environment.bsaApiKey,
         }
       })
       .then((response) => {

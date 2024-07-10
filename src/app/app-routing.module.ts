@@ -187,6 +187,10 @@ const routes: Routes = [
   {
     path: 'financial',
     loadChildren: () => import('./pages/financial/financial.module').then( m => m.FinancialPageModule)
+  },
+  {
+    path: 'verification-phone-number',
+    loadChildren: () => import('./authentication/verification-phone-number/verification-phone-number.module').then( m => m.VerificationPhoneNumberPageModule)
   }
 ];
 @NgModule({

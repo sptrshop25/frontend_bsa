@@ -33,7 +33,8 @@ export class ManajemenKursusPage implements OnInit {
     const apiUrl = `${environment.apiUrl}/teacher/list-my-course`;
     axios.get(apiUrl, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('authToken')}`
+        Authorization: `${localStorage.getItem('authToken')}`,
+        'X-API-KEY': environment.bsaApiKey,
       }
     })
       .then(response => {

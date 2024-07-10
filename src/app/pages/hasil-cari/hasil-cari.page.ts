@@ -31,6 +31,7 @@ export class HasilCariPage implements OnInit {
       }, {
         headers: {
           Authorization: `${localStorage.getItem('authToken')}`,
+          'X-API-KEY': environment.bsaApiKey,
         },
       });
       

@@ -81,7 +81,8 @@ export class TabHistoryPage implements OnInit {
     try {
       const response = await axios.get(`${environment.apiUrl}/my-transaction`, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+          Authorization: `${localStorage.getItem('authToken')}`,
+          'X-API-KEY': environment.bsaApiKey,
         },
       });
       this.transactions = response.data;
@@ -108,7 +109,7 @@ export class TabHistoryPage implements OnInit {
       const transaction = this.transactions.find(
         (t) => t.course[0]?.course_id === courseId
       );
-      if (transaction && transaction.course[0]?.rating?.length > 0) {
+      if (transaction && transaction.course[0]?.rating?.length >= 0) {
         if (status === 'PAID') {
           this.router.navigate(['/receipt'], {
             queryParams: { transaction_id: transactionId },
@@ -121,7 +122,6 @@ export class TabHistoryPage implements OnInit {
         return;
       }
     }
-
     this.isModalOpen = isOpen;
     if (courseId) {
       this.selectedCourseId = courseId;
@@ -161,7 +161,8 @@ export class TabHistoryPage implements OnInit {
         },
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+            Authorization: `${localStorage.getItem('authToken')}`,
+            'X-API-KEY': environment.bsaApiKey,
           },
         }
       );

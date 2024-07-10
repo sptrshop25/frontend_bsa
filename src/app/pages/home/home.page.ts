@@ -122,7 +122,8 @@ export class HomePage implements OnInit {
 
     axios.get(`${environment.apiUrl}/info_teacher`, {
       headers: {
-        Authorization: `${localStorage.getItem('authToken')}`
+        Authorization: `${localStorage.getItem('authToken')}`,
+        'X-API-KEY': environment.bsaApiKey
       }
     })
     .then((response) => {
@@ -141,7 +142,8 @@ export class HomePage implements OnInit {
 
     axios.get(`${environment.apiUrl}/teacher/list-my-course`, {
       headers: {
-        Authorization: `${localStorage.getItem('authToken')}`
+        Authorization: `${localStorage.getItem('authToken')}`,
+        'X-API-KEY': environment.bsaApiKey
       }
     })
     .then((response) => {

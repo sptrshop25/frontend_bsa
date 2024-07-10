@@ -94,7 +94,8 @@ export class FormKursusPage {
     try {
       const response = await axios.get(`${environment.apiUrl}/list-category`, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+          Authorization: `${localStorage.getItem('authToken')}`,
+          'X-API-KEY': environment.bsaApiKey,
         },
       });
       this.bidangOptions = response.data;
@@ -184,7 +185,8 @@ export class FormKursusPage {
         {
           headers: {
             'Content-Type': 'multipart/form-data',
-            Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+            Authorization: `${localStorage.getItem('authToken')}`,
+            'X-API-KEY': environment.bsaApiKey,
           },
         }
       );
@@ -297,33 +299,40 @@ export class FormKursusPage {
 
   isCheckmarkDisabled(): boolean {
     const isBabListValid = this.formData.babList.every((bab) => {
-      if (!bab.judul || !bab.subBab || !bab.deskripsi) return false;
-      if (bab.subBabList && bab.subBabList.length > 0) {
-        return bab.subBabList.every(
-          (subBab) => subBab.judul && subBab.subBab && subBab.deskripsi
-        );
+  
+      if (!bab.judul) {
+        return false;
       }
+  
+      if (bab.subBabList && bab.subBabList.length > 0) {
+        const isSubBabListValid = bab.subBabList.every((subBab) => {
+          if (!subBab.judul || !subBab.deskripsi) {
+            return false;
+          }
+          return true;
+        });
+        if (!isSubBabListValid) {
+          return false;
+        }
+      }
+  
       return true;
     });
-
-    let isDisabled = false;
-
+  
+    let isDisabled = !isBabListValid;
+  
     if (!this.formData.judulKursus) {
       isDisabled = true;
     }
     if (this.formData.jenisHarga === 'berbayar') {
       if (!this.formData.hargaKursus) {
-        isDisabled = true;
-      }
-      if (!this.formData.hargaDiskon) {
-        isDisabled = true;
+        return true;
       }
       if (
         this.formData.hargaDiskon &&
-        parseInt(this.formData.hargaDiskon) <=
-          parseInt(this.formData.hargaKursus)
+        parseInt(this.formData.hargaDiskon) <= parseInt(this.formData.hargaKursus)
       ) {
-        isDisabled = true;
+        return true;
       }
     }
     if (!this.formData.tingkatan) {
@@ -347,15 +356,14 @@ export class FormKursusPage {
     ) {
       isDisabled = true;
     }
-    // if (!isBabListValid) {
-    //   isDisabled = true;
-    // }
     if (!this.formData.bannerKursus) {
       isDisabled = true;
     }
-
+  
     return isDisabled;
   }
+  
+  
   handleFileInput(
     event: Event,
     field: string,

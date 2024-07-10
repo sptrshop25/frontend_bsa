@@ -1,24 +1,22 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import axios from 'axios';
 import { environment } from '../../../environments/environment';
-import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
 @Component({
-  selector: 'app-verification-forgot-password',
-  templateUrl: './verification-forgot-password.page.html',
+  selector: 'app-verification-phone-number',
+  templateUrl: './verification-phone-number.page.html',
   styleUrls: ['../sign-up/sign-up.page.scss'],
 })
-export class VerificationForgotPasswordPage implements OnInit {
+export class VerificationPhoneNumberPage implements OnInit {
   formData = {
-    email: '',
+    number: '',
     otp: '',
   };
   isButtonDisabled: boolean = false;
   isLoading: boolean = false;
   showOtpError: boolean = false;
-  showEmailError: boolean = false;
+  showPhoneError: boolean = false;
   countdown: number = 0;
   countdownInterval: any;
 
@@ -49,7 +47,7 @@ export class VerificationForgotPasswordPage implements OnInit {
 
   sendOtp() {
     axios
-      .post(`${environment.apiUrl}/request/reset-password`, this.formData, {
+      .post(`${environment.apiUrl}/send_otp_phone`, this.formData, {
         headers: {
           'X-API-KEY': environment.bsaApiKey,
         },
@@ -59,12 +57,13 @@ export class VerificationForgotPasswordPage implements OnInit {
       })
       .catch((error) => {
         if (error.response && error.response.data) {
-          if (error.response.data.message === 'Email not found') {
-            this.showEmailError = true;
+          if (error.response.data.message === 'Phone not found') {
+            this.showPhoneError = true;
           }
         } else {
           this.errorAlert('Terjadi kesalahan');
         }
+        console.log('Error:', error);
       });
   }
 
@@ -82,23 +81,29 @@ export class VerificationForgotPasswordPage implements OnInit {
   validateOtp() {
     this.isLoading = true;
     axios
-      .post(`${environment.apiUrl}/verify_otp`, this.formData, {
+      .post(`${environment.apiUrl}/verify_otp_phone`, this.formData, {
         headers: {
           'X-API-KEY': environment.bsaApiKey,
         },
       })
       .then((response) => {
-        localStorage.setItem('otp', response.data.otp);
-        this.router.navigate(['/reset-password']);
+        this.alertToLogin('Nomor WhatsApp anda telah terverifikasi, silahkan login kembali');
       })
       .catch((error) => {
+        console.log('Error:', error);
         if (
           error.response &&
           error.response.data &&
           error.response.data.message === 'Wrong otp'
         ) {
         this.showOtpError = true;
-        } else {
+        } else if (
+          error.response &&
+          error.response.data &&
+          error.response.data.message === "Otp expired"
+        ) {
+          this.showOtpError = true;
+        }else {
           this.errorAlert('Terjadi kesalahan');
         }
       })
@@ -107,29 +112,44 @@ export class VerificationForgotPasswordPage implements OnInit {
       });
   }
 
+  async alertToLogin(messages?: string) {
+    const alert = await this.alertController.create({
+      header: 'Berhasil',
+      message: messages,
+      buttons: [
+        {
+          text: 'Login',
+          handler: () => {
+            this.router.navigate(['/login']);
+          },
+        },
+      ],
+    });
+
+    await alert.present();
+  }
   isFormValid() {
-    return !!this.formData.email && this.isEmailValid && this.formData.otp;
+    return !!this.formData.number && this.isPhoneValid && this.formData.otp;
   }
 
   isOtpValid() {
     return !!this.formData.otp;
   }
 
-  isEmailValided() {
-    return this.isEmailValid && !!this.formData.email;
+  isPhoneValided() {
+    return this.isPhoneValid && !!this.formData.number;
   }
 
-  isEmailValid: boolean = true;
+  isPhoneValid: boolean = true;
 
-  validateEmail() {
-    this.showEmailError = false;
-    const email = this.formData.email;
-    const emailCriteria = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    this.isEmailValid = emailCriteria.test(email);
+  validateNumber() {
+    const phoneNumber = this.formData.number;
+    const regex = /^(0852|0853|0811|0812|0813|0821|0822|0823|0851|0855|0856|0857|0858|0814|0815|0816|0817|0818|0819|0859|0877|0878|0832|0833|0838|0895|0896|0897|0898|0899|0881|0882|0883|0884|0885|0886|0887|0888|0889)(\d{8,10})$/;
+    this.isPhoneValid = regex.test(phoneNumber);
   }
-
+  
   ngOnInit() {
-    this.formData.email = '';
+    this.formData.number = '';
     this.formData.otp = '';
     // if (localStorage.getItem('authToken')) {
     //   this.router.navigate(['/home']);

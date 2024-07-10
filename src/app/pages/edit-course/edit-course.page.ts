@@ -122,7 +122,8 @@ export class EditCoursePage implements OnInit {
     try {
       const response = await axios.get(`${environment.apiUrl}/detail-course/${courseId}`, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+          Authorization: `${localStorage.getItem('authToken')}`,
+          'X-API-KEY': environment.bsaApiKey,
         },
       });
       const courseData = response.data.course;
@@ -184,7 +185,8 @@ export class EditCoursePage implements OnInit {
     try {
       const response = await axios.get(`${environment.apiUrl}/list-category`, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+          Authorization: `${localStorage.getItem('authToken')}`,
+          'X-API-KEY': environment.bsaApiKey,
         },
       });
       this.bidangOptions = response.data;
@@ -286,7 +288,8 @@ export class EditCoursePage implements OnInit {
 
       await axios.post(`${environment.apiUrl}/edit-course/${this.courseId}`, formDataToSend, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+          Authorization: `${localStorage.getItem('authToken')}`,
+          'X-API-KEY': environment.bsaApiKey,
         },
       });
 
@@ -391,32 +394,39 @@ export class EditCoursePage implements OnInit {
 
   isCheckmarkDisabled(): boolean {
     const isBabListValid = this.formData.babList.every((bab) => {
-      if (!bab.judul || !bab.subBab || !bab.deskripsi) return false;
-      if (bab.subBabList && bab.subBabList.length > 0) {
-        return bab.subBabList.every(
-          (subBab) => subBab.judul && subBab.subBab && subBab.deskripsi
-        );
+      if (!bab.judul) {
+        return false;
       }
+  
+      if (bab.subBabList && bab.subBabList.length > 0) {
+        const isSubBabListValid = bab.subBabList.every((subBab) => {
+          if (!subBab.judul || !subBab.deskripsi) {
+            return false;
+          }
+          return true;
+        });
+        if (!isSubBabListValid) {
+          return false;
+        }
+      }
+  
       return true;
     });
-
-    let isDisabled = false;
-
+  
+    let isDisabled = !isBabListValid;
+  
     if (!this.formData.judulKursus) {
       isDisabled = true;
     }
     if (this.formData.jenisHarga === 'berbayar') {
       if (!this.formData.hargaKursus) {
-        isDisabled = true;
-      }
-      if (!this.formData.hargaDiskon) {
-        isDisabled = true;
+        return true;
       }
       if (
         this.formData.hargaDiskon &&
         parseInt(this.formData.hargaDiskon) <= parseInt(this.formData.hargaKursus)
       ) {
-        isDisabled = true;
+        return true;
       }
     }
     if (!this.formData.tingkatan) {
@@ -434,42 +444,39 @@ export class EditCoursePage implements OnInit {
     if (!this.formData.jenisLangganan) {
       isDisabled = true;
     }
-    if (this.formData.jenisLangganan === 'limited' && !this.formData.jumlahBulan) {
-      isDisabled = true;
-    }
-    if (!isBabListValid) {
+    if (
+      this.formData.jenisLangganan === 'limited' &&
+      !this.formData.jumlahBulan
+    ) {
       isDisabled = true;
     }
     if (!this.formData.bannerKursus) {
       isDisabled = true;
     }
-
+  
     return isDisabled;
   }
+  
 
   handleFileInput(event: Event, field: string, index?: number, subIndex?: number) {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
       const file = input.files[0];
-  
-      // Set nilai formData sesuai dengan kondisi field yang diberikan
       if (index !== undefined && field === 'materi' && subIndex === undefined) {
         this.formData.babList[index].materi = file;
       } else if (index !== undefined && field === 'materi' && subIndex !== undefined) {
         this.formData.babList[index].subBabList[subIndex].materi = file;
       } else if (field === 'bannerKursus') {
         this.formData.bannerKursus = file;
-  
-        // Jika Anda ingin langsung memperbarui tampilan img saat banner diubah
         const reader = new FileReader();
         reader.onload = () => {
           const result = reader.result as string;
           const imgElement = document.getElementById('bannerImage') as HTMLImageElement;
           if (imgElement) {
-            imgElement.src = result; // Memperbarui src img dengan data URL
+            imgElement.src = result; 
           }
         };
-        reader.readAsDataURL(file); // Membaca file sebagai data URL
+        reader.readAsDataURL(file); 
       }
     }
   }

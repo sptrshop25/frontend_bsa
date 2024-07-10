@@ -19,7 +19,8 @@ export class ChangeProfilePage implements OnInit {
     axios
       .get(`${environment.apiUrl}/info_user`, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+          Authorization: `${localStorage.getItem('authToken')}`,
+          'X-API-KEY': environment.bsaApiKey,
         },
       })
       .then((response) => {
@@ -68,8 +69,9 @@ export class ChangeProfilePage implements OnInit {
     axios
       .post(`${environment.apiUrl}/update_user`, formData, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+          Authorization: `${localStorage.getItem('authToken')}`,
           'Content-Type': 'multipart/form-data',
+          'X-API-KEY': environment.bsaApiKey,
         },
       })
       .then((response) => {

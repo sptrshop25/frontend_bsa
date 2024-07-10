@@ -27,7 +27,8 @@ export class ReceiptPage implements OnInit {
     try {
       const response = await axios.get(`${environment.apiUrl}/detail-transaction/${transactionId}`, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+          Authorization: `${localStorage.getItem('authToken')}`,
+          'X-API-KEY': environment.bsaApiKey,
         },
       });
       this.transaction = response.data[0];

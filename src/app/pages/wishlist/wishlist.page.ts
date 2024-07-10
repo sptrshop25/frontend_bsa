@@ -21,7 +21,8 @@ export class WishlistPage implements OnInit {
   getWishlist() {
     axios.get(`${environment.apiUrl}/my-wishlist`, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('authToken')}`
+        Authorization: `${localStorage.getItem('authToken')}`,
+        'X-API-KEY': environment.bsaApiKey,
       }
     })
     .then((response) => {
@@ -55,7 +56,8 @@ export class WishlistPage implements OnInit {
         { course_id: courseId },
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+            Authorization: `${localStorage.getItem('authToken')}`,
+            'X-API-KEY': environment.bsaApiKey,
           },
         }
       )
@@ -71,7 +73,8 @@ export class WishlistPage implements OnInit {
     axios
       .delete(`${environment.apiUrl}/remove-wishlist/${courseId}`, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+          Authorization: `${localStorage.getItem('authToken')}`,
+          'X-API-KEY': environment.bsaApiKey,
         },
       })
       .then((response) => {

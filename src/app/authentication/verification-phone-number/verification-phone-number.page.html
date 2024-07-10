@@ -3,21 +3,21 @@
     <ion-buttons slot="start"> 
       <ion-back-button defaultHref="login"></ion-back-button> 
     </ion-buttons>
-    <ion-title>Atur Kata Sandi</ion-title> 
+    <ion-title>Verifikasi Nomor Whatsapp</ion-title> 
   </ion-toolbar>
 </ion-header>
 <ion-content fullscreen> 
   <img class="center" style="margin-top: -70px; width: 200px;" src="../../../assets/img/BSA.png" alt="alternative text">
   <form>
     <div id="container">
-      <ion-input type="email" id="email" class="input-sign" label="Email" label-placement="floating" placeholder="Email" name="email" [(ngModel)]="formData.email" (ngModelChange)="validateEmail()" required>
+      <ion-input type="tel" id="number" class="input-sign" label="Nomor Whatsapp" label-placement="floating" placeholder="Nomor Whatsapp" name="number" [(ngModel)]="formData.number" (ngModelChange)="validateNumber()" required>
         <ion-icon class="ic-sign" name="mail-outline"></ion-icon>
       </ion-input>
-      <div *ngIf="!isEmailValid && formData.email" class="warning-text">
-        Email tidak valid
+      <div *ngIf="!isPhoneValid && formData.number" class="warning-text">
+        Nomor Whatsapp tidak valid
       </div>
-      <div class="warning-text" *ngIf="showEmailError">
-        Maaf, email anda tidak terdaftar. <a style="color: #a343fc;" [routerLink]="['/sign-up']">Daftar sekarang</a>
+      <div class="warning-text" *ngIf="showPhoneError">
+        Maaf, nomor anda tidak terdaftar. <a style="color: #a343fc;" [routerLink]="['/sign-up']">Daftar sekarang</a>
       </div>
       <br>
       <div class="row">
@@ -27,7 +27,7 @@
             <button>Kirim</button>
           </ion-input>
           <div class="warning-text" *ngIf="showOtpError">
-            Kode OTP tidak valid
+            Kode OTP tidak valid atau sudah kadaluarsa
           </div>
         </div>
         <div class="col-2">
@@ -35,7 +35,7 @@
           class="btn-purple" 
           style="background-color: #a343fc; padding: 8px; margin-top: 1px;" 
           (click)="sendOtp()" 
-          [disabled]="isLoading || countdown > 0 || !isEmailValided()">
+          [disabled]="isLoading || countdown > 0 || !isPhoneValided()">
           <ng-container *ngIf="countdown === 0">
             Kirim OTP
           </ng-container>

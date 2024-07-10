@@ -27,7 +27,8 @@ export class PayPage implements OnInit {
     try {
       const response = await axios.get(`${environment.apiUrl}/list-payment`, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+          Authorization: `${localStorage.getItem('authToken')}`,
+          'X-API-KEY': environment.bsaApiKey,
         },
       });
       this.paymentMethods = response.data;
@@ -50,7 +51,8 @@ export class PayPage implements OnInit {
     
     axios.post(`${environment.apiUrl}/buy-course`, data, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+        Authorization: `${localStorage.getItem('authToken')}`,
+        'X-API-KEY': environment.bsaApiKey,
       },
     })
     .then((response) => {

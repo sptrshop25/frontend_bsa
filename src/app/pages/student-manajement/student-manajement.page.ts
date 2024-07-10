@@ -29,7 +29,8 @@ export class StudentManajementPage implements OnInit {
   fetchCourses() {
     axios.get<any[]>(`${environment.apiUrl}/list-student-course`, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('authToken')}`
+        Authorization: `${localStorage.getItem('authToken')}`,
+        'X-API-KEY': environment.bsaApiKey,
       }
     })
       .then(response => {

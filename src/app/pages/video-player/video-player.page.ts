@@ -36,7 +36,8 @@ export class VideoPlayerPage implements OnInit {
     try {
       const response = await axios.get(`${environment.apiUrl}/detail-materi/${id}`, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+          Authorization: `${localStorage.getItem('authToken')}`,
+          'X-API-KEY': environment.bsaApiKey,
         },
       });
       this.material = response.data;
@@ -50,7 +51,8 @@ export class VideoPlayerPage implements OnInit {
     try {
       const response = await axios.get(`${environment.apiUrl}/list_materi/${id}`, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+          Authorization: `${localStorage.getItem('authToken')}`,
+          'X-API-KEY': environment.bsaApiKey,
         },
       });
       this.materialBab = response.data;
@@ -75,7 +77,8 @@ export class VideoPlayerPage implements OnInit {
       material_id: materialId
     }, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('authToken')}`
+        Authorization: `${localStorage.getItem('authToken')}`,
+        'X-API-KEY': environment.bsaApiKey
       }
     })
     .then((response) => {

@@ -61,9 +61,9 @@ export class LoginPage implements OnInit {
     const alert = await this.alertController.create({
       header: 'Sukses',
       message: message,
-      buttons: ['OK']
+      buttons: ['OK'],
     });
-  
+
     await alert.present();
   }
 
@@ -75,15 +75,37 @@ export class LoginPage implements OnInit {
         {
           text: 'Tutup',
           role: 'cancel',
-          cssClass: 'secondary'
+          cssClass: 'secondary',
         },
         {
           text: 'Kirim Ulang',
           handler: () => {
             this.resendConfirmationEmail();
-          }
-        }
-      ]
+          },
+        },
+      ],
+    });
+
+    await alert.present();
+  }
+
+  async errorVerifiedNumberPhoneAlert(messages?: string) {
+    const alert = await this.alertController.create({
+      header: 'Gagal',
+      message: messages,
+      buttons: [
+        {
+          text: 'Tutup',
+          role: 'cancel',
+          cssClass: 'secondary',
+        },
+        {
+          text: 'Verifikasi',
+          handler: () => {
+            this.router.navigate(['/verification-phone-number']);
+          },
+        },
+      ],
     });
 
     await alert.present();
@@ -93,12 +115,24 @@ export class LoginPage implements OnInit {
     this.isButtonDisabled = true;
     this.isLoading = true;
     try {
-      const response = await axios.post(`${environment.apiUrl}/resend/email`, {
-        email: this.formData.email
-      });
-      this.successAlert('Konfirmasi email berhasil dikirim ulang, cek email anda dan lakukan verifikasi lalu login kembali');
+      const response = await axios.post(
+        `${environment.apiUrl}/resend/email`,
+        {
+          email: this.formData.email,
+        },
+        {
+          headers: {
+            'X-API-KEY': environment.bsaApiKey,
+          },
+        }
+      );
+      this.successAlert(
+        'Konfirmasi email berhasil dikirim ulang, cek email anda dan lakukan verifikasi lalu login kembali'
+      );
     } catch (error) {
-      this.errorAlert('Gagal mengirim ulang email konfirmasi. Silakan coba lagi nanti.');
+      this.errorAlert(
+        'Gagal mengirim ulang email konfirmasi. Silakan coba lagi nanti.'
+      );
     } finally {
       this.isButtonDisabled = false;
       this.isLoading = false;
@@ -108,7 +142,11 @@ export class LoginPage implements OnInit {
   register() {
     this.isLoading = true;
     axios
-      .post(`${environment.apiUrl}/login`, this.formData)
+      .post(`${environment.apiUrl}/login`, this.formData, {
+        headers: {
+          'X-API-KEY': environment.bsaApiKey,
+        },
+      })
       .then((response) => {
         console.log('Response:', response);
 
@@ -119,6 +157,7 @@ export class LoginPage implements OnInit {
         this.presentAlert();
       })
       .catch((error) => {
+        console.log('Error:', error);
         if (
           error.response &&
           error.response.data &&
@@ -130,7 +169,28 @@ export class LoginPage implements OnInit {
           error.response.data &&
           error.response.data.message === 'Email not verified'
         ) {
-          this.errorVerifiedAlert('Email belum terverifikasi, lakukan verifikasi dengan klik link yang dikirimkan ke email anda. Jika belum menerima email, silahkan kirim ulang klik tombol kirim ulang');
+          this.errorVerifiedAlert(
+            'Email belum terverifikasi, lakukan verifikasi dengan klik link yang dikirimkan ke email anda. Jika belum menerima email, silahkan kirim ulang klik tombol kirim ulang'
+          );
+        } else if (
+          error.response &&
+          error.response.data &&
+          error.response.data.message ===
+            "Phone number not verified"
+        ) {
+          this.errorVerifiedNumberPhoneAlert(
+            'Nomor Handphone belum terverifikasi, klik button dibawah untuk verifikasi nomor whatsapp anda'
+          );
+        } else if (
+          error.response &&
+          error.response.data &&
+          error.response.data.message ===
+            'Account is locked. Please try again later.'
+        )  {
+          this.errorAlert(
+            'Akun anda terkunci karena terlalu banyak kesalahan login, silahkan coba lagi pada jam ' +
+              error.response.data.lockout_time
+          );
         } else {
           this.errorAlert('Terjadi kesalahan');
         }

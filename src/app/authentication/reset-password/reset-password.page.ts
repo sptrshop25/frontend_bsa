@@ -60,7 +60,11 @@ export class ResetPasswordPage implements OnInit {
     this.isLoading = true;
 
     axios
-      .post(`${environment.apiUrl}/reset_password`, this.formData)
+      .post(`${environment.apiUrl}/reset_password`, this.formData, {
+        headers: {
+          'X-API-KEY': environment.bsaApiKey,
+        },
+      })
       .then((response) => {
         this.isLoading = false;
         this.presentAlert("Password Berhasil Diubah");
