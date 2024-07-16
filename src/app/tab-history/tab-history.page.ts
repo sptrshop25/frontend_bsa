@@ -109,23 +109,33 @@ export class TabHistoryPage implements OnInit {
       const transaction = this.transactions.find(
         (t) => t.course[0]?.course_id === courseId
       );
+      console.log(transaction.course[0]?.rating?.length);
+      console.log(courseId);
+      
+
       if (transaction && transaction.course[0]?.rating?.length >= 0) {
         if (status === 'PAID') {
-          this.router.navigate(['/receipt'], {
-            queryParams: { transaction_id: transactionId },
-          });
+          if (transaction.course[0]?.rating?.length <= 0) {
+            this.isModalOpen = true;
+          } else {
+            this.router.navigate(['/receipt'], {
+              queryParams: { transaction_id: transactionId },
+            });
+          }
         } else {
           this.router.navigate(['/pay-checkout'], {
             queryParams: { url: url },
           });
         }
         return;
+      } else {
+        this.isModalOpen = true;
       }
     }
-    this.isModalOpen = isOpen;
     if (courseId) {
       this.selectedCourseId = courseId;
     }
+    this.isModalOpen = isOpen;
   }
 
   getFilteredTransactions(status: string) {

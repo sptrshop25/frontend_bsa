@@ -98,7 +98,7 @@ export class KursusSayaPage implements OnInit {
   }
 
   mapCourseData(courseData: any): Course {
-    const totalMaterials = courseData.material_bab.reduce((acc: number, bab: any) => acc + bab.course_materials.length, 0);
+    const totalMaterials = courseData.material_bab.reduce((acc: number, bab: any) => acc + bab.course_materials.length + bab.quiz.length, 0);
     const progress = courseData.completed_count / totalMaterials;
     return {
       id: courseData.course_id,

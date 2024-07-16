@@ -53,6 +53,12 @@ export class TabKursusPage implements OnInit {
     });
     modal.present();
   }
+  handleRefresh(event: any) {
+    setTimeout(() => {
+      event.target.complete();
+      location.reload();
+    }, 2000);
+  }
   ngOnInit() {
     axios.get(`${environment.apiUrl}/get_courses`, {
       headers: {

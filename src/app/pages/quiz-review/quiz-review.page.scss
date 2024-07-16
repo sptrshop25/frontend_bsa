@@ -1,0 +1,55 @@
+ion-header {
+    font-family: 'Times New Roman', Times, serif;
+    ion-toolbar {
+      display: flex;
+      justify-content: space-between;
+      
+      ion-title {
+        font-family: 'Times New Roman', Times, serif;
+        align-items: center;
+        font-size: 16px;
+        
+      }
+    }
+  }
+  
+  ion-card {
+    font-family: 'Times New Roman', Times, serif;
+    min-width: 300px;
+    min-height: 200px;
+
+    .point{
+        float: right;
+        margin-right: 20px;
+        color: black;
+    }
+    .question{
+        color: black;
+        margin-left: 20px;
+        margin-top: 20px;
+        font-weight: bolder;
+        
+    }
+    ion-radio{
+        margin-left: 20px;
+        color: black;
+    }
+  }
+  img{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.wrong{
+    color: red;
+}
+.check{
+    color: aquamarine;
+}
+
+p{
+    margin-left: 20px;
+}
+  
+  

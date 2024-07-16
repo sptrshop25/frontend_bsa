@@ -1,0 +1,65 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref=""></ion-back-button>
+    </ion-buttons>
+    <ion-title>quiz-review</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="container">
+    <ion-card>
+      <ion-list>
+        <p class="point">0 point</p>
+      </ion-list>
+      <img src="../../../assets/img/pappap.avif" />
+        <p class="question">pertanyaan</p>
+      <ion-list>
+        <ion-radio-group>
+          <ion-item>
+            <ion-radio slot="start" value="opsi1" labelPlacement="end">opsi 1</ion-radio>
+            <ion-icon name="close-circle-outline" slot="end" class="wrong"></ion-icon>
+          </ion-item>
+    
+          <ion-item>
+            <ion-radio slot="start" value="opsi2" labelPlacement="end">opsi 2</ion-radio>
+            <ion-icon name="checkmark-circle-outline" slot="end" class="check"></ion-icon>
+          </ion-item>
+          <ion-item>
+            <ion-radio slot="start" value="opsi3" labelPlacement="end">opsi 3</ion-radio>
+          </ion-item>
+        </ion-radio-group>
+      </ion-list>
+      <p> jelaskan kenapa jawaban ini benar</p>
+    </ion-card>
+
+  </div>
+
+  <div class="container">
+    <ion-card>
+      <ion-list>
+        <p class="point">50 point</p>
+      </ion-list>
+      <img src="../../../assets/img/pappap.avif" />
+        <p class="question">pertanyaan</p>
+      <ion-list>
+        <ion-radio-group>
+          <ion-item>
+            <ion-radio slot="start" value="opsi1" labelPlacement="end">opsi 1</ion-radio>
+          </ion-item>
+    
+          <ion-item>
+            <ion-radio slot="start" value="opsi2" labelPlacement="end">opsi 2</ion-radio>
+            <ion-icon name="checkmark-circle-outline" slot="end" class="check"></ion-icon>
+          </ion-item>
+          <ion-item>
+            <ion-radio slot="start" value="opsi3" labelPlacement="end">opsi 3</ion-radio>
+          </ion-item>
+        </ion-radio-group>
+      </ion-list>
+      <p> jelaskan kenapa jawaban ini benar</p>
+    </ion-card>
+
+  </div>
+</ion-content>

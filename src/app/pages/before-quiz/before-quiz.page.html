@@ -1,0 +1,37 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="my-course"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Judul Kursus</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- <div class="button-container">
+    <ion-button class="custom-button selesai-button">Belum</ion-button>
+    <ion-button class="nav-button-1"> <ion-icon name="arrow-back"></ion-icon></ion-button>
+    <ion-button class="nav-button-2"><ion-icon name="arrow-forward"></ion-icon></ion-button>
+  </div> -->
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Quiz HTML</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <div class="start-quiz">
+        <ion-button class="custom-button selesai-button" (click)="goDoQuiz()">Start Quiz</ion-button>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Deskripsi</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      pelajaran ini mempelajari tentang anatomi tubuh manusia, yang akan membantu kita memahami bagaimana tubuh kita bekerja dan bagaimana menjaga kesehatannya.
+    </ion-card-content>
+  </ion-card>
+</ion-content>
+

@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://bsa.ylladev.my.id/api',
+  apiUrl: 'http://127.0.0.1:8000/api',
   bsaApiKey: 'base64:tg0pAohkleS9l0umanlS4Th4Gj2dZiR/hoGA4mevE14=',
   firebase: {
     apiKey: 'AIzaSyDQneWUWlmv2TfpKpj5vgkvWUpZFWmuQBo',

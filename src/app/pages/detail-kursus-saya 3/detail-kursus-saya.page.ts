@@ -69,9 +69,9 @@ export class DetailKursusSayaPage implements OnInit {
     }
   }
   
-
-  
-  
+  detailQuiz(quizId: string) {
+    this.router.navigate(['/start-quiz', { quiz_id: quizId }]);
+  }
 
   segmentChanged(event: any) {
     this.segmentValue = event.detail.value;
@@ -118,7 +118,7 @@ export class DetailKursusSayaPage implements OnInit {
     return this.isMaterialSuccessEmpty;
   }
 
-  async generatePNG() {
+  generatePNG() {
     
   
     setTimeout(() => {

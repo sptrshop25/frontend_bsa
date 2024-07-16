@@ -104,10 +104,10 @@ const routes: Routes = [
     path: 'form-course',
     loadChildren: () => import('./pages/form-kursus/form-kursus.module').then( m => m.FormKursusPageModule)
   },
-  {
-    path: 'detail-kursus-saya',
-    loadChildren: () => import('./pages/detail-kursus-saya/detail-kursus-saya.module').then( m => m.DetailKursusSayaPageModule)
-  },
+  // {
+  //   path: 'detail-kursus-saya',
+  //   loadChildren: () => import('./pages/detail-kursus-saya/detail-kursus-saya.module').then( m => m.DetailKursusSayaPageModule)
+  // },
   {
     path: 'management-course',
     loadChildren: () => import('./pages/manajemen-kursus/manajemen-kursus.module').then( m => m.ManajemenKursusPageModule)
@@ -126,7 +126,7 @@ const routes: Routes = [
   },
   {
     path: 'detail-my-course',
-    loadChildren: () => import('./pages/detail-kursus-saya/detail-kursus-saya.module').then( m => m.DetailKursusSayaPageModule)
+    loadChildren: () => import('./pages/detail-kursus-saya 3/detail-kursus-saya.module').then( m => m.DetailKursusSayaPageModule)
   },
   {
     path: 'detail-material',
@@ -191,6 +191,22 @@ const routes: Routes = [
   {
     path: 'verification-phone-number',
     loadChildren: () => import('./authentication/verification-phone-number/verification-phone-number.module').then( m => m.VerificationPhoneNumberPageModule)
+  },
+  {
+    path: 'kuis-detail',
+    loadChildren: () => import('./pages/kuis-detail/kuis-detail.module').then( m => m.KuisDetailPageModule)
+  },
+  {
+    path: 'kuis-review',
+    loadChildren: () => import('./pages/quiz-review/quiz-review.module').then( m => m.QuizReviewPageModule)
+  },
+  {
+    path: 'start-quiz',
+    loadChildren: () => import('./pages/before-quiz/before-quiz.module').then( m => m.BeforeQuizPageModule)
+  },
+  {
+    path: 'do-quiz',
+    loadChildren: () => import('./pages/student-quiz/student-quiz.module').then( m => m.StudentQuizPageModule)
   }
 ];
 @NgModule({

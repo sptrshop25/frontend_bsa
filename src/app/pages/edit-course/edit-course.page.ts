@@ -2,7 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import axios from 'axios';
 import { environment } from 'src/environments/environment';
 import { CustomAlertComponent } from './custom-alert/custom-alert.component';
-import { ModalController, AlertController, LoadingController, ToastController } from '@ionic/angular';
+import {
+  ModalController,
+  AlertController,
+  LoadingController,
+  ToastController,
+} from '@ionic/angular';
 import { Router, ActivatedRoute } from '@angular/router';
 
 interface Bab {
@@ -11,7 +16,6 @@ interface Bab {
   materi: File | null;
   deskripsi: string;
   subBabList: SubBab[];
-  pertanyaanList: Pertanyaan[];
 }
 
 interface SubBab {
@@ -22,13 +26,27 @@ interface SubBab {
   deskripsi: string;
   jenis: string;
   pilihSubBab: string;
+  jenisMateri: string;
+  question: Pertanyaan[];
+  waktuKuis: number;
 }
 
 interface Pertanyaan {
   id: number;
-  pertanyaan: string;
-  opsiList: Opsi[];
-  kenapaJawabanBenar: string;
+  question: string;
+  opsiList: answers[];
+  point: number;
+  question_image: File | null;
+  jawabanBenar: string;
+  justification: string;
+}
+
+interface answers {
+  id: number;
+  text: string;
+  isChecked: boolean;
+  is_correct: number;
+  justification: string;
 }
 
 interface Opsi {
@@ -120,29 +138,37 @@ export class EditCoursePage implements OnInit {
 
   async loadCourseData(courseId: string) {
     try {
-      const response = await axios.get(`${environment.apiUrl}/detail-course/${courseId}`, {
-        headers: {
-          Authorization: `${localStorage.getItem('authToken')}`,
-          'X-API-KEY': environment.bsaApiKey,
-        },
-      });
+      const response = await axios.get(
+        `${environment.apiUrl}/detail-course/${courseId}`,
+        {
+          headers: {
+            Authorization: `${localStorage.getItem('authToken')}`,
+            'X-API-KEY': environment.bsaApiKey,
+          },
+        }
+      );
       const courseData = response.data.course;
       console.log(courseData.course_is_free);
       console.log(courseData.sub_category.sub_category_name);
-  
+
       // Assigning course data to formData
       this.formData.judulKursus = courseData.course_title;
-      this.formData.tingkatan = this.mapCourseLevelToTingkatan(courseData.course_level);
+      this.formData.tingkatan = this.mapCourseLevelToTingkatan(
+        courseData.course_level
+      );
       this.formData.bidang = courseData.sub_category.category.category_name;
       this.formData.subBidang = courseData.sub_category.sub_category_name;
       this.formData.deskripsi = courseData.course_description;
       this.formData.bannerKursus = courseData.course_image;
-      this.formData.jenisHarga = courseData.course_is_free === 'yes' ? 'free' : 'berbayar';
+      this.formData.jenisHarga =
+        courseData.course_is_free === 'yes' ? 'free' : 'berbayar';
       this.formData.hargaKursus = courseData.course_price;
       this.formData.hargaDiskon = courseData.course_price_discount;
-      this.formData.jenisLangganan = courseData.course_duration ? 'limited' : 'unlimited';
+      this.formData.jenisLangganan = courseData.course_duration
+        ? 'limited'
+        : 'unlimited';
       this.formData.jumlahBulan = courseData.course_duration;
-  
+
       // Handling babList and subBabList
       this.formData.babList = courseData.material_bab.map((bab: any) => ({
         judul: bab.title,
@@ -151,23 +177,25 @@ export class EditCoursePage implements OnInit {
           subBabId: subBab.material_id,
           materi: subBab.material_file,
           deskripsi: subBab.material_description,
-          pilihSubBab: 'Materi',
+          jenisMateri: subBab.material_id < 0 ? 'Quiz' : 'Materi',
         })),
-        pertanyaanList: [], // Initialize if needed
       }));
     } catch (error) {
       console.error('Error fetching course data:', error);
     }
   }
-  
 
   fetchSubBidangOptions(selectedBidang: string) {
-    const selectedBidangData: any = this.bidangOptions.find((bidang: any) => bidang.category_name === selectedBidang);
+    const selectedBidangData: any = this.bidangOptions.find(
+      (bidang: any) => bidang.category_name === selectedBidang
+    );
     if (selectedBidangData) {
-      this.subBidangOptions = selectedBidangData.sub_category.map((sub: any) => sub.sub_category_name);
+      this.subBidangOptions = selectedBidangData.sub_category.map(
+        (sub: any) => sub.sub_category_name
+      );
     }
   }
-  
+
   mapCourseLevelToTingkatan(courseLevel: string): string {
     switch (courseLevel) {
       case 'beginner':
@@ -197,7 +225,7 @@ export class EditCoursePage implements OnInit {
 
   onBidangChange() {
     const selectedBidang = this.bidangOptions.find(
-      bidang => bidang.category_name === this.formData.bidang
+      (bidang) => bidang.category_name === this.formData.bidang
     );
     this.subBidangOptions = selectedBidang ? selectedBidang.sub_category : [];
   }
@@ -244,7 +272,7 @@ export class EditCoursePage implements OnInit {
             formDataToSend.append(
               `babList[${index}][subBabList][${subIndex}][subBabId]`,
               subBab.subBabId
-            )
+            );
             if (subBab.materi) {
               formDataToSend.append(
                 `babList[${index}][subBabList][${subIndex}][materi]`,
@@ -266,38 +294,71 @@ export class EditCoursePage implements OnInit {
           });
         }
 
-        if (bab.pertanyaanList && bab.pertanyaanList.length > 0) {
-          bab.pertanyaanList.forEach((pertanyaan, pertanyaanIndex) => {
-            formDataToSend.append(
-              `babList[${index}][pertanyaanList][${pertanyaanIndex}][pertanyaan]`,
-              pertanyaan.pertanyaan
-            );
-            formDataToSend.append(
-              `babList[${index}][pertanyaanList][${pertanyaanIndex}][kenapaJawabanBenar]`,
-              pertanyaan.kenapaJawabanBenar
-            );
-            pertanyaan.opsiList.forEach((opsi, opsiIndex) => {
-              formDataToSend.append(
-                `babList[${index}][pertanyaanList][${pertanyaanIndex}][opsiList][${opsiIndex}][text]`,
-                opsi.text
-              );
-            });
+        if (bab.subBabList && bab.subBabList.length > 0) {
+          bab.subBabList.forEach((subBab, subBabIndex) => {
+            if (subBab.question && subBab.question.length > 0) {
+              subBab.question.forEach((question, pertanyaanIndex) => {
+                formDataToSend.append(
+                  `babList[${index}][subBabList][${subBabIndex}][question][${pertanyaanIndex}][question]`,
+                  question.question
+                );
+
+                question.opsiList.forEach((opsi, opsiIndex) => {
+                  formDataToSend.append(
+                    `babList[${index}][subBabList][${subBabIndex}][question][${pertanyaanIndex}][answers][${opsiIndex}][answer]`,
+                    opsi.text
+                  );
+
+                  formDataToSend.append(
+                    `babList[${index}][subBabList][${subBabIndex}][question][${pertanyaanIndex}][answers][${opsiIndex}][is_correct]`,
+                    opsi.is_correct.toString()
+                  );
+                });
+
+                formDataToSend.append(
+                  `babList[${index}][subBabList][${subBabIndex}][question][${pertanyaanIndex}][justification]`,
+                  question.justification
+                )
+
+                formDataToSend.append(
+                  `babList[${index}][subBabList][${subBabIndex}][question][${pertanyaanIndex}][jawabanBenar]`,
+                  question.jawabanBenar
+                );
+
+                if (question.point) {
+                  formDataToSend.append(
+                    `babList[${index}][subBabList][${subBabIndex}][question][${pertanyaanIndex}][point]`,
+                    question.point.toString()
+                  );
+                }
+
+                if (question.question_image) {
+                  formDataToSend.append(
+                    `babList[${index}][subBabList][${subBabIndex}][question][${pertanyaanIndex}][question_image]`,
+                    question.question_image
+                  );
+                }
+              });
+            }
           });
         }
       });
 
-      await axios.post(`${environment.apiUrl}/edit-course/${this.courseId}`, formDataToSend, {
-        headers: {
-          Authorization: `${localStorage.getItem('authToken')}`,
-          'X-API-KEY': environment.bsaApiKey,
-        },
-      });
+      await axios.post(
+        `${environment.apiUrl}/edit-course/${this.courseId}`,
+        formDataToSend,
+        {
+          headers: {
+            Authorization: `${localStorage.getItem('authToken')}`,
+            'X-API-KEY': environment.bsaApiKey,
+          },
+        }
+      );
 
       await loading.dismiss();
       this.router.navigate(['/management-course']);
 
       this.presentToast('Kursus berhasil diperbarui', 'success');
-      
     } catch (error) {
       await loading.dismiss();
       this.presentToast('Terjadi kesalahan', 'danger');
@@ -312,7 +373,6 @@ export class EditCoursePage implements OnInit {
       materi: null,
       deskripsi: '',
       subBabList: [],
-      pertanyaanList: [],
     };
     this.formData.babList.push(newBab);
   }
@@ -330,6 +390,9 @@ export class EditCoursePage implements OnInit {
       deskripsi: '',
       jenis: '',
       pilihSubBab: '',
+      jenisMateri: '',
+      question: [],
+      waktuKuis: 0,
     };
     this.formData.babList[babIndex].subBabList.push(newSubBab);
   }
@@ -338,30 +401,67 @@ export class EditCoursePage implements OnInit {
     this.formData.babList[babIndex].subBabList.splice(subBabIndex, 1);
   }
 
-  addPertanyaan(babIndex: number) {
+  addPertanyaan(babIndex: number, subBabIndex: number) {
     const newPertanyaan: Pertanyaan = {
       id: this.pertanyaanIdCounter++,
-      pertanyaan: '',
+      question: '',
       opsiList: [],
-      kenapaJawabanBenar: '',
+      point: 0,
+      jawabanBenar: '',
+      question_image: null,
+      justification: '',
     };
-    this.formData.babList[babIndex].pertanyaanList.push(newPertanyaan);
+
+    if (babIndex >= 0 && babIndex < this.formData.babList.length) {
+      const bab = this.formData.babList[babIndex];
+      if (subBabIndex >= 0 && subBabIndex < bab.subBabList.length) {
+        bab.subBabList[subBabIndex].question.push(newPertanyaan);
+      }
+    }
   }
 
   removePertanyaan(babIndex: number, pertanyaanIndex: number) {
-    this.formData.babList[babIndex].pertanyaanList.splice(pertanyaanIndex, 1);
+    
+    if (babIndex < 0 || babIndex >= this.formData.babList.length) {
+      console.log('Invalid babIndex:', babIndex);
+      
+      return;
+    }
+    const bab = this.formData.babList[babIndex];
+    if (bab.subBabList.length > 0) {
+      const subBab = bab.subBabList[0];
+      console.log(subBab);
+      
+      console.log(subBab.question);
+      
+      if (pertanyaanIndex >= 0 && pertanyaanIndex < subBab.question.length) {
+        subBab.question.splice(pertanyaanIndex, 1);
+      }
+    }
   }
 
-  addOpsi(babIndex: number, pertanyaanIndex: number) {
-    const newOpsi: Opsi = {
+  addOpsi(babIndex: number, subBabIndex: number, pertanyaanIndex: number) {
+    const newOpsi: answers = {
       id: this.opsiIdCounter++,
       text: '',
+      isChecked: false,
+      is_correct: 0,
+      justification: '',
     };
-    this.formData.babList[babIndex].pertanyaanList[pertanyaanIndex].opsiList.push(newOpsi);
+    const bab = this.formData.babList[babIndex];
+    if (bab.subBabList.length > subBabIndex) {
+      const subBab = bab.subBabList[subBabIndex];
+      if (subBab.question.length > pertanyaanIndex) {
+        subBab.question[pertanyaanIndex].opsiList.push(newOpsi);
+      }
+    }
   }
 
-  removeOpsi(babIndex: number, pertanyaanIndex: number, opsiIndex: number) {
-    this.formData.babList[babIndex].pertanyaanList[pertanyaanIndex].opsiList.splice(opsiIndex, 1);
+  removeOpsi(question: any, opsi: any) {
+    const index = question.opsiList.indexOf(opsi);
+    if (index !== -1) {
+      question.opsiList.splice(index, 1);
+    }
   }
 
   async showCustomAlert(header: string, message: string, buttons: any[]) {
@@ -376,20 +476,24 @@ export class EditCoursePage implements OnInit {
 
   async presentLoading() {
     this.isLoading = true;
-    return await this.loadingCtrl.create({
-      duration: 2000,
-    }).then(a => {
-      a.present().then(() => {
-        if (!this.isLoading) {
-          a.dismiss().then(() => console.log('abort presenting'));
-        }
+    return await this.loadingCtrl
+      .create({
+        duration: 2000,
+      })
+      .then((a) => {
+        a.present().then(() => {
+          if (!this.isLoading) {
+            a.dismiss().then(() => console.log('abort presenting'));
+          }
+        });
       });
-    });
   }
 
   async dismissLoading() {
     this.isLoading = false;
-    return await this.loadingCtrl.dismiss().then(() => console.log('dismissed'));
+    return await this.loadingCtrl
+      .dismiss()
+      .then(() => console.log('dismissed'));
   }
 
   isCheckmarkDisabled(): boolean {
@@ -397,7 +501,7 @@ export class EditCoursePage implements OnInit {
       if (!bab.judul) {
         return false;
       }
-  
+
       if (bab.subBabList && bab.subBabList.length > 0) {
         const isSubBabListValid = bab.subBabList.every((subBab) => {
           if (!subBab.judul || !subBab.deskripsi) {
@@ -409,12 +513,12 @@ export class EditCoursePage implements OnInit {
           return false;
         }
       }
-  
+
       return true;
     });
-  
+
     let isDisabled = !isBabListValid;
-  
+
     if (!this.formData.judulKursus) {
       isDisabled = true;
     }
@@ -424,7 +528,8 @@ export class EditCoursePage implements OnInit {
       }
       if (
         this.formData.hargaDiskon &&
-        parseInt(this.formData.hargaDiskon) <= parseInt(this.formData.hargaKursus)
+        parseInt(this.formData.hargaDiskon) <=
+          parseInt(this.formData.hargaKursus)
       ) {
         return true;
       }
@@ -453,35 +558,43 @@ export class EditCoursePage implements OnInit {
     if (!this.formData.bannerKursus) {
       isDisabled = true;
     }
-  
+
     return isDisabled;
   }
-  
 
-  handleFileInput(event: Event, field: string, index?: number, subIndex?: number) {
+  handleFileInput(
+    event: Event,
+    field: string,
+    index?: number,
+    subIndex?: number
+  ) {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
       const file = input.files[0];
       if (index !== undefined && field === 'materi' && subIndex === undefined) {
         this.formData.babList[index].materi = file;
-      } else if (index !== undefined && field === 'materi' && subIndex !== undefined) {
+      } else if (
+        index !== undefined &&
+        field === 'materi' &&
+        subIndex !== undefined
+      ) {
         this.formData.babList[index].subBabList[subIndex].materi = file;
       } else if (field === 'bannerKursus') {
         this.formData.bannerKursus = file;
         const reader = new FileReader();
         reader.onload = () => {
           const result = reader.result as string;
-          const imgElement = document.getElementById('bannerImage') as HTMLImageElement;
+          const imgElement = document.getElementById(
+            'bannerImage'
+          ) as HTMLImageElement;
           if (imgElement) {
-            imgElement.src = result; 
+            imgElement.src = result;
           }
         };
-        reader.readAsDataURL(file); 
+        reader.readAsDataURL(file);
       }
     }
   }
-  
-  
 
   async onCheckmarkClick() {
     this.isLoading = true;
@@ -496,5 +609,15 @@ export class EditCoursePage implements OnInit {
       color: color,
     });
     toast.present();
+  }
+
+  setCorrectAnswer(question: any, selectedOpsi: any) {
+    question.opsiList.forEach((opsi: any) => {
+      if (opsi.id === selectedOpsi.id) {
+        opsi.is_correct = 1;
+      } else {
+        opsi.is_correct = 0;
+      }
+    });
   }
 }

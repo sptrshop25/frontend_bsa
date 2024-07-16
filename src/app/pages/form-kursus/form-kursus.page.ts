@@ -2,7 +2,11 @@ import { Component } from '@angular/core';
 import axios from 'axios';
 import { environment } from 'src/environments/environment';
 import { CustomAlertComponent } from './custom-alert/custom-alert.component';
-import { ModalController, AlertController, LoadingController } from '@ionic/angular';
+import {
+  ModalController,
+  AlertController,
+  LoadingController,
+} from '@ionic/angular';
 import { Router } from '@angular/router';
 
 interface Bab {
@@ -11,7 +15,6 @@ interface Bab {
   materi: File | null;
   deskripsi: string;
   subBabList: SubBab[];
-  pertanyaanList: Pertanyaan[];
 }
 
 interface SubBab {
@@ -20,19 +23,27 @@ interface SubBab {
   materi: File | null;
   deskripsi: string;
   jenis: string;
-  pilihSubBab: string;
+  jenisMateri: string;
+  question: Pertanyaan[];
+  waktuKuis: number;
 }
 
 interface Pertanyaan {
   id: number;
-  pertanyaan: string;
-  opsiList: Opsi[];
-  kenapaJawabanBenar: string;
+  question: string;
+  opsiList: answers[];
+  point: number;
+  question_image: File | null;
+  jawabanBenar: string;
+  justification: string;
 }
 
-interface Opsi {
+interface answers {
   id: number;
   text: string;
+  isChecked: boolean;
+  is_correct: number;
+  justification: string;
 }
 
 interface FormData {
@@ -47,7 +58,7 @@ interface FormData {
   jenisLangganan: string;
   jenisHarga: string;
   jumlahBulan: string;
-  pilihSubBab: string;
+  jenisMateri: string;
   babList: Bab[];
 }
 
@@ -70,7 +81,7 @@ export class FormKursusPage {
     jenisLangganan: '',
     jenisHarga: '',
     jumlahBulan: '',
-    pilihSubBab: '',
+    jenisMateri: '',
     babList: [],
   };
 
@@ -82,7 +93,8 @@ export class FormKursusPage {
   constructor(
     private modalController: ModalController,
     private alertController: AlertController,
-    private router: Router, private loadingCtrl: LoadingController
+    private router: Router,
+    private loadingCtrl: LoadingController
   ) {}
 
   async ngOnInit() {
@@ -131,7 +143,7 @@ export class FormKursusPage {
       formDataToSend.append('jenisLangganan', this.formData.jenisLangganan);
       formDataToSend.append('jenisHarga', this.formData.jenisHarga);
       formDataToSend.append('jumlahBulan', this.formData.jumlahBulan);
-  
+
       this.formData.babList.forEach((bab, index) => {
         formDataToSend.append(`babList[${index}][judul]`, bab.judul);
         formDataToSend.append(`babList[${index}][subBab]`, bab.subBab);
@@ -139,9 +151,17 @@ export class FormKursusPage {
           formDataToSend.append(`babList[${index}][materi]`, bab.materi);
         }
         formDataToSend.append(`babList[${index}][deskripsi]`, bab.deskripsi);
-  
+
         if (bab.subBabList && bab.subBabList.length > 0) {
           bab.subBabList.forEach((subBab, subIndex) => {
+            formDataToSend.append(
+              `babList[${index}][subBabList][${subIndex}][jenisMateri]`,
+              subBab.jenisMateri
+            );
+            formDataToSend.append(
+              `babList[${index}][subBabList][${subIndex}][waktuKuis]`,
+              subBab.waktuKuis.toString()
+            );
             formDataToSend.append(
               `babList[${index}][subBabList][${subIndex}][judul]`,
               subBab.judul
@@ -162,23 +182,59 @@ export class FormKursusPage {
             );
           });
         }
-  
-        if (bab.pertanyaanList && bab.pertanyaanList.length > 0) {
-          bab.pertanyaanList.forEach((pertanyaan, pertanyaanIndex) => {
-            formDataToSend.append(
-              `babList[${index}][pertanyaanList][${pertanyaanIndex}][pertanyaan]`,
-              pertanyaan.pertanyaan
-            );
-            pertanyaan.opsiList.forEach((opsi, opsiIndex) => {
-              formDataToSend.append(
-                `babList[${index}][pertanyaanList][${pertanyaanIndex}][opsiList][${opsiIndex}]`,
-                opsi.text
-              );
-            });
+
+        if (bab.subBabList && bab.subBabList.length > 0) {
+          bab.subBabList.forEach((subBab, subBabIndex) => {
+            if (subBab.question && subBab.question.length > 0) {
+              subBab.question.forEach((question, pertanyaanIndex) => {
+                formDataToSend.append(
+                  `babList[${index}][subBabList][${subBabIndex}][question][${pertanyaanIndex}][question]`,
+                  question.question
+                );
+
+                question.opsiList.forEach((opsi, opsiIndex) => {
+                  formDataToSend.append(
+                    `babList[${index}][subBabList][${subBabIndex}][question][${pertanyaanIndex}][answers][${opsiIndex}][answer]`,
+                    opsi.text
+                  );
+
+                  formDataToSend.append(
+                    `babList[${index}][subBabList][${subBabIndex}][question][${pertanyaanIndex}][answers][${opsiIndex}][is_correct]`,
+                    opsi.is_correct.toString()
+                  );
+                });
+
+                formDataToSend.append(
+                  `babList[${index}][subBabList][${subBabIndex}][question][${pertanyaanIndex}][justification]`,
+                  question.justification
+                )
+
+                formDataToSend.append(
+                  `babList[${index}][subBabList][${subBabIndex}][question][${pertanyaanIndex}][jawabanBenar]`,
+                  question.jawabanBenar
+                );
+
+                if (question.point) {
+                  formDataToSend.append(
+                    `babList[${index}][subBabList][${subBabIndex}][question][${pertanyaanIndex}][point]`,
+                    question.point.toString()
+                  );
+                }
+
+                if (question.question_image) {
+                  formDataToSend.append(
+                    `babList[${index}][subBabList][${subBabIndex}][question][${pertanyaanIndex}][question_image]`,
+                    question.question_image
+                  );
+                }
+              });
+            }
           });
         }
       });
-  
+
+      // console.log("data to send", formDataToSend);
+
       const response = await axios.post(
         `${environment.apiUrl}/create_course`,
         formDataToSend,
@@ -194,15 +250,14 @@ export class FormKursusPage {
       this.presentAlert('Akun anda berhasil terdaftar sebagai pengajar');
     } catch (error: any | undefined) {
       loading.dismiss();
-      if (error.response.data.message !== '') { 
-        this.errorAlert("Terjadi kesalahan, silahkan coba lagi nanti");
+      if (error.response.data.message !== '') {
+        this.errorAlert('Terjadi kesalahan, silahkan coba lagi nanti');
       } else {
-        this.errorAlert("Maksimal size video 128 MB");
+        this.errorAlert('Maksimal size video 128 MB');
       }
       console.error('Error submitting form:', error);
     }
   }
-  
 
   async errorAlert(messages?: string) {
     const alert = await this.alertController.create({
@@ -221,7 +276,6 @@ export class FormKursusPage {
       materi: null,
       deskripsi: '',
       subBabList: [],
-      pertanyaanList: [],
     };
     this.formData.babList.push(newBab);
   }
@@ -233,32 +287,56 @@ export class FormKursusPage {
       materi: null,
       deskripsi: '',
       jenis: '',
-      pilihSubBab: '',
+      jenisMateri: '',
+      question: [],
+      waktuKuis: 0,
     };
     if (!this.formData.babList[parentIndex].subBabList) {
       this.formData.babList[parentIndex].subBabList = [];
     }
     this.formData.babList[parentIndex].subBabList.push(newSubBab);
-  }  
-
-  addPertanyaan(babIndex: number) {
-    const newPertanyaan: Pertanyaan = {
-      id: this.pertanyaanIdCounter++,
-      pertanyaan: '',
-      opsiList: [],
-      kenapaJawabanBenar: '',
-    };
-    this.formData.babList[babIndex].pertanyaanList.push(newPertanyaan);
   }
 
-  addOpsi(babIndex: number, pertanyaanIndex: number) {
-    const newOpsi: Opsi = {
+  addPertanyaan(babIndex: number, subBabIndex: number) {
+    const newPertanyaan: Pertanyaan = {
+      id: this.pertanyaanIdCounter++,
+      question: '',
+      opsiList: [],
+      point: 0,
+      jawabanBenar: '',
+      question_image: null,
+      justification: '',
+    };
+
+    if (babIndex >= 0 && babIndex < this.formData.babList.length) {
+      const bab = this.formData.babList[babIndex];
+      if (subBabIndex >= 0 && subBabIndex < bab.subBabList.length) {
+        bab.subBabList[subBabIndex].question.push(newPertanyaan);
+      }
+    }
+  }
+
+  addOpsi(babIndex: number, subBabIndex: number, pertanyaanIndex: number) {
+    const newOpsi: answers = {
       id: this.opsiIdCounter++,
       text: '',
+      isChecked: false,
+      is_correct: 0,
+      justification: '',
     };
-    this.formData.babList[babIndex].pertanyaanList[
-      pertanyaanIndex
-    ].opsiList.push(newOpsi);
+    const bab = this.formData.babList[babIndex];
+    if (bab.subBabList.length > subBabIndex) {
+      const subBab = bab.subBabList[subBabIndex];
+      if (subBab.question.length > pertanyaanIndex) {
+        subBab.question[pertanyaanIndex].opsiList.push(newOpsi);
+      }
+    }
+  }
+
+  handleRadioSelect(question: Pertanyaan, selectedOpsi: answers) {
+    question.opsiList.forEach((opsi) => {
+      opsi.isChecked = opsi.id === selectedOpsi.id;
+    });
   }
 
   removeBab(index: number) {
@@ -270,22 +348,32 @@ export class FormKursusPage {
   }
 
   removePertanyaan(babIndex: number, pertanyaanIndex: number) {
-    this.formData.babList[babIndex].pertanyaanList.splice(pertanyaanIndex, 1);
+    if (babIndex < 0 || babIndex >= this.formData.babList.length) {
+      return;
+    }
+    const bab = this.formData.babList[babIndex];
+    if (bab.subBabList.length > 0) {
+      const subBab = bab.subBabList[0];
+      if (pertanyaanIndex >= 0 && pertanyaanIndex < subBab.question.length) {
+        subBab.question.splice(pertanyaanIndex, 1);
+      }
+    }
   }
 
-  removeOpsi(babIndex: number, pertanyaanIndex: number, opsiIndex: number) {
-    this.formData.babList[babIndex].pertanyaanList[
-      pertanyaanIndex
-    ].opsiList.splice(opsiIndex, 1);
+  removeOpsi(question: any, opsi: any) {
+    const index = question.opsiList.indexOf(opsi);
+    if (index !== -1) {
+      question.opsiList.splice(index, 1);
+    }
   }
 
   async presentAlert(message: string) {
     const modal = await this.modalController.create({
       component: CustomAlertComponent,
       componentProps: {
-        message: message
+        message: message,
       },
-      backdropDismiss: false
+      backdropDismiss: false,
     });
 
     modal.onDidDismiss().then((result) => {
@@ -299,15 +387,20 @@ export class FormKursusPage {
 
   isCheckmarkDisabled(): boolean {
     const isBabListValid = this.formData.babList.every((bab) => {
-  
       if (!bab.judul) {
         return false;
       }
-  
+
       if (bab.subBabList && bab.subBabList.length > 0) {
         const isSubBabListValid = bab.subBabList.every((subBab) => {
-          if (!subBab.judul || !subBab.deskripsi) {
-            return false;
+          if (subBab.jenisMateri === 'Materi') {
+            if (!subBab.judul || !subBab.deskripsi) {
+              return false;
+            }
+          } else if (subBab.jenisMateri === 'Quiz') {
+            if (!subBab.judul || !subBab.deskripsi || !subBab.waktuKuis) {
+              return false;
+            }
           }
           return true;
         });
@@ -315,12 +408,12 @@ export class FormKursusPage {
           return false;
         }
       }
-  
+
       return true;
     });
-  
+
     let isDisabled = !isBabListValid;
-  
+
     if (!this.formData.judulKursus) {
       isDisabled = true;
     }
@@ -330,7 +423,8 @@ export class FormKursusPage {
       }
       if (
         this.formData.hargaDiskon &&
-        parseInt(this.formData.hargaDiskon) <= parseInt(this.formData.hargaKursus)
+        parseInt(this.formData.hargaDiskon) <=
+          parseInt(this.formData.hargaKursus)
       ) {
         return true;
       }
@@ -359,11 +453,10 @@ export class FormKursusPage {
     if (!this.formData.bannerKursus) {
       isDisabled = true;
     }
-  
+
     return isDisabled;
   }
-  
-  
+
   handleFileInput(
     event: Event,
     field: string,
@@ -389,6 +482,17 @@ export class FormKursusPage {
   onCheckmarkClick() {
     this.isLoading = true;
     this.onSubmit();
-    this.isLoading = false;  
+    this.isLoading = false;
   }
+
+  setCorrectAnswer(question: any, selectedOpsi: any) {
+    question.opsiList.forEach((opsi: any) => { 
+      if (opsi.id === selectedOpsi.id) {
+        opsi.is_correct = 1;
+      } else {
+        opsi.is_correct = 0;
+      }
+    });
+  }
+  
 }

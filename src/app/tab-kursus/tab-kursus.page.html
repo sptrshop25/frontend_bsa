@@ -19,6 +19,9 @@
 </ion-header>
 
 <ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
   <div *ngFor="let group of groupedCourses">
     <p class="title">{{ group.category_name }}</p>
     <div class="container-scroll" style="margin-top: -30px">
